@@ -2,6 +2,12 @@
 # Folder with compiled files
 bin/*
 
+# Folder with vscode specs.
+.vscode/*
+
+# Date file
+*.csv
+
 # Prerequisites
 *.d
 
