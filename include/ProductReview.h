@@ -1,5 +1,5 @@
-#ifndef NO_H_INCLUDED
-#define NO_H_INCLUDED
+#ifndef PRODUCTREVIEW_H
+#define PRODUCTREVIEW_H
 
 using namespace std;
 
@@ -12,9 +12,13 @@ private:
     int rating;
 
 public:
-    ProductReview(string usuarioId, string produtoId, int carimboHora, int avaliacao);
+    ProductReview(string usuarioId, string produtoId, int avaliacao, int carimboHora);
     ~ProductReview();
     void print();
+    string getProductId(); 
+    string getUserId();
+    int getTimeStamp();
+    int getRating();
 };
 
 #endif
