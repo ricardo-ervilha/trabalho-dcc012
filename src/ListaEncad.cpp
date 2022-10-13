@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include "ListaEncad.h"
 
 using namespace std;

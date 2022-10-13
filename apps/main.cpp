@@ -1,8 +1,35 @@
 #include <iostream>
+#include <fstream>
+#include <cstring>
+#include <sstream>
 #include "ProductReview.h"
 #include "ListaEncad.h"
 
 using namespace std;
+
+void escreveArquivoBinario()
+{   
+    ifstream arqCsv("ratings_Electronics.csv");
+    fstream arq("ratings.bin", ios::out | ios::binary);
+
+    if(arqCsv.is_open()){
+    if(arq.is_open())
+    {
+       string linha;
+       string linhaAux;
+       while(getline(arqCsv,linha)){
+       stringstream aux(linha); //cria um objeto de stringstream o qual referencia a string linha
+        while(getline(aux, linhaAux, ',')){ //realiza a separação dos dados do arquivo utilizando a vírgula como separador
+                arq.write(reinterpret_cast<const char*>(linhaAux.c_str()), linha.length());
+        }
+       }
+    }
+    else
+        cerr << "ERRO: O arquivo nao pode ser aberto!" << endl;
+    }
+    else
+        cerr << "ERRO: O arquivo nao pode ser aberto!" << endl;
+}
 
 int main(){
 
@@ -54,6 +81,8 @@ int main(){
     lista->remove(1); //sai o b
 
     lista->printList();
+
+    escreveArquivoBinario();
 
     return 0;
 }
