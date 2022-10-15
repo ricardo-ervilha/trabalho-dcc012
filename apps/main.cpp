@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstring>
 #include <sstream>
+#include <time.h>
 #include "ProductReview.h"
 #include "ListaEncad.h"
 #include "File.h"
@@ -57,7 +58,6 @@ int main(){
     lista->removeInicio(); //sai o a
     lista->removeFinal(); //sai o e
     lista->remove(1); //sai o b
-
     lista->printList();
     file->makeBinaryFile();
     return 0;
