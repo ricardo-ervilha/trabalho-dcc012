@@ -11,6 +11,7 @@ public:
     File();
     ~File();
     void makeBinaryFile();
+    void getReview(int i);
 };
 
 #endif

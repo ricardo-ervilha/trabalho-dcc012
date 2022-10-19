@@ -16,6 +16,13 @@ File::File()
 
 File::~File() {}
 
+string File::completeString(int n, string s){
+    for(int i = 0; i < n; i++){
+        s += '?';
+    }
+    return s;
+}
+
 void File::makeBinaryFile()
 {
     int i = 0, val;
@@ -72,19 +79,29 @@ void File::makeBinaryFile()
         cerr << "ERRO: O arquivo nao pode ser aberto!" << endl;
 }
 
-void File::getRegistro(int i){
+void File::getReview(int i){
     ifstream arq("ratings.bin", ios::binary);
 
     if(arq.is_open())
     {
-        string userId, productId;
+        char userId[22], productId[11];
         int ratings, timeStamp;
-        arq.seekg((i)*39);
-        //arq.read(userID, 21);
-        //cout << userID << ", ";
-        //cout << productID << ", ";
+        arq.seekg(i*39);
+        arq.read(userId, 21);
+
+        for(int i = 0; i < 22; i++){
+            if(userId[i] == '?')
+            {
+                userId[i] = '\0';
+                break;
+            }
+        }
+        cout << userId << ", ";
+        arq.read(productId, 10);
+        productId[10] = '\0';
+        cout << productId << ", ";
         arq.read(reinterpret_cast<char*>(&ratings), sizeof(int));
-        cout << ratings << endl;
+        cout << ratings << ".0, ";
         arq.read(reinterpret_cast<char*>(&timeStamp), sizeof(int));
         cout << timeStamp << endl;
     }    
