@@ -12,7 +12,7 @@ using namespace std;
 int main(){
     File* file = new File();
 
-    file->makeBinaryFile();
-    file->getReview(500001);
+    //file->makeBinaryFile();
+    file->getReview(826);
     return 0;
 }

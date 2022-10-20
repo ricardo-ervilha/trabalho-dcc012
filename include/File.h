@@ -7,6 +7,7 @@ class File{
 private:
     int maxU; //maior quantidade de caracteres no userId
     string completeString(int n, string s);
+    char* zeraVetor(int n, char* vet);
 public:
     File();
     ~File();
