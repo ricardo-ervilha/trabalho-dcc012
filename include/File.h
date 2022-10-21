@@ -6,6 +6,7 @@ using namespace std;
 class File{
 private:
     int maxU; //maior quantidade de caracteres no userId
+    int maxT; //maior quantidade de caracteres no timeStamp
     string completeString(int n, string s);
     char* zeraVetor(int n, char* vet);
 public:

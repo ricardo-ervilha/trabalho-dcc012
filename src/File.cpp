@@ -11,6 +11,7 @@ using namespace std;
 
 File::File(){
     maxU = 21;
+    maxT = 10;
 }
 
 File::~File(){}
@@ -105,22 +106,31 @@ void File::makeBinaryFile()
                     string linha(c);
                     if (i == 0)
                     {
-                        if (linha.length() < maxU)
+                        if (linha.length() < maxU) //verifica se é menor que o tamanho maximo do userId
                         {
                             linha = completeString(maxU - linha.length(), linha);
                         }
                         arq.write(reinterpret_cast<const char* >(linha.c_str()), linha.length());
                     }
-                    if (i == 1)
+                    if (i == 3)
                     {
-                        arq.write(reinterpret_cast<const char *>(linha.c_str()), linha.length());
+                        if (linha.length() < maxT) //verifica se é menor que o tamanho máximo do timeStamp
+                        {
+                            linha = completeString(10 - linha.length(), linha);
+                        }
+                        arq.write(reinterpret_cast<const char* >(linha.c_str()), linha.length());
                     }
 
-                    if (i == 2 || i == 3)
+                    if (i == 1 || i == 2)
                     {
-                        stringstream si(linha);
-                        si >> val;
-                        arq.write(reinterpret_cast<const char *>(&val), sizeof(int));
+                        arq.write(reinterpret_cast<const char *>(linha.c_str()), linha.length());
+                        //if(i == 2){
+                            //if(linha.length() != 3)
+                                //cout << "rating de tamanho: "<<linha.length() << endl;
+                        //}
+                        //stringstream si(linha);
+                        //si >> val;
+                        //arq.write(reinterpret_cast<const char *>(&val), sizeof(int));
                     }
 
                     i++;
@@ -139,8 +149,6 @@ void File::makeBinaryFile()
             delete[] buffer;
             t_fim = time(NULL);
             cout << "Tempo : " << difftime(t_fim, t_ini) << endl;
-            cout << "registro: ";
-            cout << registro << endl;
         }
         else
             cerr << "ERRO: O arquivo nao pode ser aberto!" << endl;
@@ -159,25 +167,34 @@ void File::getReview(int i){
 
     if(arq.is_open())
     {
-        char userId[22], productId[11];
-        int ratings, timeStamp;
-        arq.seekg(i*39);
+        char userId[22], productId[11], ratings[3], timeStamp[11];
+        arq.seekg(i*44);
         arq.read(userId, 21);
 
-        for(int i = 0; i < 22; i++){
+        for(int i = 0; i < 21; i++){
             if(userId[i] == '?')
             {
                 userId[i] = '\0';
                 break;
             }
         }
+        userId[21] = '\0'; 
         cout << userId << ", ";
         arq.read(productId, 10);
         productId[10] = '\0';
         cout << productId << ", ";
-        arq.read(reinterpret_cast<char*>(&ratings), sizeof(int));
-        cout << ratings << ".0, ";
-        arq.read(reinterpret_cast<char*>(&timeStamp), sizeof(int));
+        arq.read(ratings, 3);
+        ratings[3] = '\0';
+        cout << ratings << ", ";
+        arq.read(timeStamp, 10);
+        for(int i = 0; i < 11; i++){
+            if(timeStamp[i] == '?')
+            {
+                timeStamp[i] = '\0';
+                break;
+            }
+        }
+        timeStamp[10] = '\0';
         cout << timeStamp << endl;
     }    
 
