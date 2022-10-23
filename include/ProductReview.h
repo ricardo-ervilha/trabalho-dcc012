@@ -8,17 +8,18 @@ class ProductReview{
 private:
     string userId; 
     string productId;
-    int timeStamp;
-    int rating;
+    string timeStamp;
+    string rating;
 
 public:
-    ProductReview(string usuarioId, string produtoId, int avaliacao, int carimboHora);
+    ProductReview();
+    ProductReview(string usuarioId, string produtoId, string avaliacao, string carimboHora);
     ~ProductReview();
     void print();
     string getProductId(); 
     string getUserId();
-    int getTimeStamp();
-    int getRating();
+    string getTimeStamp();
+    string getRating();
 };
 
 #endif

@@ -5,6 +5,7 @@ bin/*
 # Folder with vscode specs.
 .vscode/*
 
+
 # Date file
 *.csv
 

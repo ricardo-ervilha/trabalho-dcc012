@@ -3,9 +3,11 @@
 
 using namespace std;
 
+ProductReview::ProductReview(){
+    
+}
 
-
-ProductReview::ProductReview(string usuarioId, string produtoId, int avaliacao, int carimboHora){
+ProductReview::ProductReview(string usuarioId, string produtoId, string avaliacao, string carimboHora){
     userId = usuarioId;
     productId = produtoId;
     timeStamp = carimboHora;
@@ -34,10 +36,10 @@ string ProductReview::getUserId(){
 }
 
 
-int ProductReview::getTimeStamp(){
+string ProductReview::getTimeStamp(){
     return timeStamp;
 }
 
-int ProductReview::getRating(){
+string ProductReview::getRating(){
     return rating;
 }
