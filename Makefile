@@ -1,18 +1,32 @@
+ifdef ComSpec
+    RM=del /F /Q
+	AUXPS=\\
+	PS=$(strip $(AUXPS))
+else
+    RM=rm -f
+	PS=/
+endif
+
+pre:
+	mkdir -p obj
+	mkdir -p bin
 
 libed:
-	gcc -c .\src\ProductReview.cpp -I .\include -o .\obj\ProductReview.o 
-	gcc -c .\src\ListaEncad.cpp -I .\include -o .\obj\ListaEncad.o
-	gcc -c .\src\List.cpp -I .\include -o .\obj\List.o
-	gcc -c .\src\Hash.cpp -I .\include -o .\obj\Hash.o
-	gcc -c .\src\File.cpp -I .\include -o .\obj\File.o
+	g++ -c .$(PS)src$(PS)ProductReview.cpp -I .$(PS)include -o .$(PS)obj$(PS)ProductReview.o 
+	g++ -c .$(PS)src$(PS)ListaEncad.cpp -I .$(PS)include -o .$(PS)obj$(PS)ListaEncad.o
+	g++ -c .$(PS)src$(PS)List.cpp -I .$(PS)include -o .$(PS)obj$(PS)List.o
+	g++ -c .$(PS)src$(PS)Hash.cpp -I .$(PS)include -o .$(PS)obj$(PS)Hash.o
+	g++ -c .$(PS)src$(PS)File.cpp -I .$(PS)include -o .$(PS)obj$(PS)File.o
+	g++ -c .$(PS)src$(PS)BucketSort.cpp -I .$(PS)include -o .$(PS)obj$(PS)BucketSort.o
 
 myapps_import:
-	g++ .\apps\main_import.cpp .\obj\List.o .\obj\File.o .\obj\ProductReview.o .\obj\Hash.o -I .\include -o .\bin\main_import
+	g++ .$(PS)apps$(PS)main_import.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o -I .$(PS)include -o .$(PS)bin$(PS)main_import
 
 myapps_bin:
-	g++ .\apps\main_bin.cpp .\obj\List.o .\obj\File.o .\obj\ProductReview.o .\obj\Hash.o -I .\include -o .\bin\main_bin
+	g++ .$(PS)apps$(PS)main_bin.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)
+	BucketSort.o -I .$(PS)include -o .$(PS)bin$(PS)main_bin
 
 clean:
-	del .\bin\*
-	del .\obj\*
+	$(RM) .$(PS)bin$(PS)*
+	$(RM) .$(PS)obj$(PS)*
 
