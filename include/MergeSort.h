@@ -7,8 +7,8 @@ class MergeSort{
     private:
         ProductReview *list;
         int registros;
-        void MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio, int fim);
-        void Merge(ProductReview *list, ProductReview *Aux, int inicio, int meio, int fim);
+        void MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio, int fim,int Comp_Mov[2]);
+        void Merge(ProductReview *list, ProductReview *Aux, int inicio, int meio, int fim, int Comp_Mov[2]);
         
     public:
         MergeSort();
