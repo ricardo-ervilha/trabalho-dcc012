@@ -18,12 +18,13 @@ libed:
 	g++ -c .$(PS)src$(PS)Hash.cpp -I .$(PS)include -o .$(PS)obj$(PS)Hash.o
 	g++ -c .$(PS)src$(PS)File.cpp -I .$(PS)include -o .$(PS)obj$(PS)File.o
 	g++ -c .$(PS)src$(PS)BucketSort.cpp -I .$(PS)include -o .$(PS)obj$(PS)BucketSort.o
+	g++ -c .$(PS)src$(PS)MergeSort.cpp -I .$(PS)include -o .$(PS)obj$(PS)MergeSort.o
 
 myapps_import:
 	g++ .$(PS)apps$(PS)main_import.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o -I .$(PS)include -o .$(PS)bin$(PS)main_import
 
 myapps_bin:
-	g++ .$(PS)apps$(PS)main_bin.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)BucketSort.o -I .$(PS)include -o .$(PS)bin$(PS)main_bin
+	g++ .$(PS)apps$(PS)main_bin.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)BucketSort.o .$(PS)obj$(PS)MergeSort.o  -I .$(PS)include -o .$(PS)bin$(PS)main_bin
 
 clean:
 	$(RM) .$(PS)bin$(PS)*
