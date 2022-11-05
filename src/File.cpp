@@ -268,11 +268,14 @@ ProductReview* File::import(int n){
     srand(time(NULL));
 
     ProductReview* listaReviews = new ProductReview[n];
-    
-    Hash* tabela = new Hash(n*0.65);
-
+    int p=n*0.65;
+    if(n==1 && p==0)
+    {
+        p=1;
+    }
+    Hash* tabela = new Hash(p);
     unsigned long long chave = llrand()%MAXCSV;
-
+    cout<<"tamanho Chave "<< chave <<endl;
     for(int i = 0; i < n; i++){
         
         if(tabela->busca(chave)){
@@ -280,7 +283,7 @@ ProductReview* File::import(int n){
                 chave = llrand()%MAXCSV;
             }
         }
-
+        
         listaReviews[i] = converteReview(chave);
 
         
@@ -289,6 +292,5 @@ ProductReview* File::import(int n){
         chave = llrand()%MAXCSV;
         
     }
-   
    return listaReviews;
 }

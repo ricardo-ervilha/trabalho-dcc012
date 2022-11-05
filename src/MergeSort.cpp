@@ -23,17 +23,15 @@ void MergeSort::Merge(ProductReview *list, ProductReview *Aux, int inicio, int m
     //cout<<"Entrou no Merge "<<meio<<endl;
     while(i <= meio && j <= fim)
     {
-        Comp_Mov[comparacoes]++;
+        Comp_Mov[comparacoes]++;//Acrescenta ao número de comparações em 2 
         if(list[i].getUserId() <= list[j].getUserId())
         {
-            Comp_Mov[comparacoes]++;//Acrescenta ao número de comparações em 2 
             Aux[k] = list[i];
             Comp_Mov[movimentacoes]++;//Acrescente ao número de movimentações
             i++;
         }
         else
         {
-            Comp_Mov[comparacoes]++;
             Aux[k] = list[j];
             Comp_Mov[movimentacoes]++;
             j++;
@@ -42,26 +40,23 @@ void MergeSort::Merge(ProductReview *list, ProductReview *Aux, int inicio, int m
     }
     while(i <= meio)
     {
-        Comp_Mov[comparacoes]++;
-        Aux[k] = list[i];
         Comp_Mov[movimentacoes]++;
+        Aux[k] = list[i];
         i++;
         k++;
     }
     while(j <= fim)
     {
-        Comp_Mov[comparacoes]++;
-        Aux[k] = list[j];
         Comp_Mov[movimentacoes]++;
+        Aux[k] = list[j];
         j++;
         k++;
     }
 
     for(k = 0; k < fim-inicio+1; k++)
     {
-        Comp_Mov[comparacoes]++;
-        list[inicio+k] = Aux[k];
         Comp_Mov[movimentacoes]++;
+        list[inicio+k] = Aux[k];
     }
 }
 void MergeSort::MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio, int fim, int Comp_Mov[2])
@@ -70,7 +65,6 @@ void MergeSort::MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio
     
     if(inicio < fim)
     {
-        Comp_Mov[comparacoes]++;//Acrescenta no número de comparações
         int meio = (inicio+fim)/2;
 
         MergeSortRec(list, Aux, inicio, meio,Comp_Mov); //Processo recursivo para particionar até que chegar a partições ordenadas(partições unicas) 
@@ -81,10 +75,10 @@ void MergeSort::MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio
 }
 void MergeSort::sort()
 {
+    //cout<<"Entrou no Sort"<<endl;
     ProductReview *Aux = new ProductReview[registros];
     int Comp_Mov[2]={0,0};//Vetor onde a posição 0 conta o número de comparações e posição 1 conta o número de movimentações
     std::chrono::time_point<std::chrono::system_clock> start, end;
-    //cout<<"Entrou no Sort"<<endl;
     start = std::chrono::system_clock::now();
 
     MergeSortRec(list, Aux, 0, registros-1,Comp_Mov);

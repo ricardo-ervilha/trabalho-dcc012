@@ -5,7 +5,6 @@
 using namespace std;
 
 Hash::Hash(int n){
-
     if(n == 10)
         tam = 7;
     else if(n == 100)
@@ -43,6 +42,7 @@ void Hash::inicializaTabela(){
 }
 
 int Hash::funcaoHash(unsigned long long chave){
+    cout<<"tamanho tam "<< tam <<endl;
     return chave % tam;
 }
 
