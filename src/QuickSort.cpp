@@ -18,7 +18,7 @@ QuickSort::~QuickSort()
 };
 void QuickSort::Troca(ProductReview *list,int i, int j)
 {
-    cout<<"Entrou no troca i="<<i<<" j="<<j<<endl;
+    //cout<<"Entrou no troca i="<<i<<" j="<<j<<endl;
     ProductReview *aux= new ProductReview [2];
     aux[1] = list[i];
     list[i] = list[j];
@@ -30,29 +30,29 @@ int QuickSort::RandomPivo(int inicio, int fim)//Gera um pivô aleatório dentre 
     
     int posicao_pivo;
     posicao_pivo=inicio + (rand() % (fim-inicio+1));
-    cout<<"entrou no Random "<<posicao_pivo<<endl;
+    //cout<<"entrou no Random "<<posicao_pivo<<endl;
     return posicao_pivo;
 }
 
 int QuickSort:: Particiona(ProductReview *list, int inicio, int fim, int Comp_Mov[2])
 {
-    cout<<"Entrou no Particiona "<<fim<<endl;
+    //cout<<"Entrou no Particiona "<<fim<<endl;
     int posico_pivo = RandomPivo(inicio,fim);
     ProductReview pivo = list[posico_pivo];
     int i = inicio-1, j = fim+1;
-    cout<<"i = "<<i<<" j="<<j<<endl;
+    //cout<<"i = "<<i<<" j="<<j<<endl;
 
     do
     {
         do
         {
             i++;
-            cout<<"i= "<<i<<endl;
+            //cout<<"i= "<<i<<endl;
 
         } while (list[i].getUserId()<pivo.getUserId());
         do
         {
-            cout<<"j= "<<j<<endl;
+            //cout<<"j= "<<j<<endl;
             j--;
 
         } while (list[j].getUserId()>pivo.getUserId());
@@ -67,7 +67,7 @@ int QuickSort:: Particiona(ProductReview *list, int inicio, int fim, int Comp_Mo
 
 void QuickSort::QuickSortRec(ProductReview *list, int inicio, int fim, int Comp_Mov[2])
 {
-    cout<<"Entrou no QuickSortRec "<<fim<<endl;
+    //cout<<"Entrou no QuickSortRec "<<fim<<endl;
     
     if(inicio < fim)
     {
@@ -81,7 +81,7 @@ void QuickSort::sort()
     int Comp_Mov[2]={0,0};//Vetor onde a posição 0 conta o número de comparações e posição 1 conta o número de movimentações
     std::chrono::time_point<std::chrono::system_clock> start, end;
 
-    cout<<"Entrou no Sort"<<endl;
+    cout<<"Quick"<<endl;
     start = std::chrono::system_clock::now();
 
     QuickSortRec(list, 0, registros-1,Comp_Mov);
@@ -91,8 +91,8 @@ void QuickSort::sort()
     std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 
     std::cout << "Tempo de Ordenacao(Usando a Chrono): " << elapsed_seconds.count() << "s\n";
-    cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
-    cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;  
+    //cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
+    //cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;  
     
 }
 
