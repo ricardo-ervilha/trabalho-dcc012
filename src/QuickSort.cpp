@@ -16,17 +16,21 @@ QuickSort::~QuickSort()
 {
     delete list;
 };
-void QuickSort::Troca(ProductReview i, ProductReview j)
+void QuickSort::Troca(ProductReview *list,int i, int j)
 {
-    ProductReview aux;
-    aux = i;
-    i = j;
-    j = aux;
+    cout<<"Entrou no troca i="<<i<<" j="<<j<<endl;
+    ProductReview *aux= new ProductReview [2];
+    aux[1] = list[i];
+    list[i] = list[j];
+    list[j]= aux[1];
+    delete [] aux;
 }
 int QuickSort::RandomPivo(int inicio, int fim)//Gera um pivô aleatório dentre os possíveis índices do vetor
 {
+    
     int posicao_pivo;
-    posicao_pivo=inicio + rand() % (fim-inicio+1);
+    posicao_pivo=inicio + (rand() % (fim-inicio+1));
+    cout<<"entrou no Random "<<posicao_pivo<<endl;
     return posicao_pivo;
 }
 
@@ -36,24 +40,27 @@ int QuickSort:: Particiona(ProductReview *list, int inicio, int fim, int Comp_Mo
     int posico_pivo = RandomPivo(inicio,fim);
     ProductReview pivo = list[posico_pivo];
     int i = inicio-1, j = fim+1;
+    cout<<"i = "<<i<<" j="<<j<<endl;
 
     do
     {
         do
         {
             i++;
+            cout<<"i= "<<i<<endl;
 
         } while (list[i].getUserId()<pivo.getUserId());
         do
         {
-            j++;
+            cout<<"j= "<<j<<endl;
+            j--;
 
         } while (list[j].getUserId()>pivo.getUserId());
         if(i >= j)
         {
             return j;
         }
-        Troca(list[i],list[j]);     
+        Troca(list,i,j);     
     } while (true);
     
 }

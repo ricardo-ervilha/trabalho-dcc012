@@ -269,7 +269,7 @@ ProductReview* File::import(int n){
 
     ProductReview* listaReviews = new ProductReview[n];
     int p=n*0.65;
-    if(n==1 && p==0)
+    if(n==1 && p==0)//Condição para evitar divisão por zero dentro da função Hash, permitindo a entrada no laço abaixo
     {
         p=1;
     }
