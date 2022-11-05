@@ -275,7 +275,7 @@ ProductReview* File::import(int n){
     }
     Hash* tabela = new Hash(p);
     unsigned long long chave = llrand()%MAXCSV;
-    cout<<"tamanho Chave "<< chave <<endl;
+    //cout<<"tamanho Chave "<< chave <<endl;
     for(int i = 0; i < n; i++){
         
         if(tabela->busca(chave)){

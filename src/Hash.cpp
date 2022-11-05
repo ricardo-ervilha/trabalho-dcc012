@@ -42,7 +42,7 @@ void Hash::inicializaTabela(){
 }
 
 int Hash::funcaoHash(unsigned long long chave){
-    cout<<"tamanho tam "<< tam <<endl;
+    //cout<<"tamanho tam "<< tam <<endl;
     return chave % tam;
 }
 
