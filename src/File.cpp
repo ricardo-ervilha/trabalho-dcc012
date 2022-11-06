@@ -38,7 +38,7 @@ char* File::zeraVetor(int n, char* vet){
 
 
 //Alterar o cabeçalho para fazer aceitar uma string Path.
-void File::makeBinaryFile()
+void File::createBinary()
 {
     int i = 0, val, a = 200000,  registro = 0, tam = a + 66; 
     time_t t_ini, t_fim; 
