@@ -18,21 +18,19 @@ using namespace std::chrono;
 
 void ordenacao(){
     int n;
-    char opcao = '!';
+    char opcao;
     File *ratings = new File();
     std::chrono::time_point<std::chrono::system_clock> start, end;
+    string path;
                         
 
     cout << "Digite o tamanho de n que voce deseja: " << endl;
     cin >> n;
+    cin.ignore();
 
-    ifstream ifile;
-    ifile.open("ratings.bin");
-   
-    if(!ifile){
-        cout << "Gerando binario..." << endl;
-        ratings->createBinary(); //Alterar para adicionar o caminho da pasta.
-    }
+    cout << "Digite o caminho onde o arquivo binario deve estar: " << endl;
+    getline(cin, path);
+    ratings->createBinary(path);
 
     start = std::chrono::system_clock::now();
     ProductReview *vet = ratings->import(n);
@@ -94,7 +92,7 @@ int main(){
                         break;
             case '3':   break;
             
-            default:  cout << "Valor inválido." << endl;   break;         
+            default:  cout << "Valor invalido." << endl;   break;         
         }
     }
     

@@ -14,7 +14,7 @@ private:
 public:
     File();
     ~File();
-    void createBinary();
+    void createBinary(string& path);
     void getReview(int i);
     ProductReview* import(int n);
     

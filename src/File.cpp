@@ -38,13 +38,21 @@ char* File::zeraVetor(int n, char* vet){
 
 
 //Alterar o cabeçalho para fazer aceitar uma string Path.
-void File::createBinary()
-{
+void File::createBinary(string& path)
+{   
+    ifstream existFile;
+
+    path = "cd " + path;
+    const char* pathAux = path.c_str();
+    system(pathAux);
+    existFile.open("ratings.bin");
+
+    if(!existFile){
+    cout << "Gerando arquivo binario..." << endl;
     int i = 0, val, a = 200000,  registro = 0, tam = a + 66; 
     time_t t_ini, t_fim; 
 
-
-    ifstream arqCsv("ratings_Electronics.csv");
+    ifstream arqCsv("ratings_Eletronics.csv");
     fstream arq("ratings.bin", ios::out | ios::binary);
 
     arqCsv.seekg (0, arqCsv.end);
@@ -166,6 +174,10 @@ void File::createBinary()
     cout << "Tamanho em bytes apos escrita: " << arq.tellp() << endl;
     arqCsv.close();
     arq.close();
+    }
+
+    else
+        cout << "Arquivo binario ja existe. Acessando..." << endl;
 }
 
 
