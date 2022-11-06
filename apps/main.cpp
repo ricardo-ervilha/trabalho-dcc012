@@ -10,11 +10,10 @@
 #include "HashProduct.h"
 #include "MergeSort.h"
 #include "QuickSort.h"
-#include <filesystem>
 #include "BucketSort.h"
+#include <fstream>
 
 using namespace std;
-using std::filesystem::exists;
 using namespace std::chrono;
 
 void ordenacao(){
@@ -27,8 +26,11 @@ void ordenacao(){
     cout << "Digite o tamanho de n que voce deseja: " << endl;
     cin >> n;
 
-    if(!exists("ratings.bin")){
-        cout << "Cai aqui" << endl;
+    ifstream ifile;
+    ifile.open("ratings.bin");
+   
+    if(!ifile){
+        cout << "Gerando binario..." << endl;
         ratings->createBinary(); //Alterar para adicionar o caminho da pasta.
     }
 
