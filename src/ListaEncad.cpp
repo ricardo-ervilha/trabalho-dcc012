@@ -35,7 +35,7 @@ bool ListaEncad::busca(string idProduto)
     return false;
 }
 
-ProductReview* ListaEncad::get(int k)
+ProductReview *ListaEncad::get(int k)
 {
     No *p = primeiro;
     int i = 0;
@@ -54,7 +54,7 @@ ProductReview* ListaEncad::get(int k)
         return p->getInfo();
 }
 
-void ListaEncad::set(int k, ProductReview* avaliacao)
+void ListaEncad::set(int k, ProductReview *avaliacao)
 {
     No *p = primeiro;
     int i = 0;
@@ -75,7 +75,7 @@ void ListaEncad::set(int k, ProductReview* avaliacao)
     }
 }
 
-void ListaEncad::insereInicio(ProductReview* avaliacao)
+void ListaEncad::insereInicio(ProductReview *avaliacao)
 {
     No *p = new No();
     p->setInfo(avaliacao);
@@ -88,29 +88,53 @@ void ListaEncad::insereInicio(ProductReview* avaliacao)
         ultimo = p;
 }
 
-void ListaEncad::insereFinal(ProductReview* avaliacao)
+void ListaEncad::insereFinal(ProductReview *avaliacao)
 {
-    No *p = new No();
-    p->setInfo(avaliacao);
-    p->setProx(NULL);
-
-    if (ultimo != NULL)
+    if (n == 0)
     {
-        ultimo->setProx(p);
+        insereInicio(avaliacao);
     }
     else
     {
-        cout << "ERRO: Impossivel inserir no final, pois ponteiro ultimo eh NULL." << endl;
-        exit(1);
-    }
-    ultimo = p;
-    n++;
 
-    if (n == 1)
-        primeiro = p;
+        No *p = new No();
+        p->setInfo(avaliacao);
+        p->setProx(NULL);
+
+        if (ultimo != NULL)
+        {
+            ultimo->setProx(p);
+        }
+        else
+        {
+            cout << "ERRO: Impossivel inserir no final, pois ponteiro ultimo eh NULL." << endl;
+            exit(1);
+        }
+        ultimo = p;
+        n++;
+
+        if (n == 1)
+            primeiro = p;
+    }
 }
 
-void ListaEncad::insere(ProductReview* avaliacao, int k)
+void ListaEncad::insereListaFinal(ListaEncad *lista)
+{
+    if (this->getSize() == 0)
+    {
+        this->primeiro = lista->primeiro;
+        this->ultimo = lista->ultimo;
+        this->n = lista->n;
+    }
+    else
+    {
+        this->ultimo->setProx(lista->primeiro);
+        this->ultimo = lista->ultimo;
+        this->n += lista->n;
+    }
+}
+
+void ListaEncad::insere(ProductReview *avaliacao, int k)
 {
     if (k == 0)
     {
@@ -122,31 +146,32 @@ void ListaEncad::insere(ProductReview* avaliacao, int k)
     }
     else
     {
-        
+
         No *p = new No();
         p->setInfo(avaliacao);
         int i = 0;
         No *t = primeiro;
-        No* aux;
-        
+        No *aux;
+
         while (i < k && aux != NULL)
         {
             aux = t;
             t = t->getProx();
-            
+
             i++;
         }
-        
+
         aux->setProx(p);
         p->setProx(t);
         n++;
-        
     }
 }
 
-void ListaEncad::removeInicio(){
-    
-    if(primeiro == NULL){
+void ListaEncad::removeInicio()
+{
+
+    if (primeiro == NULL)
+    {
         cout << "ERRO: Remocao em lista vazia." << endl;
         exit(1);
     }
@@ -161,14 +186,18 @@ void ListaEncad::removeInicio(){
     }
 }
 
-void ListaEncad::removeFinal(){
-    if(primeiro == NULL){
+void ListaEncad::removeFinal()
+{
+    if (primeiro == NULL)
+    {
         cout << "ERRO: Remocao em lista vazia." << endl;
         exit(1);
     }
-    else{
+    else
+    {
         No *aux;
-        for(aux = primeiro; aux->getProx()->getProx() != NULL; ){
+        for (aux = primeiro; aux->getProx()->getProx() != NULL;)
+        {
             aux = aux->getProx();
         }
         delete ultimo;
@@ -176,34 +205,37 @@ void ListaEncad::removeFinal(){
         ultimo = aux;
         n--;
 
-        if(ultimo == primeiro)
+        if (ultimo == primeiro)
             primeiro = ultimo;
     }
 }
 
 void ListaEncad::remove(int k)
 {
-    if(k == 0){
+    if (k == 0)
+    {
         removeInicio();
     }
-    else if(k == n-1){
+    else if (k == n - 1)
+    {
         removeFinal();
     }
-    else{
+    else
+    {
         No *t = primeiro;
-        No* aux;
+        No *aux;
         int i = 0;
         while (i < k && aux != NULL)
         {
             aux = t;
             t = t->getProx();
-            
+
             i++;
         }
-        //t sera o cara que quero remover
-        //aux esta antes de t
-        //fazer aux apontar para o cara da direita de t
-        
+        // t sera o cara que quero remover
+        // aux esta antes de t
+        // fazer aux apontar para o cara da direita de t
+
         aux->setProx(t->getProx());
         delete t;
         n--;
@@ -213,9 +245,14 @@ void ListaEncad::remove(int k)
 void ListaEncad::printList()
 {
     No *p;
-    cout << "_Lista Encadeada_" << endl;
+    // cout << "_Lista Encadeada_" << endl;
     for (p = primeiro; p != NULL; p = p->getProx())
         p->getInfo()->print();
 
     cout << endl;
+}
+
+int ListaEncad::getSize()
+{
+    return this->n;
 }
