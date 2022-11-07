@@ -46,7 +46,6 @@ void BucketSort::ordena()
 
 void BucketSort::sort()
 {
-
     int pos;
     ProductReview aux;
     // P1: armazenar os registros nos baldes de acordo com o segundo caracter
@@ -77,7 +76,7 @@ void BucketSort::sort()
     // cout << "INSERTION SORT: " << endl;
     for (int b = 0; b < BUCKET_SIZE; b++)
     {
-        cout << "BALDE: " << b << " TAMANHO: " << buckets[b]->getSize() << endl;
+        // cout << "BALDE: " << b << " TAMANHO: " << buckets[b]->getSize() << endl;
         if (buckets[b]->getSize() < 2000)
         {
             this->insertionSort(b);
@@ -109,8 +108,8 @@ void BucketSort::sort()
         }
     }*/
 
-    cout << "IMPRIMINDO LISTA COMPLETA: " << endl;
-    // listaOrdenada->printList();
+    // cout << "IMPRIMINDO LISTA COMPLETA: " << endl;
+    //  listaOrdenada->printList();
 }
 
 void BucketSort::concatBucket(int b)
@@ -200,8 +199,8 @@ void BucketSort::imprime()
         if (buckets[b]->getSize() > 0)
         {
             // cout << " BALDE: " << b << endl;
-            cout << "BALDE: " << b << " TAMANHO: " << buckets[b]->getSize() << " CHARACTER: " << buckets[b]->get(0)->getUserId()[1] << endl;
-            // buckets[b]->printList();
+            //cout << "BALDE: " << b << " TAMANHO: " << buckets[b]->getSize() << " CHARACTER: " << buckets[b]->get(0)->getUserId()[1] << endl;
+            //buckets[b]->printList();
         }
     }
 }
