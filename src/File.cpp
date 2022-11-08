@@ -11,10 +11,10 @@
 
 using namespace std;
 
-File::File(string path){
+File::File(){
     maxU = 21;
     maxT = 10;
-    this->path = path;
+    this->pathFile = "";
 }
 
 File::~File(){}
@@ -39,19 +39,20 @@ char* File::zeraVetor(int n, char* vet){
 
 
 //Alterar o cabeçalho para fazer aceitar uma string Path.
-void File::createBinary()
+void File::createBinary(string& path)
 {   
     ifstream existFile;
 
-    string pathCsv = this->path + "ratings_Eletronics.csv";
-    string pathBinario = this->path + "ratings.bin";
+    this->pathFile = path;
+
+    string pathCsv = this->pathFile + "ratings_Electronics.csv";
+    string pathBinario = this->pathFile + "ratings.bin";
     //const char* pathAuxBinario = pathBinario.c_str();
     //const char* pathAuxCsv = pathCsv.c_str();
     
     cout << "CAMINHO CSV: "<<pathCsv << endl;
     cout << "CAMINHO BINARIO: "<<pathBinario << endl;
     existFile.open(pathBinario);
-    
 
     if(!existFile){
     cout << "Gerando arquivo binario..." << endl;
@@ -188,7 +189,7 @@ void File::createBinary()
 
 
 void File::getReview(int i){
-    ifstream arq("ratings.bin", ios::binary);
+    ifstream arq(this->pathFile + "ratings.bin", ios::binary);
 
     if(arq.is_open())
     {
@@ -227,7 +228,7 @@ void File::getReview(int i){
 }
 
 ProductReview File::converteReview(int i){
-    ifstream arq(this->path+"ratings.bin", ios::binary);
+    ifstream arq(this->pathFile + "ratings.bin", ios::binary);
 
     char userId[22], productId[11], ratings[4], timeStamp[11];
 

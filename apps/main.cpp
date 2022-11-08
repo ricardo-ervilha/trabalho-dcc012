@@ -62,8 +62,8 @@ int main() {
     string path;
     cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
     getline(cin, path);
-    File *ratings = new File(path);
-    ratings->createBinary();
+    File *ratings = new File();
+    ratings->createBinary(path);
 
     while (opcao != 3) {
         cout << "Digite um valor para executar a etapa desejada: " << endl;

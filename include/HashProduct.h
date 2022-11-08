@@ -9,7 +9,7 @@ class HashProduct{
 
 private:
     int tam;
-    ProductReview* table; 
+    ProductReview* table;
 
 public:
     HashProduct();
