@@ -42,18 +42,20 @@ void File::createBinary(string& path)
 {   
     ifstream existFile;
 
-    path = "cd " + path;
+    string path2 = path + "ratings_Eletronics.csv";
+    path = path + "ratings.bin";
     const char* pathAux = path.c_str();
-    system(pathAux);
-    existFile.open("ratings.bin");
+    const char* pathAux2 = path2.c_str();
+    cout << pathAux << endl;
+    existFile.open(pathAux);
 
     if(!existFile){
     cout << "Gerando arquivo binario..." << endl;
     int i = 0, val, a = 200000,  registro = 0, tam = a + 66; 
     time_t t_ini, t_fim; 
 
-    ifstream arqCsv("ratings_Eletronics.csv");
-    fstream arq("ratings.bin", ios::out | ios::binary);
+    ifstream arqCsv(pathAux2);
+    fstream arq(pathAux, ios::out | ios::binary);
 
     arqCsv.seekg (0, arqCsv.end);
     int length  = arqCsv.tellg();
@@ -166,10 +168,10 @@ void File::createBinary(string& path)
             cout << "Tempo(Usando a Time) : " << difftime(t_fim, t_ini) << endl;
         }
         else
-            cerr << "ERRO: O arquivo nao pode ser aberto!" << endl;
+            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
     }
     else
-        cerr << "ERRO: O arquivo nao pode ser aberto!" << endl;
+        cerr << "Erro ao tentar abrir o arquivo .csv" << endl;
 
     cout << "Tamanho em bytes apos escrita: " << arq.tellp() << endl;
     arqCsv.close();

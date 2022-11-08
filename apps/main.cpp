@@ -45,7 +45,7 @@ void sort(ProductReview *vet, int n, int methodId) {
         }
         
         default:
-            cout << "Valor inválido." << endl;
+            cout << "Valor invalido." << endl;
             break;
     }
 }
@@ -58,20 +58,21 @@ int main() {
     int opcao = 1;
     int methodId = 1;
     int n;
-    string path = "/home/lucas/Estudo/UFJF/2022.3/DCC012/trabalho/trabalho-dcc012/";
 
     while (opcao != 3) {
         cout << "Digite um valor para executar a etapa desejada: " << endl;
         cout << "[1] Ordenacao." << endl;
         cout << "[2] Hash." << endl;
         cout << "[3] Encerrar aplicacao." << endl;
-
         cin >> opcao;
         switch (opcao) {
             case 1: {
                 File *ratings = new File();
+                cin.ignore();
+                string path;
+                cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
+                getline(cin, path);
                 ratings->createBinary(path);
-
                 do {
                     ifstream inputDat;
                     inputDat.open("input.dat", ios::in);
