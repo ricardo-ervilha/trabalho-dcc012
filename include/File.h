@@ -11,10 +11,11 @@ private:
     string completeString(int n, string s);
     ProductReview converteReview(int i);
     char* zeraVetor(int n, char* vet);
+    string path;//diretorio onde ficarão os arquivos binario e .csv
 public:
-    File();
+    File(string);
     ~File();
-    void createBinary(string& path);
+    void createBinary();
     void getReview(int i);
     ProductReview* import(int n);
     

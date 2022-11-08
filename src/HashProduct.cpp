@@ -76,7 +76,10 @@ void HashProduct::insere(ProductReview produto)
 
 ProductReview *HashProduct::createTable(int n)
 {
-    File *arquivo = new File();
+    string path;
+    cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
+    getline(cin, path);
+    File *arquivo = new File(path);
 
     table = new ProductReview[100];
 

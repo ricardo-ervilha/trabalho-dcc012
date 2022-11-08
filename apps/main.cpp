@@ -59,6 +59,12 @@ int main() {
     int methodId = 1;
     int n;
 
+    string path;
+    cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
+    getline(cin, path);
+    File *ratings = new File(path);
+    ratings->createBinary();
+
     while (opcao != 3) {
         cout << "Digite um valor para executar a etapa desejada: " << endl;
         cout << "[1] Ordenacao." << endl;
@@ -67,24 +73,13 @@ int main() {
         cin >> opcao;
         switch (opcao) {
             case 1: {
-                File *ratings = new File();
                 cin.ignore();
-                string path;
-                cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
-                getline(cin, path);
-                ratings->createBinary(path);
+                
                 do {
                     ifstream inputDat;
                     inputDat.open("input.dat", ios::in);
                     string linha;
-                    if(!inputDat){
-                        cout << "Erro ao abrir input.dat"<<endl;
-                        return 0;
-                    }
-                    getline(inputDat, linha);
-                    cout <<"Registros a serem importados: "<<linha<<endl;
-                    ProductReview *vet = ratings->import(stoi(linha));
-                   
+                    
                     cout << "Digite qual metodo de ordenacao sera utilizado:" << endl;
                     cout << "[0] Merge Sort\n";
                     cout << "[1] Quick Sort\n";
@@ -92,6 +87,25 @@ int main() {
                     cout << "[3] Retornar ao menu anterior\n";
 
                     cin >> methodId;
+
+                    if(!inputDat){
+                        cout << "Erro ao abrir input.dat"<<endl;
+                        return 0;
+                    }
+                    getline(inputDat, linha);
+
+                    chrono::time_point<chrono::system_clock> start, end;
+                    start = chrono::system_clock::now();
+
+                    cout <<"Registros a serem importados: "<<linha<<endl;
+                    ProductReview *vet = ratings->import(stoi(linha));
+
+                    end = chrono::system_clock::now();
+                    chrono::duration<double> elapsed_seconds = end - start;
+                    time_t end_time = chrono::system_clock::to_time_t(end);
+
+                    cout << "Tempo para importar: "<<linha<<": " << elapsed_seconds.count() << "s\n";
+
                     sort(vet, stoi(linha), methodId);
 
                 } while (methodId != 3);

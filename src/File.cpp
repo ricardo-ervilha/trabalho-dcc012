@@ -11,9 +11,10 @@
 
 using namespace std;
 
-File::File(){
+File::File(string path){
     maxU = 21;
     maxT = 10;
+    this->path = path;
 }
 
 File::~File(){}
@@ -38,24 +39,27 @@ char* File::zeraVetor(int n, char* vet){
 
 
 //Alterar o cabeçalho para fazer aceitar uma string Path.
-void File::createBinary(string& path)
+void File::createBinary()
 {   
     ifstream existFile;
 
-    string path2 = path + "ratings_Eletronics.csv";
-    path = path + "ratings.bin";
-    const char* pathAux = path.c_str();
-    const char* pathAux2 = path2.c_str();
-    cout << pathAux << endl;
-    existFile.open(pathAux);
+    string pathCsv = this->path + "ratings_Eletronics.csv";
+    string pathBinario = this->path + "ratings.bin";
+    //const char* pathAuxBinario = pathBinario.c_str();
+    //const char* pathAuxCsv = pathCsv.c_str();
+    
+    cout << "CAMINHO CSV: "<<pathCsv << endl;
+    cout << "CAMINHO BINARIO: "<<pathBinario << endl;
+    existFile.open(pathBinario);
+    
 
     if(!existFile){
     cout << "Gerando arquivo binario..." << endl;
     int i = 0, val, a = 200000,  registro = 0, tam = a + 66; 
     time_t t_ini, t_fim; 
 
-    ifstream arqCsv(pathAux2);
-    fstream arq(pathAux, ios::out | ios::binary);
+    ifstream arqCsv(pathCsv);
+    fstream arq(pathBinario, ios::out | ios::binary);
 
     arqCsv.seekg (0, arqCsv.end);
     int length  = arqCsv.tellg();
@@ -223,7 +227,7 @@ void File::getReview(int i){
 }
 
 ProductReview File::converteReview(int i){
-    ifstream arq("ratings.bin", ios::binary);
+    ifstream arq(this->path+"ratings.bin", ios::binary);
 
     char userId[22], productId[11], ratings[4], timeStamp[11];
 
