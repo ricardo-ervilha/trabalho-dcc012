@@ -8,8 +8,8 @@ using namespace std;
 class BucketSort
 {
 private:
-    ProductReview *list;
-    int registros;
+    ProductReview *vet;
+    int n;
     ListaEncad **buckets;
     ListaEncad *listaOrdenada;
 
@@ -18,11 +18,12 @@ public:
     BucketSort(ProductReview *, int);
     ~BucketSort();
     void sort();
-    void ordena();
-    void imprime();
+    void printBuckets();
     void insertionSort(int);
     void mergeSort(int);
     void concatBucket(int);
+    void putInBuckets();
+    void listToArray();
 };
 
 #endif

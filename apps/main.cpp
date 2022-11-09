@@ -34,7 +34,6 @@ void sort(ProductReview *vet, int n, int methodId) {
 
             BucketSort *bucket = new BucketSort(vet, n);
             bucket->sort();
-            bucket->imprime();
 
             end = chrono::system_clock::now();
             chrono::duration<double> elapsed_seconds = end - start;
@@ -57,7 +56,6 @@ void hashFunction() {
 int main() {
     int opcao = 1;
     int methodId = 1;
-    int n;
 
     string path;
     cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;

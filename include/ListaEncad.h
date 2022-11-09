@@ -26,6 +26,7 @@ public:
     void printList();   // Imprime todos os elementos da lista
     int getSize();
     void insereListaFinal(ListaEncad *);
+    No* getPrimeiro(){return primeiro;}
 };
 
 #endif
