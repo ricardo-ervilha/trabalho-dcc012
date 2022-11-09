@@ -18,13 +18,13 @@ BucketSort::BucketSort(ProductReview *vet, int n)
     this->n = n;
 
     // cada posição guarda o ponteiro para uma lista
-    buckets = new ListaEncad *[BUCKET_SIZE];
+    buckets = new ListaEncadProductReview *[BUCKET_SIZE];
 
-    listaOrdenada = new ListaEncad();
+    listaOrdenada = new ListaEncadProductReview();
 
     for (int i = 0; i < BUCKET_SIZE; i++)
     {
-        buckets[i] = new ListaEncad();
+        buckets[i] = new ListaEncadProductReview();
     }
 }
 
@@ -35,9 +35,15 @@ BucketSort::~BucketSort()
 
 void BucketSort::sort()
 {
+    //cout <<endl<<"VET ANTES DE ORDENAR:..."<<endl;
+    // for(int i =0;i<n;i++){
+    //     cout << "[" << i << "]" << vet[i].getUserId() << endl;
+    // }
+    
     // P1: armazenar os registros nos baldes de acordo com o segundo caracter
     this->putInBuckets();
 
+    
     // P2: ordenar cada balde
     // cout << "INSERTION SORT: " << endl;
     for (int b = 0; b < BUCKET_SIZE; b++)
@@ -50,22 +56,29 @@ void BucketSort::sort()
         this->concatBucket(b);
     }
 
-    //cout << "IMPRIMINDO LISTA COMPLETA: " << endl;
+    
+
+    //cout << endl<< "IMPRIMINDO LISTA COMPLETA: " << endl;
     //listaOrdenada->printList();
 
     // P4: LISTA PARA ARRAY
-    //listToArray();
+    listToArray();
+    // cout <<endl<<"VET DEPOIS DE ORDENAR:..."<<endl;
+    // for(int i =0;i<n;i++){
+    //     cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
+    // }
+    
 }
 void BucketSort::listToArray()
 {
-    No *p;
-    cout << "_Lista Encadeada_" << endl;
+    NoProductReview *p;
+    //cout << "_Lista Encadeada_" << endl;
     int i = 0;
 
     for (p = listaOrdenada->getPrimeiro(); p != NULL; p = p->getProx(), i++)
     {
-        cout << "- " << i << " - " << p->getInfo()->getUserId() << endl;
-        vet[i] = *p->getInfo();
+        //cout << "- " << i << " - " << p->getInfo()->getUserId() << endl;
+        vet[i] = p->getInfo();
     }
 }
 /*void BucketSort::putInBuckets(){
@@ -188,10 +201,10 @@ void BucketSort::putInBuckets()
         // cout << "[" << vet[i].getUserId()[1] << vet[i].getUserId()[2] << "]: " << vet[i].getUserId() << endl;
         // cout << "Conta: " << c1 << " * 36 + " << c2<< " = "<<pos<<endl;
 
-        buckets[pos]->insereInicio(&vet[i]);
+        buckets[pos]->insereInicio(vet[i]);
     }
-    // cout <<"IMPRIMINDO OS BALDES: "<<endl;
-    // this->imprime();
+    //cout <<"IMPRIMINDO OS BALDES: "<<endl;
+    //this->printBuckets();
 }
 void BucketSort::concatBucket(int b)
 {
@@ -204,27 +217,28 @@ void BucketSort::insertionSort(int b)
 {
     if (buckets[b]->getSize() > 0)
     {
-        ListaEncad *listaBaldeN = buckets[b];
+        ListaEncadProductReview *listaBaldeN = buckets[b];
+        
         for (int i = 0; i < listaBaldeN->getSize() - 1; i++)
         {
             int j = i + 1;
             int indexRemover = j + 1;
-            ProductReview *pivo = listaBaldeN->get(j);
-            while (j > 0 && pivo->getUserId() < listaBaldeN->get(j - 1)->getUserId())
+            ProductReview pivo = listaBaldeN->get(j);
+            while (j > 0 && pivo.getUserId() < listaBaldeN->get(j - 1).getUserId())
                 j--;
             listaBaldeN->insere(pivo, j);
             listaBaldeN->remove(indexRemover);
         }
 
-        // cout << "BALDE: " << b << " ORDENADO - TAMANHO: " << buckets[b]->getSize() << " CHARACTER: " << buckets[b]->get(0)->getUserId()[1] <<buckets[b]->get(0)->getUserId()[2]<< endl;
-        // buckets[b]->printList();
+        //cout << "BALDE: " << b << " ORDENADO - TAMANHO: " << buckets[b]->getSize() << " CHARACTER: " << buckets[b]->get(0).getUserId()[1] <<buckets[b]->get(0).getUserId()[2]<< endl;
+        //buckets[b]->printList();
     }
 }
-void BucketSort::mergeSort(int b)
+/*void BucketSort::mergeSort(int b)
 {
     if (buckets[b]->getSize() > 0)
     {
-        ListaEncad *lista = buckets[b];
+        ListaEncadProductReview *lista = buckets[b];
         ProductReview *aux = new ProductReview[lista->getSize()];
 
         // passar todos elementos do balde b (lista encadeada) para o vetor aux
@@ -242,7 +256,7 @@ void BucketSort::mergeSort(int b)
             listaOrdenada->insereFinal(&aux[i]);
         }
     }
-}
+}*/
 void BucketSort::printBuckets()
 {
     for (int b = 0; b < BUCKET_SIZE; b++)
@@ -250,7 +264,7 @@ void BucketSort::printBuckets()
         if (buckets[b]->getSize() > 0)
         {
             // cout << " BALDE: " << b << endl;
-            cout << "BALDE: " << b << " TAMANHO: " << buckets[b]->getSize() << " CHARACTER: " << buckets[b]->get(0)->getUserId()[1] << endl;
+            cout << "BALDE: " << b << " TAMANHO: " << buckets[b]->getSize() << " CHARACTER: " << buckets[b]->get(0).getUserId()[1] << endl;
             buckets[b]->printList();
         }
     }

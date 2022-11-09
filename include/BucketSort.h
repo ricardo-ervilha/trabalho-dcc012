@@ -1,7 +1,7 @@
 #ifndef BUCKETSORT_H
 #define BUCKETSORT_H
 #include "ProductReview.h"
-#include "ListaEncad.h"
+#include "ListaEncadProductReview.h"
 
 using namespace std;
 
@@ -10,8 +10,8 @@ class BucketSort
 private:
     ProductReview *vet;
     int n;
-    ListaEncad **buckets;
-    ListaEncad *listaOrdenada;
+    ListaEncadProductReview **buckets;
+    ListaEncadProductReview *listaOrdenada;
 
 public:
     BucketSort();
