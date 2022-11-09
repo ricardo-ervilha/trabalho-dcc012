@@ -10,7 +10,7 @@ TODO:
 #include "MergeSort.h"
 
 using namespace std;
-#define BUCKET_SIZE 1296
+#define BUCKET_SIZE 46656
 
 BucketSort::BucketSort(ProductReview *vet, int n)
 {
@@ -44,7 +44,7 @@ void BucketSort::sort()
     {
         // cout << "BALDE: " << b << " TAMANHO: " << buckets[b]->getSize() << endl;
         this->insertionSort(b);
-        // this->mergeSort(b);
+        //this->mergeSort(b);
 
         // P3: Concatenar os baldes
         this->concatBucket(b);
@@ -94,7 +94,7 @@ void BucketSort::listToArray()
         buckets[pos]->insereInicio(&vet[i]); // TODO: Devo passar uma cópia ou a referencia do ProductReview???
     }
 }*/
-void BucketSort::putInBuckets()
+/*void BucketSort::putInBuckets()
 {
     int pos;
 
@@ -129,6 +129,62 @@ void BucketSort::putInBuckets()
         }
 
         pos = c1 * 36 + c2;
+        // cout << "[" << vet[i].getUserId()[1] << vet[i].getUserId()[2] << "]: " << vet[i].getUserId() << endl;
+        // cout << "Conta: " << c1 << " * 36 + " << c2<< " = "<<pos<<endl;
+
+        buckets[pos]->insereInicio(&vet[i]);
+    }
+    // cout <<"IMPRIMINDO OS BALDES: "<<endl;
+    // this->imprime();
+}*/
+void BucketSort::putInBuckets()
+{
+    int pos;
+
+    int c1, c2, c3;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (vet[i].getUserId()[1] >= '0' && vet[i].getUserId()[1] <= '9')
+        {
+            c1 = (vet[i].getUserId()[1] - '0');
+        }
+        else if (vet[i].getUserId()[1] >= 'a' && vet[i].getUserId()[1] <= 'z')
+        {
+            c1 = (vet[i].getUserId()[1] - 'a');
+        }
+        else if (vet[i].getUserId()[1] >= 'A' && vet[i].getUserId()[1] <= 'Z')
+        {
+            c1 = (vet[i].getUserId()[1] - 'A' + 10);
+        }
+
+        if (vet[i].getUserId()[2] >= '0' && vet[i].getUserId()[2] <= '9')
+        {
+            c2 = (vet[i].getUserId()[2] - '0');
+        }
+        else if (vet[i].getUserId()[2] >= 'a' && vet[i].getUserId()[2] <= 'z')
+        {
+            c2 = (vet[i].getUserId()[2] - 'a');
+        }
+        else if (vet[i].getUserId()[2] >= 'A' && vet[i].getUserId()[2] <= 'Z')
+        {
+            c2 = (vet[i].getUserId()[2] - 'A' + 10);
+        }
+
+        if (vet[i].getUserId()[3] >= '0' && vet[i].getUserId()[3] <= '9')
+        {
+            c3 = (vet[i].getUserId()[3] - '0');
+        }
+        else if (vet[i].getUserId()[3] >= 'a' && vet[i].getUserId()[3] <= 'z')
+        {
+            c3 = (vet[i].getUserId()[3] - 'a');
+        }
+        else if (vet[i].getUserId()[3] >= 'A' && vet[i].getUserId()[3] <= 'Z')
+        {
+            c3 = (vet[i].getUserId()[3] - 'A' + 10);
+        }
+
+        pos = c1 * 36*36 + c2*36+c3;
         // cout << "[" << vet[i].getUserId()[1] << vet[i].getUserId()[2] << "]: " << vet[i].getUserId() << endl;
         // cout << "Conta: " << c1 << " * 36 + " << c2<< " = "<<pos<<endl;
 

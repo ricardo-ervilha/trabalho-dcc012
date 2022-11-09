@@ -75,7 +75,7 @@ int main() {
                 
                 do {
                     ifstream inputDat;
-                    inputDat.open("input.dat", ios::in);
+                    inputDat.open("data/input.dat", ios::in);
                     string linha;
                     
                     cout << "Digite qual metodo de ordenacao sera utilizado:" << endl;
