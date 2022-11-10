@@ -8,6 +8,7 @@ TODO:
 #include <iostream>
 #include "BucketSort.h"
 #include "MergeSort.h"
+#include "QuickSort.h"
 
 using namespace std;
 #define BUCKET_SIZE 46656
@@ -33,7 +34,53 @@ BucketSort::~BucketSort()
     delete vet;
 };
 
+//Bucket sort usando Merge/Quick Sort como algoritmo de ordenação intermediário
 void BucketSort::sort()
+{
+    // P1: armazenar os registros nos baldes de acordo com o segundo caracter
+    this->putInBuckets();
+    
+    int i = 0;
+
+    for (int b = 0; b < BUCKET_SIZE; b++)
+    {
+        // P2: ordenar cada balde
+        if (buckets[b]->getSize() > 1)
+        {
+            ProductReview *aux = new ProductReview[buckets[b]->getSize()];
+            //buckets[b]->insertionSort();
+            // this->insertionSort(b);
+
+            NoProductReview *p;
+            int j=0;
+            for (p = buckets[b]->getPrimeiro(); p != NULL; p = p->getProx())
+            {
+                aux[j++] = p->getInfo();
+            }
+
+            MergeSort *merge = new MergeSort(aux,buckets[b]->getSize());
+            merge->sort(false);
+
+            // QuickSort *quick = new QuickSort(aux,buckets[b]->getSize());
+            // quick->sort(false);
+
+
+            // P3: Concatenar os baldes
+            while(j>0)
+            {
+                vet[i++] = aux[--j];
+            }
+
+            delete[] aux;
+        }else if(buckets[b]->getSize() == 1){
+            vet[i++] = buckets[b]->getPrimeiro()->getInfo();
+        }
+
+    }
+}
+
+//Bucket sort usando Insertion Sort (usando lista encadeada) como algoritmo de ordenação intermediário
+/*void BucketSort::sort()
 {
     // P1: armazenar os registros nos baldes de acordo com o segundo caracter
     this->putInBuckets();
@@ -61,6 +108,8 @@ void BucketSort::sort()
         }
     }
 }
+*/
+
 /*void BucketSort::listToArray()
 {
     NoProductReview *p;

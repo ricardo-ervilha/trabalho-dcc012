@@ -76,12 +76,12 @@ void QuickSort::QuickSortRec(ProductReview *list, int inicio, int fim, int Comp_
         QuickSortRec(list,posicao+1, fim,Comp_Mov); 
     }
 }
-void QuickSort::sort()
+void QuickSort::sort(bool printOutput)
 {
     int Comp_Mov[2]={0,0};//Vetor onde a posição 0 conta o número de comparações e posição 1 conta o número de movimentações
     std::chrono::time_point<std::chrono::system_clock> start, end;
 
-    cout<<"Quick"<<endl;
+    //cout<<"Quick"<<endl;
     start = std::chrono::system_clock::now();
 
     QuickSortRec(list, 0, registros-1,Comp_Mov);
@@ -90,9 +90,11 @@ void QuickSort::sort()
     std::chrono::duration<double> elapsed_seconds = end - start;
     std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 
-    std::cout << "Tempo de Ordenacao(Usando a Chrono): " << elapsed_seconds.count() << "s\n";
-    //cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
-    //cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;  
+    if(printOutput){
+        std::cout << "Tempo de Ordenacao(Usando a Chrono): " << elapsed_seconds.count() << "s\n";
+        cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
+        cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;
+    }  
     
 }
 

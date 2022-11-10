@@ -73,7 +73,7 @@ void MergeSort::MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio
         Merge(list, Aux, inicio, meio, fim,Comp_Mov);//Ordena as duas partições entre si
     }
 }
-void MergeSort::sort()
+void MergeSort::sort(bool printOutput)
 {
     //cout<<"Entrou no Sort"<<endl;
     ProductReview *Aux = new ProductReview[registros];
@@ -88,9 +88,11 @@ void MergeSort::sort()
     std::chrono::duration<double> elapsed_seconds = end - start;
     std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 
-    std::cout << "Tempo de Ordenacao(Usando a Chrono): " << elapsed_seconds.count() << "s\n";
-    cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
-    cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;  
+    if(printOutput){
+        std::cout << "Tempo de Ordenacao(Usando a Chrono): " << elapsed_seconds.count() << "s\n";
+        cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
+        cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;
+    }
     
 }
 

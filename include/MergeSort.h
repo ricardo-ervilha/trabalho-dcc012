@@ -14,7 +14,7 @@ class MergeSort{
         MergeSort();
         MergeSort(ProductReview *, int);
         ~MergeSort();
-        void sort();
+        void sort(bool printOutput = true);
         void imprime();
 };
 
