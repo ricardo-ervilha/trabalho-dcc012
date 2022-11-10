@@ -11,6 +11,7 @@ private:
     NoProductReview *primeiro; // Ponteiro primeiro nó da lista.
     NoProductReview *ultimo;   // Ponteiro último nó da lista.
     int n;                     // Tamanho da lista.
+    NoProductReview *ordenada;
 public:
     ListaEncadProductReview();
     ~ListaEncadProductReview();
@@ -27,6 +28,9 @@ public:
     int getSize();
     void insereListaFinal(ListaEncadProductReview *);
     NoProductReview *getPrimeiro() { return primeiro; }
+    NoProductReview *getUltimo() { return ultimo; }
+    void insertionSort();
+    void sortedInsert(NoProductReview*);
 };
 
 #endif

@@ -257,3 +257,56 @@ int ListaEncadProductReview::getSize()
 {
     return this->n;
 }
+
+void ListaEncadProductReview::insertionSort()
+{
+    // Initialize sorted linked list
+    ordenada = NULL;
+
+    NoProductReview *noAtualListaDesordenada = primeiro;
+
+    while (noAtualListaDesordenada != NULL)
+    {
+        // Guarda o proximo no a ser inserido na lista ordenada
+        NoProductReview *next = noAtualListaDesordenada->getProx();
+
+        // inserir noAtualListaDesordenada na posição correta da lista ordenada
+        sortedInsert(noAtualListaDesordenada);
+
+        noAtualListaDesordenada = next;
+    }
+
+    primeiro = ordenada;
+}
+
+//Insere o novo nó de forma ordenada
+void ListaEncadProductReview::sortedInsert(NoProductReview *novoNo)
+{
+    //Nesse caso insere no inicio da lista
+    if (ordenada == NULL || ordenada->getInfo().getUserId() >= novoNo->getInfo().getUserId())
+    {
+        novoNo->setProx(ordenada);
+       
+        if (ordenada == NULL)
+        {
+            ultimo = novoNo;
+        }
+        ordenada = novoNo;
+    }
+    else
+    {
+        NoProductReview *noAtualListaOrdenada = ordenada;
+
+        while (noAtualListaOrdenada->getProx() != NULL && noAtualListaOrdenada->getProx()->getInfo().getUserId() < novoNo->getInfo().getUserId())
+        {
+            noAtualListaOrdenada = noAtualListaOrdenada->getProx();
+        }
+
+        novoNo->setProx(noAtualListaOrdenada->getProx());
+        if (noAtualListaOrdenada->getProx() == NULL)
+        {
+            ultimo = novoNo;
+        }
+        noAtualListaOrdenada->setProx(novoNo);
+    }
+}

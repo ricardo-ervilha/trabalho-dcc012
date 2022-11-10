@@ -33,7 +33,15 @@ void sort(ProductReview *vet, int n, int methodId) {
             start = chrono::system_clock::now();
 
             BucketSort *bucket = new BucketSort(vet, n);
+            // cout <<endl<<"VET ANTES DE ORDENAR:..."<<endl;
+            // for(int i =0;i<n;i++){
+            //     cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
+            // }
             bucket->sort();
+            // cout <<endl<<"VET DEPOIS DE ORDENAR:..."<<endl;
+            // for(int i =0;i<n;i++){
+            //     cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
+            // }
 
             end = chrono::system_clock::now();
             chrono::duration<double> elapsed_seconds = end - start;
