@@ -6,23 +6,23 @@
 #include "List.h"
 #include <fstream>
 
-
-typedef struct{
+typedef struct
+{
     string productId;
     int qtdReviews;
 
 } RegistroHash;
 
-
-class HashProduct{
+class HashProduct
+{
 
 private:
     int tam;
     RegistroHash *table;
     string path;
 
-    int *chavesGeradas;//arquivo para armazenar as chaves geradas
-    int lastIndex =0;
+    int *chavesGeradas; // arquivo para armazenar as chaves geradas
+    int lastIndex = 0;
     ofstream arqChavesGeradas;
     ofstream arqTabelaHash;
 
@@ -30,7 +30,7 @@ public:
     HashProduct(string path);
     ~HashProduct();
     void inicializa(int n);
-    RegistroHash* createTable(int n);
+    RegistroHash *createTable(int n);
     int converteStringInt(string productId);
     int funcaoHash(int val);
     void insere(ProductReview produto);
