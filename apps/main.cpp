@@ -64,7 +64,7 @@ void sort(ProductReview *vet, int n, int methodId) {
 void hashFunction() {
     HashProduct *hashTeste = new HashProduct(path);
 
-    hashTeste->createTable(100000);
+    hashTeste->createTable(1000);
     hashTeste->printTable();
 }
 
@@ -73,7 +73,8 @@ int main() {
     int methodId = 1;
 
     cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
-    getline(cin, path);
+    //getline(cin, path); 
+    path = "/home/ricardo/dcc-012/trabalho-dcc012/";
     File *ratings = new File(path);
     ratings->createBinary(path);
 
