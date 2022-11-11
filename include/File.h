@@ -11,9 +11,9 @@ private:
     string completeString(int n, string s);
     ProductReview converteReview(int i);
     char* zeraVetor(int n, char* vet);
-    string pathFile;//diretorio onde ficarão os arquivos binario e .csv
+    string path;//diretorio onde ficarão os arquivos binario e .csv
 public:
-    File();
+    File(string path);
     ~File();
     void createBinary(string& path);
     void getReview(int i);

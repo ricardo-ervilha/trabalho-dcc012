@@ -95,7 +95,6 @@ void QuickSort::sort(bool printOutput)
         cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
         cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;
     }  
-    
 }
 
 void QuickSort::imprime()

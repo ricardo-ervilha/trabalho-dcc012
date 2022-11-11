@@ -4,17 +4,29 @@
 #include <cmath>
 #include <cstring>
 
-#define CONST 10
-#define M 97
+#define M 73223
 
-HashProduct::HashProduct()
+HashProduct::HashProduct(string path)
 {
+    this->path = path;
+    
 }
 
 HashProduct::~HashProduct()
 {
     delete table;
 }
+
+void HashProduct::inicializa(int n){
+
+    for(int i = 0; i < n; i++){
+        RegistroHash ini;
+        ini.productId = "";
+        ini.qtdReviews = 0;
+        table[i] = ini;
+    }
+}
+
 
 int HashProduct::converteStringInt(string productId)
 {
@@ -24,7 +36,7 @@ int HashProduct::converteStringInt(string productId)
 
     // algoritmo de karp, o rabino.
 
-    int p = 31; // TODO: If the string s consists of only lower-case letters, then p = 31 is a good choice.
+    int p = 111111; // TODO: If the string s consists of only lower-case letters, then p = 31 is a good choice.
 
     long int potencia = 1;
 
@@ -68,22 +80,36 @@ int HashProduct::funcaoHash(int chave)
 void HashProduct::insere(ProductReview produto)
 {
 
+    RegistroHash registro;
+
+    registro.productId = produto.getProductId();
+    registro.qtdReviews = 0;
+
+
     int inteiroProduct = converteStringInt(produto.getProductId());
     int index = funcaoHash(inteiroProduct);
 
-    table[index] = produto;
+    if(table[index].productId == ""){
+        table[index].qtdReviews++;
+        table[index] = registro;
+    } else{
+        table[index].qtdReviews++;
+    }
 }
 
-ProductReview *HashProduct::createTable(int n)
+RegistroHash *HashProduct::createTable(int n)
 {
-    File *arquivo = new File();
+    cout << "cde: " << this->path << endl;
+    File *arquivo = new File(this->path);
 
-    table = new ProductReview[100];
+    table = new RegistroHash[n];
+    inicializa(n);
 
     ProductReview *dadosImportados = arquivo->import(n);
 
     for (int i = 0; i < n; i++)
     {
+        
         insere(dadosImportados[i]);
     }
 
@@ -95,15 +121,31 @@ ProductReview *HashProduct::createTable(int n)
 void HashProduct::printTable()
 {
 
-    for (int i = 0; i < M; i++)
+    /* for (int i = 0; i < M; i++)
     {
         // imprime somente se tiver algum valor na posição i da tabela
-        if (table[i].getProductId().length())
+        if (table[i].productId.length())
         {
             cout << "[" << i << "]";
 
-            table[i].print();
+            cout << table[i].productId << " " << table[i].qtdReviews;
             cout << endl;
         }
+    } */
+
+    int maior = table[0].qtdReviews;
+    for(int i = 1; i < M; i++){
+        if(table[i].qtdReviews > maior)
+            maior = table[i].qtdReviews;
     }
+
+    float cont = 0;
+    for(int i = 0; i < M; i++){
+        if(table[i].productId != "")
+            cont++;
+    }
+
+    cout << "Fator de carga: " << (cont/M) << endl;
+
+    cout << "Maior " << maior << endl;
 }

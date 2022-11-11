@@ -11,10 +11,10 @@
 
 using namespace std;
 
-File::File(){
+File::File(string path){
     maxU = 21;
     maxT = 10;
-    this->pathFile = "";
+    this->path = path;
 }
 
 File::~File(){}
@@ -43,10 +43,10 @@ void File::createBinary(string& path)
 {   
     ifstream existFile;
 
-    this->pathFile = path;
+    this->path = path;
 
-    string pathCsv = this->pathFile + "ratings_Electronics.csv";
-    string pathBinario = this->pathFile + "ratings.bin";
+    string pathCsv = this->path + "ratings_Electronics.csv";
+    string pathBinario = this->path + "ratings.bin";
     //const char* pathAuxBinario = pathBinario.c_str();
     //const char* pathAuxCsv = pathCsv.c_str();
     
@@ -189,7 +189,7 @@ void File::createBinary(string& path)
 
 
 void File::getReview(int i){
-    ifstream arq(this->pathFile + "ratings.bin", ios::binary);
+    ifstream arq(this->path + "ratings.bin", ios::binary);
 
     if(arq.is_open())
     {
@@ -228,9 +228,11 @@ void File::getReview(int i){
 }
 
 ProductReview File::converteReview(int i){
-    ifstream arq(this->pathFile + "ratings.bin", ios::binary);
+    ifstream arq(this->path + "ratings.bin", ios::binary);
 
     char userId[22], productId[11], ratings[4], timeStamp[11];
+
+    //cout <<"abc: " << this->pathFile<<endl;
 
     if(arq.is_open())
     {

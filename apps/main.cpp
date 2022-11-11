@@ -16,6 +16,9 @@
 using namespace std;
 using namespace std::chrono;
 
+//Variável global
+string path;
+
 void sort(ProductReview *vet, int n, int methodId) {
     switch (methodId) {
         case 0: {
@@ -26,6 +29,7 @@ void sort(ProductReview *vet, int n, int methodId) {
         case 1: {
             QuickSort *quick = new QuickSort(vet, n);
             quick->sort();
+            quick->imprime();
             break;
         }
         case 2: {
@@ -33,15 +37,15 @@ void sort(ProductReview *vet, int n, int methodId) {
             start = chrono::system_clock::now();
 
             BucketSort *bucket = new BucketSort(vet, n);
-            cout <<endl<<"VET ANTES DE ORDENAR:..."<<endl;
-            for(int i =0;i<n;i++){
-                cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
-            }
+            // cout <<endl<<"VET ANTES DE ORDENAR:..."<<endl;
+            // for(int i =0;i<n;i++){
+            //     cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
+            // }
             bucket->sort();
-            cout <<endl<<"VET DEPOIS DE ORDENAR:..."<<endl;
-            for(int i =0;i<n;i++){
-                cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
-            }
+            // cout <<endl<<"VET DEPOIS DE ORDENAR:..."<<endl;
+            // for(int i =0;i<n;i++){
+            //     cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
+            // }
 
             end = chrono::system_clock::now();
             chrono::duration<double> elapsed_seconds = end - start;
@@ -58,17 +62,19 @@ void sort(ProductReview *vet, int n, int methodId) {
 }
 
 void hashFunction() {
-    cout << "Nada pronto." << endl;
+    HashProduct *hashTeste = new HashProduct(path);
+
+    hashTeste->createTable(100000);
+    hashTeste->printTable();
 }
 
 int main() {
     int opcao = 1;
     int methodId = 1;
 
-    string path;
     cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
     getline(cin, path);
-    File *ratings = new File();
+    File *ratings = new File(path);
     ratings->createBinary(path);
 
     while (opcao != 3) {
