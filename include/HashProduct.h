@@ -54,6 +54,7 @@
 #include "ProductReview.h"
 #include "MergeSort.h"
 #include "List.h"
+#include <fstream>
 
 
 typedef struct{
@@ -69,6 +70,7 @@ private:
     int tam;
     RegistroHash *table;
     string path;
+    ofstream arqTabelaHash;
 
 public:
     HashProduct(string path);

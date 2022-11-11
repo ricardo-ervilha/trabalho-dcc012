@@ -64,7 +64,7 @@ void sort(ProductReview *vet, int n, int methodId) {
 void hashFunction() {
     HashProduct *hashTeste = new HashProduct(path);
 
-    hashTeste->createTable(1000);
+    hashTeste->createTable(10000);
     hashTeste->printTable();
 }
 

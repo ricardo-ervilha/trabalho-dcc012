@@ -277,9 +277,9 @@
 
 //testar para 100000 -> 73237 e 71147
 
-#define M 1039
+#define M 10321
 
-#define Mlinha 1033
+#define Mlinha 10313
 
 HashProduct::HashProduct(string path)
 {
@@ -402,6 +402,7 @@ bool HashProduct::insere(ProductReview produto)
         //posição inserida não contém elementos ainda.
         table[index] = registro;
         table[index].qtdReviews++;
+        arqTabelaHash << index << "," << produto.getProductId() << endl;
         return true;
     } else{
         //colisão.
@@ -421,6 +422,7 @@ bool HashProduct::insere(ProductReview produto)
                     cout << "Colisão tratada." << endl;
                     table[index]= registro;
                     table[index].qtdReviews++;
+                    arqTabelaHash << index << "," << produto.getProductId() << endl;
                     return true;
                 }
                 cont++;
@@ -440,15 +442,25 @@ RegistroHash *HashProduct::createTable(int n)
 
     ProductReview *dadosImportados = arquivo->import(n);
 
-    for (int i = 0; i < n; i++)
-    {
-        bool result = insere(dadosImportados[i]);
-        if(result == false){
-            cout << "Falha na inserção.\n";
-            exit(1);
+    arqTabelaHash.open(this->path + "tabelaHash.csv");
+    
+    arqTabelaHash << "Index,"
+                   << "Product"
+                   << ","
+                 << "Erro" << endl;
+    
+    if (arqTabelaHash.is_open()){
+        for (int i = 0; i < n; i++)
+        {
+            bool result = insere(dadosImportados[i]);
+            if (result == false)
+            {
+                cout << "Falha na inserção.\n";
+                exit(1);
+            }
         }
-            
     }
+    
 
     delete[] dadosImportados;
 

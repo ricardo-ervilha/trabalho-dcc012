@@ -1,6 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 #include "ProductReview.h"
+#include <fstream>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ private:
     ProductReview converteReview(int i);
     char* zeraVetor(int n, char* vet);
     string path;//diretorio onde ficarão os arquivos binario e .csv
+    ofstream chavesImport;
 public:
     File(string path);
     ~File();

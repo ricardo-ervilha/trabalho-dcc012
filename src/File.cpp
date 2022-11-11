@@ -285,33 +285,43 @@ unsigned long long llrand() {
 }
 
 ProductReview* File::import(int n){
-    
+
     srand(time(NULL));
 
-    ProductReview* listaReviews = new ProductReview[n];
-    int p=n*0.65;
-    if(n==1 && p==0)//Condição para evitar divisão por zero dentro da função Hash, permitindo a entrada no laço abaixo
+    chavesImport.open("chavesImport.csv");
+    
+    ProductReview *listaReviews = new ProductReview[n];
+    int p = n * 0.65;
+    
+    if (n == 1 && p == 0) // Condição para evitar divisão por zero dentro da função Hash, permitindo a entrada no laço abaixo
     {
-        p=1;
+        p = 1;
     }
-    Hash* tabela = new Hash(p);
-    unsigned long long chave = llrand()%MAXCSV;
-    //cout<<"tamanho Chave "<< chave <<endl;
-    for(int i = 0; i < n; i++){
-        
-        if(tabela->busca(chave)){
-            while(tabela->busca(chave)){
-                chave = llrand()%MAXCSV;
+    Hash *tabela = new Hash(p);
+    unsigned long long chave = llrand() % MAXCSV;
+    // cout<<"tamanho Chave "<< chave <<endl;
+    if(chavesImport.is_open()){
+        for (int i = 0; i < n; i++)
+        {
+
+            if (tabela->busca(chave))
+            {
+                while (tabela->busca(chave))
+                {
+                    chave = llrand() % MAXCSV;
+                }
             }
+
+            ProductReview review = converteReview(chave);
+            listaReviews[i] = review;
+
+            tabela->inserir(chave);
+
+            chavesImport << review.getProductId() << endl;
+
+            chave = llrand() % MAXCSV;
         }
-        
-        listaReviews[i] = converteReview(chave);
-
-        
-        tabela->inserir(chave);
-
-        chave = llrand()%MAXCSV;
-        
     }
-   return listaReviews;
+    
+    return listaReviews;
 }
