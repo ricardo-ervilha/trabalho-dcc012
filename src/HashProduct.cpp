@@ -9,17 +9,17 @@
 HashProduct::HashProduct(string path)
 {
     this->path = path;
-    
 }
 
 HashProduct::~HashProduct()
 {
-    delete table;
+    delete[] table;
 }
 
-void HashProduct::inicializa(int n){
-
-    for(int i = 0; i < n; i++){
+void HashProduct::inicializa(int n)
+{
+    for (int i = 0; i < n; i++)
+    {
         RegistroHash ini;
         ini.productId = "";
         ini.qtdReviews = 0;
@@ -27,6 +27,158 @@ void HashProduct::inicializa(int n){
     }
 }
 
+/*
+    Cria uma tabela que irá armazenar n registros
+*/
+RegistroHash *HashProduct::createTable(int n)
+{
+    File *arquivo = new File(this->path);
+
+    table = new RegistroHash[n];
+    chavesGeradas = new int[n];
+
+    // inicializa(n);
+
+    ProductReview *dadosImportados = arquivo->import(n);
+
+    arqChavesGeradas.open(this->path + "chaves.csv");
+    arqTabelaHash.open(this->path + "tabelaHash.csv");
+    arqTabelaHash << "Index,"
+                  << "Product"
+                  << ","
+                  << "Erro" << endl;
+    if (arqChavesGeradas.is_open() && arqTabelaHash.is_open())
+    {
+        arqChavesGeradas << "Chaves" << endl;
+        for (int i = 0; i < n; i++)
+        {
+            // this->insere(dadosImportados[i]);
+            this->insereProduto(dadosImportados[i]);
+        }
+    }
+
+    delete[] dadosImportados;
+    delete[] chavesGeradas;
+
+    arqChavesGeradas.close();
+    arqTabelaHash.close();
+
+    return table;
+}
+
+void HashProduct::insere(ProductReview produto)
+{
+    RegistroHash registro;
+
+    registro.productId = produto.getProductId();
+    registro.qtdReviews = 1;
+
+    int index = h2(produto.getProductId());
+
+    chavesGeradas[lastIndex++] = index; // salvar as chaves geradas  no vetor
+    arqChavesGeradas << index << endl;  // joga pro arquivo também
+
+    if (table[index].productId.empty())
+    {
+        table[index].qtdReviews = table[index].qtdReviews + 1;
+        table[index] = registro;
+    }
+    else
+    {
+        table[index].qtdReviews++;
+    }
+}
+
+void HashProduct::insereProduto(ProductReview produto)
+{
+    RegistroHash registro = {{produto.getProductId(), 0}};
+
+    int collisions = 0;
+    int index = h(produto.getProductId(), collisions);
+
+    // Fica no loop até que:
+    //  1 - Ache uma posição vazia
+    //  2 - Ache um produto com o mesmo productId
+    //  3 - O numero de colisões seja maior do que M
+    while (!table[index].productId.empty() && table[index].productId != produto.getProductId() && collisions < M)
+    {
+        index = h(table[index].productId, ++collisions);
+    }
+
+    // produto repetido
+    if (table[index].productId == produto.getProductId())
+    {
+        arqTabelaHash << index << "," << produto.getProductId() << endl;
+        table[index].qtdReviews++;
+    }
+    else if (collisions < M)
+    { // não encontrou produto repetido e ainda tem espaço na tabela
+        arqTabelaHash << index << "," << produto.getProductId() << endl;
+        table[index] = registro;
+    }
+    else
+    {
+        arqTabelaHash << index << "," << table[index].productId << ",ERRO!" << endl;
+        cout << " Tabela cheia!" << endl;
+        cout << "Colisoes: " << collisions << endl;
+        exit(1);
+    }
+}
+
+// Implementação usando sondagem dupla
+int HashProduct::h(string productId, int collisions)
+{
+    return (h1(productId) + (++collisions) * h2(productId)) % M;
+}
+int HashProduct::h1(string productId)
+{
+    unsigned long long soma = 0;
+    long int potencia = 1;
+    int m = 1e9 + 7;
+    int p = 31;
+    const char *vet = productId.c_str();
+
+    for (int i = 0; i < productId.length(); i++)
+    {
+        soma = (soma + asciiValue(vet[i]) * potencia) % m;
+        potencia = (potencia * p) % m;
+    }
+
+    return soma % M;
+}
+
+// djb2 hash
+int HashProduct::h2(string productId)
+{
+    unsigned long hash = 5381;
+    for (int i = 0; i < productId.length(); i++)
+    {
+        hash = ((hash << 5) + hash) + productId[i]; /* hash * 33 + c */
+    }
+
+    return hash % M;
+}
+
+int HashProduct::asciiValue(char c)
+{
+    if (c >= '0' && c <= '9')
+    {
+        return (c - '0' + 1);
+    }
+    else if (c >= 'a' && c <= 'z')
+    {
+        return (c - 'a' + 1);
+    }
+    else if (c >= 'A' && c <= 'Z')
+    {
+        return (c - 'A' + 1);
+    }
+    else
+    {
+        cout << "Character inválido.." << endl;
+        return 1;
+    }
+}
 
 int HashProduct::converteStringInt(string productId)
 {
@@ -68,7 +220,8 @@ int HashProduct::converteStringInt(string productId)
         potencia = (potencia * p) % m;
     }
     // cout << "\n";
-    // cout << "Valores de vet: " << soma << endl;
+    cout << "ConvertString: " << soma << endl;
+
     return soma;
 }
 
@@ -77,75 +230,40 @@ int HashProduct::funcaoHash(int chave)
     return chave % M;
 }
 
-void HashProduct::insere(ProductReview produto)
-{
-
-    RegistroHash registro;
-
-    registro.productId = produto.getProductId();
-    registro.qtdReviews = 0;
-
-
-    int inteiroProduct = converteStringInt(produto.getProductId());
-    int index = funcaoHash(inteiroProduct);
-
-    if(table[index].productId == ""){
-        table[index].qtdReviews++;
-        table[index] = registro;
-    } else{
-        table[index].qtdReviews++;
-    }
-}
-
-RegistroHash *HashProduct::createTable(int n)
-{
-    cout << "cde: " << this->path << endl;
-    File *arquivo = new File(this->path);
-
-    table = new RegistroHash[n];
-    inicializa(n);
-
-    ProductReview *dadosImportados = arquivo->import(n);
-
-    for (int i = 0; i < n; i++)
-    {
-        
-        insere(dadosImportados[i]);
-    }
-
-    delete[] dadosImportados;
-
-    return table;
-}
-
 void HashProduct::printTable()
 {
-
-    /* for (int i = 0; i < M; i++)
+    /*for (int i = 0; i < M; i++)
     {
         // imprime somente se tiver algum valor na posição i da tabela
         if (table[i].productId.length())
         {
             cout << "[" << i << "]";
-
             cout << table[i].productId << " " << table[i].qtdReviews;
             cout << endl;
         }
-    } */
+    }*/
 
-    int maior = table[0].qtdReviews;
-    for(int i = 1; i < M; i++){
-        if(table[i].qtdReviews > maior)
-            maior = table[i].qtdReviews;
+    int maior = 0;
+    ofstream arqQtReviews(this->path + "qtdReviews.csv");
+    for (int i = 0; i < M; i++)
+    {
+        if (!table[i].productId.empty())
+        {
+            arqQtReviews << table[i].qtdReviews << "," << table[i].productId << endl;
+            if (table[i].qtdReviews > maior)
+                maior = table[i].qtdReviews;
+        }
     }
 
+    arqQtReviews.close();
+
     float cont = 0;
-    for(int i = 0; i < M; i++){
-        if(table[i].productId != "")
+    for (int i = 0; i < M; i++)
+    {
+        if (table[i].productId != "")
             cont++;
     }
 
-    cout << "Fator de carga: " << (cont/M) << endl;
-
+    cout << "Fator de carga: " << (cont / M) << endl;
     cout << "Maior " << maior << endl;
 }

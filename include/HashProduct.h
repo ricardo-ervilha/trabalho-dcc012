@@ -4,6 +4,7 @@
 #include "ProductReview.h"
 #include "MergeSort.h"
 #include "List.h"
+#include <fstream>
 
 
 typedef struct{
@@ -20,6 +21,11 @@ private:
     RegistroHash *table;
     string path;
 
+    int *chavesGeradas;//arquivo para armazenar as chaves geradas
+    int lastIndex =0;
+    ofstream arqChavesGeradas;
+    ofstream arqTabelaHash;
+
 public:
     HashProduct(string path);
     ~HashProduct();
@@ -32,6 +38,11 @@ public:
     void sort();
     int contabilizaFrequencia();
     void printTable();
+    int h1(string productId);
+    int h2(string productId);
+    int h(string productId, int collisions);
+    int asciiValue(char c);
+    void insereProduto(ProductReview produto);
 };
 
 #endif
