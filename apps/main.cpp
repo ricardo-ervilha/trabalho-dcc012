@@ -66,7 +66,14 @@ void hashFunction() {
 
     hashTeste->createTable(100000);
     hashTeste->printTable();
+
+    int p;
+    cout << "Digite o valor de p: " << endl;
+    cin >> p;
+
+    hashTeste->hashEtapa3(p);
 }
+
 
 int main() {
     int opcao = 1;

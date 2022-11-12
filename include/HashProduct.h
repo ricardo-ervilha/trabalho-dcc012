@@ -72,6 +72,7 @@ private:
     string path;
     ofstream arqTabelaHash;
 
+    RegistroHash* sort(RegistroHash *vet);
 public:
     HashProduct(string path);
     ~HashProduct();
@@ -82,9 +83,8 @@ public:
     int sondagemDupla(string productId, int i);
     bool insere(ProductReview produto);
     bool busca();
-    void sort();
-    int contabilizaFrequencia();
     void printTable();
+    void hashEtapa3(int p);
 };
 
 #endif

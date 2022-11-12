@@ -277,9 +277,8 @@
 
 //testar para 100000 -> 73237 e 71147
 
-#define M 100361
-
-#define Mlinha 100237
+#define M 60659
+#define Mlinha 60589 //deve ser menor que M
 
 HashProduct::HashProduct(string path)
 {
@@ -522,4 +521,24 @@ void HashProduct::printTable()
     cout << "Fator de carga: " << (cont/M) << endl;
     cout << "Num repetições individuo que tem mais: " << maior << endl;
     cout << "repet + cont: " << (repet + cont) << endl;
+}
+
+RegistroHash* HashProduct::sort(RegistroHash *vet){
+    //implementar a sort
+}
+
+void HashProduct::hashEtapa3(int p){
+
+    RegistroHash *vet = new RegistroHash[M];
+
+    for(int i = 0; i < M; i++){
+        vet[i] = table[i];
+    }
+
+    vet = sort(vet);
+
+    for(int i = 0; i < p; i++){
+        cout << "Produto: " << vet[i].productId << " ,Frequencia: " << vet[i].qtdReviews << endl;
+    }
+
 }
