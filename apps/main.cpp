@@ -73,11 +73,11 @@ int main() {
     int methodId = 1;
 
     cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
-    //getline(cin, path); 
-    path = "/home/ricardo/dcc-012/trabalho-dcc012/";
-    File *ratings = new File(path);
+    getline(cin, path); 
+    //path = "/home/ricardo/dcc-012/trabalho-dcc012/";
+    //path = "/EDII/trabalho-dcc012/";
+    File *ratings = new File();
     ratings->createBinary(path);
-
     while (opcao != 3) {
         cout << "Digite um valor para executar a etapa desejada: " << endl;
         cout << "[1] Ordenacao." << endl;
@@ -105,22 +105,23 @@ int main() {
                         cout << "Erro ao abrir input.dat"<<endl;
                         return 0;
                     }
-                    getline(inputDat, linha);
+                    if(methodId != 3){
+                        getline(inputDat, linha);
 
-                    chrono::time_point<chrono::system_clock> start, end;
-                    start = chrono::system_clock::now();
+                        chrono::time_point<chrono::system_clock> start, end;
+                        start = chrono::system_clock::now();
 
-                    cout <<"Registros a serem importados: "<<linha<<endl;
-                    ProductReview *vet = ratings->import(stoi(linha));
+                        cout <<"Registros a serem importados: "<<linha<<endl;
+                        ProductReview *vet = ratings->import(stoi(linha));
 
-                    end = chrono::system_clock::now();
-                    chrono::duration<double> elapsed_seconds = end - start;
-                    time_t end_time = chrono::system_clock::to_time_t(end);
+                        end = chrono::system_clock::now();
+                        chrono::duration<double> elapsed_seconds = end - start;
+                        time_t end_time = chrono::system_clock::to_time_t(end);
 
-                    cout << "Tempo para importar: "<<linha<<": " << elapsed_seconds.count() << "s\n";
+                        cout << "Tempo para importar: "<<linha<<": " << elapsed_seconds.count() << "s\n";
 
-                    sort(vet, stoi(linha), methodId);
-
+                        sort(vet, stoi(linha), methodId);
+                    }
                 } while (methodId != 3);
                 break;
             }
