@@ -277,9 +277,9 @@
 
 //testar para 100000 -> 73237 e 71147
 
-#define M 10321
+#define M 100361
 
-#define Mlinha 10313
+#define Mlinha 100237
 
 HashProduct::HashProduct(string path)
 {
@@ -399,13 +399,13 @@ bool HashProduct::insere(ProductReview produto)
     int index = sondagemDupla(produto.getProductId(), 0);
 
     if(table[index].productId == ""){
-        //posição inserida não contém elementos ainda.
+        //posição inserida não contém elementos ainda. Adiciono elemento.
         table[index] = registro;
         table[index].qtdReviews++;
-        arqTabelaHash << index << "," << produto.getProductId() << endl;
+        arqTabelaHash << produto.getProductId() << endl;
         return true;
     } else{
-        //colisão.
+        //Colisão de dois tipos: mesmo productId ou productId diferente mas caiu no mesmo lugar.
         if(table[index].productId == produto.getProductId()){
             //se o produto é repetido.
             table[index].qtdReviews++; //Contabiliza a frequência.
@@ -417,16 +417,28 @@ bool HashProduct::insere(ProductReview produto)
             int cont = 1;
             while(cont < M){
                 index = sondagemDupla(produto.getProductId(), cont);
-                if(table[index].productId == "") //achou lugar vazio
+                
+                if(table[index].productId == produto.getProductId()){
+                    //Estava caminhando, achei posição ocupada e era igual ao meu productId.
+                    table[index].qtdReviews++; 
+                    cout << "Repetiu\n";
+                    return true;
+                }
+                else if(table[index].productId == "") //achou lugar vazio
                 {
+                    //Estava caminhando, e durante o caminho nunca encontrei alguem parecido comigo. 
+                    //No entanto, achei posição vazia. Me insiro nela. Próxima pessoa que tentar ser inserida
+                    //Com mesmo productId que o meu vai cair no if de cima.
                     cout << "Colisão tratada." << endl;
                     table[index]= registro;
                     table[index].qtdReviews++;
-                    arqTabelaHash << index << "," << produto.getProductId() << endl;
+                    arqTabelaHash << produto.getProductId() << endl;
                     return true;
                 }
+
                 cont++;
             }
+            //Por algum motivo não conseguiu inserir.
             return false;
         }
     }
@@ -444,8 +456,7 @@ RegistroHash *HashProduct::createTable(int n)
 
     arqTabelaHash.open(this->path + "tabelaHash.csv");
     
-    arqTabelaHash << "Index,"
-                   << "Product"
+    arqTabelaHash << "Product"
                    << ","
                  << "Erro" << endl;
     
@@ -485,11 +496,17 @@ void HashProduct::printTable()
     int maior = table[0].qtdReviews;
     
     int sum = table[0].qtdReviews;
+    int repet = 0;
+    if(table[0].qtdReviews > 1)
+        repet += table[0].qtdReviews;
     for(int i = 1; i < M; i++){
         if(table[i].qtdReviews > maior)
             maior = table[i].qtdReviews;
         
         sum+= table[i].qtdReviews;
+
+        if(table[i].qtdReviews > 1)
+            repet += (table[i].qtdReviews - 1);
     }
 
     float cont = 0;
@@ -498,8 +515,11 @@ void HashProduct::printTable()
             cont++;
     }
 
-    cout << "Valor de sum: " << sum << endl;
+    cout << "Estatisticas: " << endl;
+    cout << "Repet: " << repet << endl;
+    cout << "Numero de elementos que foram tratados da tabela: " << sum << endl;
     cout << "Valor de cont: " << cont << endl;
     cout << "Fator de carga: " << (cont/M) << endl;
-    cout << "Maior numero de colisões encontrado: " << maior << endl;
+    cout << "Num repetições individuo que tem mais: " << maior << endl;
+    cout << "repet + cont: " << (repet + cont) << endl;
 }
