@@ -10,7 +10,7 @@ class QuickSort{
         int RandomPivo(int inicio, int fim);
         int Particiona(ProductReview *list, int inicio, int fim, int Comp_Mov[2]);
         void QuickSortRec(ProductReview *list, int inicio, int fim,int Comp_Mov[2]);
-        void Troca(ProductReview *list, int i, int j);
+        void Troca(ProductReview *list, int i, int j, int Comp_Mov[2]);
         
         
     public:
