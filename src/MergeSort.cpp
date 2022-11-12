@@ -23,23 +23,23 @@ void MergeSort::Merge(ProductReview *list, ProductReview *Aux, int inicio, int m
     //cout<<"Entrou no Merge "<<meio<<endl;
     while(i <= meio && j <= fim)
     {
-        Comp_Mov[comparacoes]++;//Acrescenta ao número de comparações em 2 
+        Comp_Mov[comparacoes]++;//Acrescenta ao número de comparações
+        Comp_Mov[movimentacoes]++;//Acrescente ao número de movimentações
         if(list[i].getUserId() <= list[j].getUserId())
         {
             Aux[k] = list[i];
-            Comp_Mov[movimentacoes]++;//Acrescente ao número de movimentações
             i++;
         }
         else
         {
             Aux[k] = list[j];
-            Comp_Mov[movimentacoes]++;
             j++;
         }
         k++;
     }
     while(i <= meio)
     {
+        Comp_Mov[comparacoes]++;
         Comp_Mov[movimentacoes]++;
         Aux[k] = list[i];
         i++;
@@ -47,6 +47,7 @@ void MergeSort::Merge(ProductReview *list, ProductReview *Aux, int inicio, int m
     }
     while(j <= fim)
     {
+        Comp_Mov[comparacoes]++;
         Comp_Mov[movimentacoes]++;
         Aux[k] = list[j];
         j++;

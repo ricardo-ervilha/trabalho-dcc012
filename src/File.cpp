@@ -246,7 +246,7 @@ ProductReview File::converteReview(int i){
                 break;
             }
         }
-        
+        userId[21] = '\0';
         arq.read(productId, 10);
         productId[10] = '\0';
         
