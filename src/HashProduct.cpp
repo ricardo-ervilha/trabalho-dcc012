@@ -435,7 +435,7 @@ bool HashProduct::insere(ProductReview produto)
 RegistroHash *HashProduct::createTable(int n)
 {
     cout << "cde: " << this->path << endl;
-    File *arquivo = new File(this->path);
+    File *arquivo = new File();
 
     table = new RegistroHash[M];
     inicializa(M);

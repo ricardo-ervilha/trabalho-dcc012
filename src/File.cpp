@@ -11,10 +11,10 @@
 
 using namespace std;
 
-File::File(string path){
+File::File(){
     maxU = 21;
     maxT = 10;
-    this->path = path;
+    path = "";
 }
 
 File::~File(){}
