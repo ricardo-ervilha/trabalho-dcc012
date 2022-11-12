@@ -277,8 +277,8 @@
 
 //testar para 100000 -> 73237 e 71147
 
-#define M 60659
-#define Mlinha 60589 //deve ser menor que M
+#define M 60259
+#define Mlinha 60139 //deve ser menor que M
 
 HashProduct::HashProduct(string path)
 {
@@ -523,22 +523,67 @@ void HashProduct::printTable()
     cout << "repet + cont: " << (repet + cont) << endl;
 }
 
-RegistroHash* HashProduct::sort(RegistroHash *vet){
-    //implementar a sort
+void HashProduct::merge(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim){
+    int i = ini, j = meio+1, k = 0;
+
+
+    //MAIOR OU IGUAL OU SÓ IGUAL ?
+    while(i <= meio && j <= fim){
+        if(vet[i].qtdReviews > vet[j].qtdReviews){
+            vAux[k] = vet[i];
+            i++;
+        } else{
+            vAux[k] = vet[j];
+            j++;
+        }
+        k++;
+    }
+    while(i <= meio){
+        vAux[k] = vet[i];
+        i++;
+        k++;
+    }
+    while(j <= fim){
+        vAux[k] = vet[j];
+        j++;
+        k++;
+    }
+
+    for(k=0; k < fim-ini+1; k++)
+        vet[ini+k] = vAux[k];
+}
+
+void HashProduct::sort(RegistroHash *vet, RegistroHash *vAux, int ini, int fim){
+    if(ini < fim){
+        int meio = (ini + fim)/2;
+
+        sort(vet, vAux, ini, meio);
+        sort(vet, vAux, meio+1, fim);
+        merge(vet, vAux, ini, meio, fim);
+    }
 }
 
 void HashProduct::hashEtapa3(int p){
 
     RegistroHash *vet = new RegistroHash[M];
 
+    RegistroHash *vAux = new RegistroHash[M];
+
+    //passa os valores da tabela para um vetor auxiliar
+    int j = 0;
     for(int i = 0; i < M; i++){
-        vet[i] = table[i];
+        if(table[i].productId != ""){
+            vet[j] = table[i];
+            j++;
+        }
     }
 
-    vet = sort(vet);
+    //ordena os valores do vetor auxiliar 
+    sort(vet, vAux, 0, j-1);;
 
+    //imprime os p elementos pedidos pelo usuario;
     for(int i = 0; i < p; i++){
-        cout << "Produto: " << vet[i].productId << " ,Frequencia: " << vet[i].qtdReviews << endl;
+        cout << "Produto: " << vet[i].productId << " , Frequencia: " << vet[i].qtdReviews << endl;
     }
 
 }

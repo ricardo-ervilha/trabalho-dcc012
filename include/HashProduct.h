@@ -72,7 +72,8 @@ private:
     string path;
     ofstream arqTabelaHash;
 
-    RegistroHash* sort(RegistroHash *vet);
+    void sort(RegistroHash *vet, RegistroHash *vAux, int ini, int fim);
+    void merge(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim);
 public:
     HashProduct(string path);
     ~HashProduct();
