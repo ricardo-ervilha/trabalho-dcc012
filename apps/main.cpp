@@ -77,10 +77,11 @@ void hashFunction() {
 int main() {
     int opcao = 1;
     int methodId = 1;
+    string path;
 
     //cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
-    //getline(cin, path); 
-    path = "/home/ricardo/dcc-012/trabalho-dcc012/";
+    getline(cin, path); 
+    //path = "/home/ricardo/dcc-012/trabalho-dcc012/";
     //path = "/EDII/trabalho-dcc012/";
     File *ratings = new File();
     ratings->createBinary(path);

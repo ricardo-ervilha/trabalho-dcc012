@@ -20,10 +20,10 @@ void QuickSort::Troca(ProductReview *list, int i, int j, int Comp_Mov[2])
 {
     //cout<<"Entrou no troca i="<<i<<" j="<<j<<endl;
     ProductReview *aux= new ProductReview [1];
-    aux[0] = list[i];
-    list[i] = list[j];
-    list[j]= aux[0];
-    Comp_Mov[movimentacoes] +=2; //Acrescenta em dois o número de movimentação
+    aux[0] = list[i]; 
+    list[i] = list[j];//troca o regitsro indice i
+    list[j]= aux[0];//troca o registro indice j
+    Comp_Mov[1]++; //Acrescenta em dois o número de movimentação, pois foram realizadas duas trocas
     delete [] aux;
 }
 int QuickSort::RandomPivo(int inicio, int fim)//Gera um pivô aleatório dentre os possíveis índices do vetor
@@ -44,18 +44,24 @@ int QuickSort:: Particiona(ProductReview *list, int inicio, int fim, int Comp_Mo
 
     while(true){
         while(list[i].getUserId()<pivo.getUserId()){
-            Comp_Mov[comparacoes] ++;
+            //cout << "valor de i: " << i << endl;
+            Comp_Mov[0] += 1;
             i++;
         }
         while(list[j].getUserId()>pivo.getUserId()){
-            Comp_Mov[comparacoes] ++;
+            //cout << "valor de j: " << j << endl;
+            Comp_Mov[0] += 1;
             j--;
         }
         if(i >= j)
-        {
+        {    
+             //cout << "valor de j retornado: " << j << endl;
              return j;
         }
+        //cout << "Trocou i = " << i << " por j = " << j << endl;
         Troca(list,i,j, Comp_Mov);
+        i++;
+        j--;
     }
 }
 
@@ -95,6 +101,6 @@ void QuickSort::imprime()
 {
     for (int i = 0; i < registros; i++)
     {
-        cout << list[i].getUserId() << endl;
+        //cout << list[i].getUserId() << endl;
     }
 }
