@@ -30,10 +30,6 @@ void sort(ProductReview *vet, int n, int methodId)
     saida.open("saida.txt", ios::app);
     switch (methodId)
     {
-        for (int i = 0; i < 3; i++)
-        {
-            medias[i] = 0.0;
-        }
         case 0:
         {
             for (int m = 1; m < 4; m++)

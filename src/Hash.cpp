@@ -6,24 +6,24 @@ using namespace std;
 
 Hash::Hash(int n){
     if(n == 10)
-        tam = 7;
+        tam = 5;
     else if(n == 100)
-        tam = 71;
+        tam = 59;
     else if(n == 1000)
-        tam = 781;
+        tam = 577;
     else if(n == 10000)
-        tam = 10007; //primo perto de 10000
+        tam = 7109; 
     else if(n == 50000)
-        tam = 50033;
+        tam = 31051;
     else if(n == 100000)
-        tam = 100103;
+        tam = 57593;
     else if(n == 500000)
-        tam = 500069;
+        tam = 310049;
     else if(n == 1000000)
-        tam = 1000121;
+        tam = 535099;
     else
-        tam = n;
-
+        tam = (int) (0.637 * n);
+        
     vet = new List*[tam];
     inicializaTabela();
 }

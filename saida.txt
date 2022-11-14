@@ -93,3 +93,33 @@ QuickSort para 1000 valores (3):
 ----->   Movimentacoes: 1
 ----->    Tempo: 0.008992
 
+QuickSort para 150000 valores (1):
+----->   Comparacoes: 2247557
+----->   Movimentacoes: 607122
+----->    Tempo: 0.297438
+
+QuickSort para 150000 valores (2):
+----->   Comparacoes: 3469631
+----->   Movimentacoes: 6251
+----->    Tempo: 0.151758
+
+QuickSort para 150000 valores (3):
+----->   Comparacoes: 3469631
+----->   Movimentacoes: 6251
+----->    Tempo: 0.15522
+
+QuickSort para 150000 valores (1):
+----->   Comparacoes: 2194423
+----->   Movimentacoes: 607468
+----->    Tempo: 0.302215
+
+QuickSort para 150000 valores (2):
+----->   Comparacoes: 3365000
+----->   Movimentacoes: 6414
+----->    Tempo: 0.149533
+
+QuickSort para 150000 valores (3):
+----->   Comparacoes: 3365000
+----->   Movimentacoes: 6414
+----->    Tempo: 0.156036
+

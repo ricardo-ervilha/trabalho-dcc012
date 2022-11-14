@@ -291,7 +291,7 @@ ProductReview* File::import(int n){
     chavesImport.open("chavesImport.csv");
     
     ProductReview *listaReviews = new ProductReview[n];
-    int p = n * 0.65;
+    int p = n;
     
     if (n == 1 && p == 0) // Condição para evitar divisão por zero dentro da função Hash, permitindo a entrada no laço abaixo
     {
