@@ -64,7 +64,8 @@ void sort(ProductReview *vet, int n, int methodId) {
 void hashFunction() {
     HashProduct *hashTeste = new HashProduct(path);
 
-    hashTeste->createTable(100000);
+    hashTeste->createTable(100);
+    hashTeste->printTable();
     
     int p;
     cout << "Digite o valor de p: " << endl;
@@ -79,7 +80,7 @@ int main() {
     int methodId = 1;
     string path;
 
-    //cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
+    cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
     getline(cin, path); 
     //path = "/home/ricardo/dcc-012/trabalho-dcc012/";
     //path = "/EDII/trabalho-dcc012/";

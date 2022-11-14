@@ -74,6 +74,8 @@ private:
 
     void sort(RegistroHash *vet, RegistroHash *vAux, int ini, int fim);
     void merge(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim);
+    void mergeProd(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim);
+    void sortProd(RegistroHash *vet, RegistroHash *vAux, int ini, int fim);
 public:
     HashProduct(string path);
     ~HashProduct();

@@ -277,8 +277,10 @@
 
 //testar para 100000 -> 73237 e 71147
 
-#define M 60259
-#define Mlinha 60139 //deve ser menor que M
+#define M 139//60259
+#define Mlinha 131//60139 //deve ser menor que M
+
+int superCont = 0;
 
 HashProduct::HashProduct(string path)
 {
@@ -301,59 +303,73 @@ void HashProduct::inicializa(int n){
     }
 }
 
-int HashProduct::h2(string productId){
-    const char *vet = productId.c_str();
-    unsigned long long soma = 0;
+// int HashProduct::h2(string productId){
+//     const char *vet = productId.c_str();
+//     unsigned long long soma = 0;
 
-    int p = 111111; // TODO: If the string s consists of only lower-case letters, then p = 31 is a good choice.
+//     int p = 111111; // TODO: If the string s consists of only lower-case letters, then p = 31 is a good choice.
 
-    long int potencia = 1;
+//     long int potencia = 1;
 
-    /*shall necessarily be a large prime since the probability of two keys
-    colliding (producing the same hash) is nearly 1/m*/
-    int m = 1e9 + 7;
+//     /*shall necessarily be a large prime since the probability of two keys
+//     colliding (producing the same hash) is nearly 1/m*/
+//     int m = 1e9 + 7;
 
+//     for (int i = 0; i < productId.length(); i++)
+//     {
+//         /*soma += (vet[i] -'a'+1) * (int) pow(CONST, (10 - (i+1)));
+//         soma = soma%M;
+//         cout << vet[i] << " ";
+//         cout << "pou: " << pow(CONST, (10 - (i+1))) << endl;*/
+
+//         // cout << "(" << soma << " + (" << (letra - 'A' + 1) << ") * " << potencia << ") % " << m << " = " << (soma + (letra - 'A' + 1) * potencia) % m << endl;
+//         if (vet[i] >= '0' && vet[i] <= '9')
+//         {
+//             soma = (soma + (vet[i] - '0' + 1) * potencia) % m;
+//         }
+//         else if (vet[i] >= 'a' && vet[i] <= 'z')
+//         {
+//             soma = (soma + (vet[i] - 'a' + 1) * potencia) % m;
+//         }
+//         else if (vet[i] >= 'A' && vet[i] <= 'Z')
+//         {
+//             soma = (soma + (vet[i] - 'A' + 1) * potencia) % m;
+//         }
+
+//         potencia = (potencia * p) % m;
+//     }
+    
+//     return (soma % Mlinha) + 1;
+// }
+
+
+// djb2 hash
+int HashProduct::h1(string productId)
+{
+    unsigned long hash = 5381;
     for (int i = 0; i < productId.length(); i++)
     {
-        /*soma += (vet[i] -'a'+1) * (int) pow(CONST, (10 - (i+1)));
-        soma = soma%M;
-        cout << vet[i] << " ";
-        cout << "pou: " << pow(CONST, (10 - (i+1))) << endl;*/
-
-        // cout << "(" << soma << " + (" << (letra - 'A' + 1) << ") * " << potencia << ") % " << m << " = " << (soma + (letra - 'A' + 1) * potencia) % m << endl;
-        if (vet[i] >= '0' && vet[i] <= '9')
-        {
-            soma = (soma + (vet[i] - '0' + 1) * potencia) % m;
-        }
-        else if (vet[i] >= 'a' && vet[i] <= 'z')
-        {
-            soma = (soma + (vet[i] - 'a' + 1) * potencia) % m;
-        }
-        else if (vet[i] >= 'A' && vet[i] <= 'Z')
-        {
-            soma = (soma + (vet[i] - 'A' + 1) * potencia) % m;
-        }
-
-        potencia = (potencia * p) % m;
+        hash = ((hash << 5) + hash) + productId[i]; /* hash * 33 + c */
     }
     
-    return (soma % Mlinha) + 1;
+    //return (hash % Mlinha) + 1; //se ela for h2 use isso
+    return hash % M; //se ela for h1 use isso
 }
 
 
-int HashProduct::h1(string productId)
+int HashProduct::h2(string productId)
 {
 
     const char *vet = productId.c_str();
     unsigned long long soma = 0;
 
-    int p = 111111; // TODO: If the string s consists of only lower-case letters, then p = 31 is a good choice.
+    int p = 11111; // TODO: If the string s consists of only lower-case letters, then p = 31 is a good choice.
 
     long int potencia = 1;
 
     /*shall necessarily be a large prime since the probability of two keys
     colliding (producing the same hash) is nearly 1/m*/
-    int m = 1e9 + 7;
+    int m = 1e9 + 9;
 
     for (int i = 0; i < productId.length(); i++)
     {
@@ -378,8 +394,8 @@ int HashProduct::h1(string productId)
 
         potencia = (potencia * p) % m;
     }
-
-    return soma % M;
+    return (soma % Mlinha) + 1; //se for h2 use isso
+    //return soma % M; //se for h1 use isso
 }
 
 int HashProduct::sondagemDupla(string productid, int i)
@@ -429,6 +445,7 @@ bool HashProduct::insere(ProductReview produto)
                     //No entanto, achei posição vazia. Me insiro nela. Próxima pessoa que tentar ser inserida
                     //Com mesmo productId que o meu vai cair no if de cima.
                     cout << "Colisão tratada." << endl;
+                    superCont++;
                     table[index]= registro;
                     table[index].qtdReviews++;
                     arqTabelaHash << produto.getProductId() << endl;
@@ -480,24 +497,24 @@ RegistroHash *HashProduct::createTable(int n)
 void HashProduct::printTable()
 {
 
-    for (int i = 0; i < M; i++)
-    {
-        // imprime somente se tiver algum valor na posição i da tabela
-        if (table[i].productId.length())
-        {
-            cout << "[" << i << "]";
+    // for (int i = 0; i < M; i++)
+    // {
+    //     // imprime somente se tiver algum valor na posição i da tabela
+    //     if (table[i].productId.length())
+    //     {
+    //         cout << "[" << i << "]";
 
-            cout << table[i].productId << " " << table[i].qtdReviews;
-            cout << endl;
-        }
-    } 
+    //         cout << table[i].productId << " " << table[i].qtdReviews;
+    //         cout << endl;
+    //     }
+    // } 
 
     int maior = table[0].qtdReviews;
     
     int sum = table[0].qtdReviews;
     int repet = 0;
     if(table[0].qtdReviews > 1)
-        repet += table[0].qtdReviews;
+        repet += (table[0].qtdReviews-1);
     for(int i = 1; i < M; i++){
         if(table[i].qtdReviews > maior)
             maior = table[i].qtdReviews;
@@ -513,23 +530,23 @@ void HashProduct::printTable()
         if(table[i].productId != "")
             cont++;
     }
-
+    
     cout << "Estatisticas: " << endl;
+    cout << "Supercont: " << superCont << endl; superCont = 0;
     cout << "Repet: " << repet << endl;
     cout << "Numero de elementos que foram tratados da tabela: " << sum << endl;
     cout << "Valor de cont: " << cont << endl;
     cout << "Fator de carga: " << (cont/M) << endl;
     cout << "Num repetições individuo que tem mais: " << maior << endl;
-    cout << "repet + cont: " << (repet + cont) << endl;
+    int variavel = (repet + cont);
+    cout << "repet + cont: " << variavel << endl;
 }
 
 void HashProduct::merge(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim){
     int i = ini, j = meio+1, k = 0;
 
-
-    //MAIOR OU IGUAL OU SÓ IGUAL ?
     while(i <= meio && j <= fim){
-        if(vet[i].qtdReviews > vet[j].qtdReviews){
+        if(vet[i].qtdReviews >= vet[j].qtdReviews){
             vAux[k] = vet[i];
             i++;
         } else{
@@ -551,6 +568,46 @@ void HashProduct::merge(RegistroHash *vet, RegistroHash *vAux, int ini, int meio
 
     for(k=0; k < fim-ini+1; k++)
         vet[ini+k] = vAux[k];
+}
+
+void HashProduct::mergeProd(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim){
+    int i = ini, j = meio+1, k = 0;
+
+
+    //MAIOR OU IGUAL OU SÓ IGUAL ?
+    while(i <= meio && j <= fim){
+        if(vet[i].productId <= vet[j].productId){
+            vAux[k] = vet[i];
+            i++;
+        } else{
+            vAux[k] = vet[j];
+            j++;
+        }
+        k++;
+    }
+    while(i <= meio){
+        vAux[k] = vet[i];
+        i++;
+        k++;
+    }
+    while(j <= fim){
+        vAux[k] = vet[j];
+        j++;
+        k++;
+    }
+
+    for(k=0; k < fim-ini+1; k++)
+        vet[ini+k] = vAux[k];
+}
+
+void HashProduct::sortProd(RegistroHash *vet, RegistroHash *vAux, int ini, int fim){
+    if(ini < fim){
+        int meio = (ini + fim)/2;
+
+        sortProd(vet, vAux, ini, meio);
+        sortProd(vet, vAux, meio+1, fim);
+        mergeProd(vet, vAux, ini, meio, fim);
+    }
 }
 
 void HashProduct::sort(RegistroHash *vet, RegistroHash *vAux, int ini, int fim){
@@ -577,6 +634,13 @@ void HashProduct::hashEtapa3(int p){
             j++;
         }
     }
+
+
+    sortProd(vet, vAux, 0, j-1);
+
+    delete [] vAux;
+
+    vAux = new RegistroHash[M];
 
     //ordena os valores do vetor auxiliar 
     sort(vet, vAux, 0, j-1);;
