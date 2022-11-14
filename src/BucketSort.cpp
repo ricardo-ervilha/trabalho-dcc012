@@ -59,7 +59,7 @@ void BucketSort::sort()
             }
 
             MergeSort *merge = new MergeSort(aux,buckets[b]->getSize());
-            merge->sort(false);
+            merge->sort();
 
             // QuickSort *quick = new QuickSort(aux,buckets[b]->getSize());
             // quick->sort(false);

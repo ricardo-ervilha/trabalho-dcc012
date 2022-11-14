@@ -17,7 +17,7 @@ class QuickSort{
         QuickSort();
         QuickSort(ProductReview *, int);
         ~QuickSort();
-        void sort(bool printOutput = true);
+        void sort();
         void imprime();
 };
 

@@ -1,14 +1,18 @@
 #include <iostream>
 #include "MergeSort.h"
 #include <chrono>
-
+#include <fstream>
 #define comparacoes 0
 #define movimentacoes 1
+#define tempo 2
 
 using namespace std;
 
 MergeSort::MergeSort(ProductReview *list, int n)
 {
+    this->Comp_Mov = new int [2];
+    this->Comp_Mov[comparacoes]= 0 ;
+    this->Comp_Mov[movimentacoes] = 0;
     this->list = list;
     this->registros = n;
 }
@@ -17,7 +21,7 @@ MergeSort::~MergeSort()
 {
     delete list;
 };
-void MergeSort::Merge(ProductReview *list, ProductReview *Aux, int inicio, int meio, int fim, int Comp_Mov[2])
+void MergeSort::Merge(ProductReview *list, ProductReview *Aux, int inicio, int meio, int fim)
 {
     int i = inicio, j = meio + 1, k = 0;
     //cout<<"Entrou no Merge "<<meio<<endl;
@@ -60,7 +64,7 @@ void MergeSort::Merge(ProductReview *list, ProductReview *Aux, int inicio, int m
         list[inicio+k] = Aux[k];
     }
 }
-void MergeSort::MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio, int fim, int Comp_Mov[2])
+void MergeSort::MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio, int fim)
 {
     //cout<<"Entrou no MergeSortRec "<<fim<<endl;
     
@@ -68,32 +72,20 @@ void MergeSort::MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio
     {
         int meio = (inicio+fim)/2;
 
-        MergeSortRec(list, Aux, inicio, meio,Comp_Mov); //Processo recursivo para particionar até que chegar a partições ordenadas(partições unicas) 
-        MergeSortRec(list, Aux, meio+1, fim,Comp_Mov);
+        MergeSortRec(list, Aux, inicio, meio); //Processo recursivo para particionar até que chegar a partições ordenadas(partições unicas) 
+        MergeSortRec(list, Aux, meio+1, fim);
 
-        Merge(list, Aux, inicio, meio, fim,Comp_Mov);//Ordena as duas partições entre si
+        Merge(list, Aux, inicio, meio, fim);//Ordena as duas partições entre si
     }
 }
-void MergeSort::sort(bool printOutput)
+void MergeSort::sort()
 {
     //cout<<"Entrou no Sort"<<endl;
     ProductReview *Aux = new ProductReview[registros];
-    int Comp_Mov[2]={0,0};//Vetor onde a posição 0 conta o número de comparações e posição 1 conta o número de movimentações
-    std::chrono::time_point<std::chrono::system_clock> start, end;
-    start = std::chrono::system_clock::now();
+    
 
-    MergeSortRec(list, Aux, 0, registros-1,Comp_Mov);
+    MergeSortRec(list, Aux, 0, registros-1);
     delete  [] Aux;
-
-    end = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end - start;
-    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-
-    if(printOutput){
-        std::cout << "Tempo de Ordenacao(Usando a Chrono): " << elapsed_seconds.count() << "s\n";
-        cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
-        cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;
-    }
     
 }
 

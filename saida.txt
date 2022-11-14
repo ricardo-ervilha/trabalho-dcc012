@@ -1,0 +1,95 @@
+MergeSort para 10 valores (1):
+----->   Comparacoes: 0
+----->   Movimentacoes: 0
+----->    Tempo: 0.000999
+
+MergeSort para 10 valores (2):
+----->   Comparacoes: 0
+----->   Movimentacoes: 0
+----->    Tempo: 0
+
+MergeSort para 10 valores (3):
+----->   Comparacoes: 0
+----->   Movimentacoes: 0
+----->    Tempo: 0
+
+************************************************************************
+Medias MergeSort 10:
+Comparacoes: 2.66935e-307, Movimentacoes: 7.07332e-314, Tempo: 0.000333
+************************************************************************
+
+MergeSort para 1000 valores (1):
+----->   Comparacoes: 0
+----->   Movimentacoes: 0
+----->    Tempo: 0.011998
+
+MergeSort para 1000 valores (2):
+----->   Comparacoes: 0
+----->   Movimentacoes: 0
+----->    Tempo: 0.011994
+
+MergeSort para 1000 valores (3):
+----->   Comparacoes: 0
+----->   Movimentacoes: 0
+----->    Tempo: 0.014992
+
+************************************************************************
+Medias MergeSort 1000:
+Comparacoes: 2.66936e-307, Movimentacoes: 7.07332e-312, Tempo: 0.0129947
+************************************************************************
+
+MergeSort para 1000 valores (1):
+----->   Comparacoes: 16067592
+----->   Movimentacoes: 16076464
+----->    Tempo: 0.012014
+
+MergeSort para 1000 valores (2):
+----->   Comparacoes: 16127328
+----->   Movimentacoes: 16076464
+----->    Tempo: 0.012012
+
+MergeSort para 1000 valores (3):
+----->   Comparacoes: 16127328
+----->   Movimentacoes: 16076464
+----->    Tempo: 0.011996
+
+************************************************************************
+Medias MergeSort 1000:
+Comparacoes: 1.61074e+007, Movimentacoes: 1.60765e+007, Tempo: 0.0120073
+************************************************************************
+
+MergeSort para 1000 valores (1):
+----->   Comparacoes: 9976
+----->   Movimentacoes: 19952
+----->    Tempo: 0.012013
+
+MergeSort para 1000 valores (2):
+----->   Comparacoes: 9976
+----->   Movimentacoes: 19952
+----->    Tempo: 0.010992
+
+MergeSort para 1000 valores (3):
+----->   Comparacoes: 9976
+----->   Movimentacoes: 19952
+----->    Tempo: 0.01199
+
+************************************************************************
+Medias MergeSort 1000:
+Comparacoes: 9976, Movimentacoes: 19952, Tempo: 0.011665
+************************************************************************
+
+QuickSort para 1000 valores (1):
+----->   Comparacoes: 8230
+----->   Movimentacoes: 2344
+----->    Tempo: 0.013014
+
+QuickSort para 1000 valores (2):
+----->   Comparacoes: 12841
+----->   Movimentacoes: 1
+----->    Tempo: 0.009975
+
+QuickSort para 1000 valores (3):
+----->   Comparacoes: 12841
+----->   Movimentacoes: 1
+----->    Tempo: 0.008992
+
