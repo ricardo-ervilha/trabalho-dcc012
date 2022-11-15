@@ -27,28 +27,22 @@ double medias[3] = {0.0, 0.0, 0.0}; // vetor para acesso global da média de com
 
 void sort(ProductReview *vet, int n, int methodId)
 {
-    double medias[3]; // vetor para guardar as medias a cada chamada dos ordenadores; 0 = comparacoes, 1 =  movimentacoes, 2 = tempo.
-    ofstream saida;   // variável para gerar a saída com as estatísticas
     switch (methodId)
     {
     case 0:
     {
-        saida << "MergeSort para " << n << " valores " << endl;
         MergeSort *merge = new MergeSort(vet, n);
         merge->sort();
-        compMov[comparacoes]=merge->getCompMov()[comparacoes];
-        compMov[movimentacoes]=merge->getCompMov()[movimentacoes];
-        merge->imprime();
+        compMov[comparacoes] = merge->getCompMov()[comparacoes];
+        compMov[movimentacoes] = merge->getCompMov()[movimentacoes];
         break;
     }
     case 1:
     {
-        for (int m = 1; m < 4; m++)
-        {
-            saida << "QuickSort para " << n << " valores (" << m << "):" << endl;
-            QuickSort *quick = new QuickSort(vet, n);
-            quick->sort();
-        }
+        QuickSort *quick = new QuickSort(vet, n);
+        quick->sort();
+        //compMov[comparacoes]=quick->getCompMov()[comparacoes];
+        //compMov[movimentacoes]=quick->getCompMov()[movimentacoes];
         break;
     }
     case 2:
@@ -78,7 +72,6 @@ void sort(ProductReview *vet, int n, int methodId)
         cout << "Valor invalido." << endl;
         break;
     }
-    saida.close();
 }
 
 void hashFunction()
@@ -95,67 +88,86 @@ void hashFunction()
     hashTeste->hashEtapa3(p);
 }
 
-void gerarSaida(int n, int methodId)
+void gerarSaida(int n)
 {
     ofstream saida; // variável para gerar a saída com as estatísticas
-    saida.open("saida.txt", ios::app);
-    for (int i = 0; i < 3; i++)
-    {
-        medias[i] = 0.0;
-    }
-    for (int i = 0; i < 3; i++)
-    {
-        File *ratings = new File();
-        ProductReview *vet;
-        if(methodId==0)
-        {
-            saida<<"MergeSort("<<i+1<<")"<<endl;
+    saida.open("saida.txt");
+    File *ratings = new File();
+
+    for(int j = 0; j < 3; j++){
+         for (int l = 0; l < 3; l++)
+         {
+            medias[l] = 0.0;
         }
-        if(methodId==1)
+        for (int i = 0; i < 3; i++)
         {
-            saida<<"QuickSort("<<i+1<<")"<<endl;
+            ProductReview *vet = new ProductReview();
+            if(j == 0)
+            {
+                saida<<"MergeSort("<<i+1<<")"<<endl;
+            }
+            if(j == 1)
+            {
+                saida<<"QuickSort("<<i+1<<")"<<endl;
+            }
+            if(j == 2)
+            {
+                saida<<"BucketSort("<<i+1<<")"<<endl;
+            }
+            vet = ratings->import(n);
+            std::chrono::time_point<std::chrono::system_clock> start, end;
+
+            start = std::chrono::system_clock::now();
+            sort(vet, n, j);
+            cout << endl;
+            end = std::chrono::system_clock::now();
+
+            std::chrono::duration<double> elapsed_seconds = end - start;
+            std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+            saida << "----->   Comparacoes: " << compMov[comparacoes] << endl;
+            medias[comparacoes] += compMov[comparacoes];
+
+            saida << "----->   Movimentacoes: " << compMov[movimentacoes] << endl;
+            medias[movimentacoes] += compMov[movimentacoes];
+
+            saida << "----->    Tempo: " << elapsed_seconds.count() << endl;
+            medias[tempo] += elapsed_seconds.count();
+            saida << endl;
+
+            compMov[comparacoes]=0;
+            compMov[movimentacoes]=0;
+
+            delete [] vet;
         }
-        if(methodId==2)
+
+        for (int k = 0; k < 3; k++)
         {
-            saida<<"BucketSort("<<i+1<<")"<<endl;
+            medias[k] = (medias[k]) / 3;    
         }
-        vet = ratings->import(n);
-        std::chrono::time_point<std::chrono::system_clock> start, end;
 
-        start = std::chrono::system_clock::now();
-        sort(vet, n, methodId);
-        cout<<endl;
-        end = std::chrono::system_clock::now();
-
-        std::chrono::duration<double> elapsed_seconds = end - start;
-        std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-
-        saida << "----->   Comparacoes: " << compMov[comparacoes] << endl;
-        medias[comparacoes] += compMov[comparacoes];
-        saida << "----->   Movimentacoes: " << compMov[movimentacoes] << endl;
-        medias[movimentacoes] += compMov[movimentacoes];
-        saida << "----->    Tempo: " << elapsed_seconds.count() << endl;
-        medias[comparacoes] += compMov[comparacoes];
-        medias[movimentacoes] += compMov[movimentacoes];
-        medias[tempo] += elapsed_seconds.count();
-        compMov[comparacoes]=0;
-        compMov[movimentacoes]=0;
-        delete [] vet;
+        if(j == 0){
+            saida << "************************************************************************" << endl;
+            saida << "Medias MergeSort " << n << endl
+                << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
+            saida << "************************************************************************" << endl
+                << endl;
+        }
+        if(j == 1){
+            saida << "************************************************************************" << endl;
+            saida << "Medias QuickSort " << n << endl
+                << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
+            saida << "************************************************************************" << endl
+                << endl;
+        }
+        if(j == 2){
+            saida << "************************************************************************" << endl;
+            saida << "Medias BucketSort " << n << endl
+                << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
+            saida << "************************************************************************" << endl
+                << endl;
+        }
     }
-
-
-    
-    // saida << "(" << m << ") ";
-    for (int i = 0; i < 3; i++)
-    {
-        medias[i] = (medias[i]) / 3;    
-    }
-
-    saida << "************************************************************************" << endl;
-    saida << "Medias MergeSort " << n << endl
-          << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
-    saida << "************************************************************************" << endl
-          << endl;
     saida.close();
 }
 
@@ -239,22 +251,8 @@ int main()
                 return 0;
             }
             getline(inputDat, linha);
-            while (methodId != 0 && methodId != 1 && methodId != 2 && methodId != 3)
-            {
-                cout << "Digite qual metodo de ordenacao sera utilizado:" << endl;
-                cout << "[0] Merge Sort\n";
-                cout << "[1] Quick Sort\n";
-                cout << "[2] Bucket Sort\n";
-                cout << "[3] Retornar ao menu anterior\n";
-
-                cin >> methodId;
-                if (methodId != 0 && methodId != 1 && methodId != 2 && methodId != 3)
-                {
-                    cout << "Valor invalido" << endl;
-                }
-            }
-
-            gerarSaida(stoi(linha), methodId);
+            gerarSaida(stoi(linha));
+            inputDat.close();
             break;
         case 4:
             break;

@@ -15,6 +15,7 @@ File::File(){
     maxU = 21;
     maxT = 10;
     path = "";
+    srand(time(NULL));
 }
 
 File::~File(){}

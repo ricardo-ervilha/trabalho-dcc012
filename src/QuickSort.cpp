@@ -92,8 +92,8 @@ void QuickSort::sort()
     std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 
     std::cout << "Tempo de Ordenacao(Usando a Chrono): " << elapsed_seconds.count() << "s\n";
-    cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
-    cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;
+    // cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
+    // cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;
     saida<< "----->   Comparacoes: "<<Comp_Mov[comparacoes]<<endl;
     saida<< "----->   Movimentacoes: "<<Comp_Mov[movimentacoes]<<endl;
     saida<< "----->    Tempo: "<<elapsed_seconds.count()<<endl<<endl;

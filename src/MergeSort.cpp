@@ -11,7 +11,7 @@ using namespace std;
 MergeSort::MergeSort(ProductReview *list, int n)
 {
     this->Comp_Mov = new int [2];
-    this->Comp_Mov[comparacoes]= 0 ;
+    this->Comp_Mov[comparacoes] = 0 ;
     this->Comp_Mov[movimentacoes] = 0;
     this->list = list;
     this->registros = n;

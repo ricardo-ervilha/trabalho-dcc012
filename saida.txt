@@ -1,125 +1,60 @@
-MergeSort para 10 valores (1):
+MergeSort(1)
+----->   Comparacoes: 34
+----->   Movimentacoes: 68
+----->    Tempo: 2.66e-05
+
+MergeSort(2)
+----->   Comparacoes: 34
+----->   Movimentacoes: 68
+----->    Tempo: 2.27e-05
+
+MergeSort(3)
+----->   Comparacoes: 34
+----->   Movimentacoes: 68
+----->    Tempo: 2.46e-05
+
+************************************************************************
+Medias MergeSort 10
+Comparacoes: 34, Movimentacoes: 68, Tempo: 2.46333e-05
+************************************************************************
+
+QuickSort(1)
 ----->   Comparacoes: 0
 ----->   Movimentacoes: 0
------>    Tempo: 0.000999
+----->    Tempo: 0.0001282
 
-MergeSort para 10 valores (2):
+QuickSort(2)
 ----->   Comparacoes: 0
 ----->   Movimentacoes: 0
------>    Tempo: 0
+----->    Tempo: 8.07e-05
 
-MergeSort para 10 valores (3):
+QuickSort(3)
 ----->   Comparacoes: 0
 ----->   Movimentacoes: 0
------>    Tempo: 0
+----->    Tempo: 8.47e-05
 
 ************************************************************************
-Medias MergeSort 10:
-Comparacoes: 2.66935e-307, Movimentacoes: 7.07332e-314, Tempo: 0.000333
+Medias QuickSort 10
+Comparacoes: 0, Movimentacoes: 0, Tempo: 9.78667e-05
 ************************************************************************
 
-MergeSort para 1000 valores (1):
+BucketSort(1)
 ----->   Comparacoes: 0
 ----->   Movimentacoes: 0
------>    Tempo: 0.011998
+----->    Tempo: 0.0017375
 
-MergeSort para 1000 valores (2):
+BucketSort(2)
 ----->   Comparacoes: 0
 ----->   Movimentacoes: 0
------>    Tempo: 0.011994
+----->    Tempo: 0.0020395
 
-MergeSort para 1000 valores (3):
+BucketSort(3)
 ----->   Comparacoes: 0
 ----->   Movimentacoes: 0
------>    Tempo: 0.014992
+----->    Tempo: 0.0020107
 
 ************************************************************************
-Medias MergeSort 1000:
-Comparacoes: 2.66936e-307, Movimentacoes: 7.07332e-312, Tempo: 0.0129947
+Medias BucketSort 10
+Comparacoes: 0, Movimentacoes: 0, Tempo: 0.00192923
 ************************************************************************
-
-MergeSort para 1000 valores (1):
------>   Comparacoes: 16067592
------>   Movimentacoes: 16076464
------>    Tempo: 0.012014
-
-MergeSort para 1000 valores (2):
------>   Comparacoes: 16127328
------>   Movimentacoes: 16076464
------>    Tempo: 0.012012
-
-MergeSort para 1000 valores (3):
------>   Comparacoes: 16127328
------>   Movimentacoes: 16076464
------>    Tempo: 0.011996
-
-************************************************************************
-Medias MergeSort 1000:
-Comparacoes: 1.61074e+007, Movimentacoes: 1.60765e+007, Tempo: 0.0120073
-************************************************************************
-
-MergeSort para 1000 valores (1):
------>   Comparacoes: 9976
------>   Movimentacoes: 19952
------>    Tempo: 0.012013
-
-MergeSort para 1000 valores (2):
------>   Comparacoes: 9976
------>   Movimentacoes: 19952
------>    Tempo: 0.010992
-
-MergeSort para 1000 valores (3):
------>   Comparacoes: 9976
------>   Movimentacoes: 19952
------>    Tempo: 0.01199
-
-************************************************************************
-Medias MergeSort 1000:
-Comparacoes: 9976, Movimentacoes: 19952, Tempo: 0.011665
-************************************************************************
-
-QuickSort para 1000 valores (1):
------>   Comparacoes: 8230
------>   Movimentacoes: 2344
------>    Tempo: 0.013014
-
-QuickSort para 1000 valores (2):
------>   Comparacoes: 12841
------>   Movimentacoes: 1
------>    Tempo: 0.009975
-
-QuickSort para 1000 valores (3):
------>   Comparacoes: 12841
------>   Movimentacoes: 1
------>    Tempo: 0.008992
-
-QuickSort para 150000 valores (1):
------>   Comparacoes: 2247557
------>   Movimentacoes: 607122
------>    Tempo: 0.297438
-
-QuickSort para 150000 valores (2):
------>   Comparacoes: 3469631
------>   Movimentacoes: 6251
------>    Tempo: 0.151758
-
-QuickSort para 150000 valores (3):
------>   Comparacoes: 3469631
------>   Movimentacoes: 6251
------>    Tempo: 0.15522
-
-QuickSort para 150000 valores (1):
------>   Comparacoes: 2194423
------>   Movimentacoes: 607468
------>    Tempo: 0.302215
-
-QuickSort para 150000 valores (2):
------>   Comparacoes: 3365000
------>   Movimentacoes: 6414
------>    Tempo: 0.149533
-
-QuickSort para 150000 valores (3):
------>   Comparacoes: 3365000
------>   Movimentacoes: 6414
------>    Tempo: 0.156036
 
