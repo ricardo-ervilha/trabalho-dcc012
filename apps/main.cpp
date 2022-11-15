@@ -189,13 +189,12 @@ int main()
     int methodId;
     cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
     getline(cin, path);
-    
+
     File *ratings = new File(path);
 
     ratings->createBinary(path);
     while (opcao != 4)
     {
-        methodId = 4;
         cout << "Digite um valor para executar a etapa desejada: " << endl;
         cout << "[1] Ordenacao." << endl;
         cout << "[2] Hash." << endl;
@@ -211,35 +210,39 @@ int main()
         {
             cin.ignore();
 
-            while (methodId != 0 && methodId != 1 && methodId != 2 && methodId != 3)
+            do
             {
-
                 cout << "Digite qual metodo de ordenacao sera utilizado:" << endl;
-                cout << "[0] Merge Sort"<<endl;
-                cout << "[1] Quick Sort"<<endl;
-                cout << "[2] Bucket Sort"<<endl;
-                cout << "[3] Retornar ao menu anterior"<<endl;
+                cout << "[0] Merge Sort" << endl;
+                cout << "[1] Quick Sort" << endl;
+                cout << "[2] Bucket Sort" << endl;
+                cout << "[3] Retornar ao menu anterior" << endl;
 
                 cin >> methodId;
-                if (methodId != 0 && methodId != 1 && methodId != 2 && methodId != 3)
+                if (methodId < 0 || methodId > 3)
                 {
-                    cout << "Valor invalido" << endl;
+                    cout << "Valor inválido: digite um valor entre 0 e 3..." << endl;
                 }
-            }
 
-            if (!inputDat)
+            } while (methodId < 0 || methodId > 3);
+
+            if (methodId != 3)
             {
-                cout << "Erro ao abrir input.dat" << endl;
-                return 0;
+                if (!inputDat)
+                {
+                    cout << "Erro ao abrir input.dat" << endl;
+                    return 0;
+                }
+                getline(inputDat, linha);
+
+                ProductReview *vet;
+
+                cout << "Registros a serem importados: " << linha << endl;
+                vet = ratings->import(stoi(linha));
+
+
+                sort(vet, stoi(linha), methodId);
             }
-            getline(inputDat, linha);
-
-            ProductReview *vet;
-
-            cout << "Registros a serem importados: " << linha << endl;
-            vet = ratings->import(stoi(linha));
-            
-            sort(vet, stoi(linha), methodId);
 
             break;
         }
