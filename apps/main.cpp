@@ -170,6 +170,7 @@ int main()
     getline(cin, path);
     // path = "/home/ricardo/dcc-012/trabalho-dcc012/";
     // path = "/EDII/trabalho-dcc012/";
+    //path  = "/home/lucas/Documentos/UFJF/2022.3/DCC012/trabalho-dcc012/data/";
     File *ratings = new File();
 
     ratings->createBinary(path);

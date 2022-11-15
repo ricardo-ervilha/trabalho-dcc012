@@ -46,20 +46,6 @@ void BucketSort::sort()
         // P2: ordenar cada balde
         if (buckets[b]->getSize() > 1)
         {
-            // ------------------------USANDO INSERTION SORT-------------
-
-            // Chama o insertion sort da lista encadeada para ordenar o balde b
-            // buckets[b]->insertionSort();
-            // this->insertionSort(b);
-
-            // passa a lista no balde b, já ordenada, para o vet
-            // NoProductReview *p;
-            // for (p = buckets[b]->getPrimeiro(); p != NULL; p = p->getProx())
-            //{
-            // vet[i++] = p->getInfo();
-            // compMov[MOVIMENTACOES]+=1;
-            //}
-
             // ------------------------USANDO MERGE/QUICK SORT-------------
 
             // cria um vetor auxiliar com o tamanho do balde
@@ -74,22 +60,19 @@ void BucketSort::sort()
                 this->compMov[MOVIMENTACOES] += 1;
             }
 
-            // ordena o vetor auxiliar
-            cout <<"MOVIMENTACOES: "<<this->compMov[MOVIMENTACOES]<<endl;
+            // ordena o vetor auxiliar           
             MergeSort *merge = new MergeSort(aux, buckets[b]->getSize());
             merge->sort();
             this->compMov[MOVIMENTACOES] += merge->getCompMov()[MOVIMENTACOES];
             this->compMov[COMPARACOES] += merge->getCompMov()[COMPARACOES];
             
 
-            // QuickSort *quick = new QuickSort(aux,buckets[b]->getSize());
-            // quick->sort(false);
-
+       
             // P3: Concatenar os baldes
             while (j > 0)
             {
                 vet[i++] = aux[--j];
-                this->compMov[MOVIMENTACOES] += merge->getCompMov()[MOVIMENTACOES];
+                this->compMov[MOVIMENTACOES] += 1;
             }
 
             delete[] aux;
@@ -217,7 +200,7 @@ void BucketSort::putInBuckets()
 
     for (int i = 0; i < n; i++)
     {
-        compMov[COMPARACOES] += 1;
+        compMov[COMPARACOES] += 3;
         if (vet[i].getUserId()[1] >= '0' && vet[i].getUserId()[1] <= '9')
         {
             c1 = (vet[i].getUserId()[1] - '0');
@@ -231,7 +214,7 @@ void BucketSort::putInBuckets()
             c1 = (vet[i].getUserId()[1] - 'A' + 10);
         }
 
-        compMov[COMPARACOES] += 1;
+        compMov[COMPARACOES] += 3;
         if (vet[i].getUserId()[2] >= '0' && vet[i].getUserId()[2] <= '9')
         {
             c2 = (vet[i].getUserId()[2] - '0');
@@ -245,7 +228,7 @@ void BucketSort::putInBuckets()
             c2 = (vet[i].getUserId()[2] - 'A' + 10);
         }
 
-        compMov[COMPARACOES] += 1;
+        compMov[COMPARACOES] += 3;
         if (vet[i].getUserId()[3] >= '0' && vet[i].getUserId()[3] <= '9')
         {
             c3 = (vet[i].getUserId()[3] - '0');
