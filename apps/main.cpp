@@ -190,9 +190,7 @@ int main()
     int methodId;
     cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
     getline(cin, path);
-    // path = "/home/ricardo/dcc-012/trabalho-dcc012/";
-    // path = "/EDII/trabalho-dcc012/";
-    // path  = "/home/lucas/Documentos/UFJF/2022.3/DCC012/trabalho-dcc012/data/";
+    
     File *ratings = new File(path);
 
     ratings->createBinary(path);
