@@ -463,7 +463,7 @@ bool HashProduct::insere(ProductReview produto)
 RegistroHash *HashProduct::createTable(int n)
 {
     cout << "cde: " << this->path << endl;
-    File *arquivo = new File();
+    File *arquivo = new File(path);
 
     table = new RegistroHash[M];
     inicializa(M);
@@ -488,7 +488,7 @@ RegistroHash *HashProduct::createTable(int n)
         }
     }
     
-
+    arqTabelaHash.close();
     delete[] dadosImportados;
 
     return table;
