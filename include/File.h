@@ -19,8 +19,7 @@ public:
     ~File();
     void createBinary(string& path);
     void getReview(int i);
-    ProductReview* import(int n);
-    
+    ProductReview* import(int n); 
 };
 
 #endif

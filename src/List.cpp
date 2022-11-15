@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//Lista encadeada de unsigned long long. Serve de auxilio para a tabela hash gerada durante o import.
 List::List(){
     primeiro = NULL;
     ultimo = NULL;

@@ -6,10 +6,13 @@
 #include <time.h>
 #include "File.h"
 #include "Hash.h"
+#include <chrono>
+#include <cmath>
 
 #define MAXCSV 7824482 //tamanho do arquivo CSV
 
 using namespace std;
+using namespace chrono;
 
 File::File(){
     maxU = 21;
@@ -37,9 +40,6 @@ char* File::zeraVetor(int n, char* vet){
     return vet;
 }
 
-
-
-//Alterar o cabeçalho para fazer aceitar uma string Path.
 void File::createBinary(string& path)
 {   
     ifstream existFile;
@@ -48,154 +48,141 @@ void File::createBinary(string& path)
 
     string pathCsv = this->path + "ratings_Electronics.csv";
     string pathBinario = this->path + "ratings.bin";
-    //const char* pathAuxBinario = pathBinario.c_str();
-    //const char* pathAuxCsv = pathCsv.c_str();
     
-    cout << "CAMINHO CSV: "<<pathCsv << endl;
-    cout << "CAMINHO BINARIO: "<<pathBinario << endl;
     existFile.open(pathBinario);
 
-    if(!existFile){
-    cout << "Gerando arquivo binario..." << endl;
-    int i = 0, val, a = 200000,  registro = 0, tam = a + 66; 
-    time_t t_ini, t_fim; 
-
-    ifstream arqCsv(pathCsv);
-    fstream arq(pathBinario, ios::out | ios::binary);
-
-    arqCsv.seekg (0, arqCsv.end);
-    int length  = arqCsv.tellg();
-    arqCsv.seekg (0, arqCsv.beg);
-
-    char *buffer = new char [tam];
-
-    char* cant = new char[2];
-    cant[0] = ',';
-    cant[1] = '\n';
-
-    if (arqCsv.is_open())
+    if (!existFile)
     {
-        if (arq.is_open())
+        cout << "Gerando arquivo binario..." << endl;
+        int i = 0, val, a = 200000, registro = 0, tam = a + 66;
+        time_t t_ini, t_fim;
+
+        ifstream arqCsv(pathCsv);
+        fstream arq(pathBinario, ios::out | ios::binary);
+
+        arqCsv.seekg(0, arqCsv.end);
+        int length = arqCsv.tellg();
+        arqCsv.seekg(0, arqCsv.beg);
+
+        char *buffer = new char[tam];
+
+        //caracteres que devem ser usados para split.
+        char *cant = new char[2];
+        cant[0] = ',';
+        cant[1] = '\n';
+
+        if (arqCsv.is_open())
         {
-            t_ini = time(NULL);
-            while (!arqCsv.eof())
+            if (arq.is_open())
             {
-                //cout << "diferenca no inicio de bytes: " << length - arqCsv.tellg() << endl;
-                if(length - arqCsv.tellg() < a)
-                    a = length - arqCsv.tellg();
-                //cout << "valor de a: " << a << endl;
-                buffer = zeraVetor(tam, buffer);
-                arqCsv.read(buffer, a);//lendo a bytes
-                //cout << "Buffer no Inicio: ";
-                //cout << buffer << endl;
-                if(buffer[a-1] == '\n'){
-                    //leu numero inteiro de registros
-                    buffer[a] = '\0';
-                }
-                else if(buffer[a-1] != '!'){
-                    int k = a;
-                    while(buffer[k] == '!'){
-                        k--;
-                    }
-                    buffer[k+1] = '\0';
-                    //cout << "buffer atual: ";
-                    //cout << buffer << endl; 
-                    if(!arqCsv.eof()){
-                        k = a;
-                        char *aux = new char[1];
-                        arqCsv.read(aux, 1);
-                        while (aux[0] != '\n')
-                        {
-                            if (arqCsv.eof())
-                                break;
-                            buffer[k] = aux[0];
-                            k++;
-                            arqCsv.read(aux, 1);
-                        }
-                        buffer[k] = '\0';
-                        //cout << "Buffer corrigido: ";
-                        //cout << buffer << endl;
-                        delete[] aux;
-                    }
-                }
-
-                //ajustar o buffer para nao dar exceção
-
-
-                char* c = strtok(buffer, cant);
- 
-                while (c)
+                t_ini = time(NULL);
+                while (!arqCsv.eof())
                 {
-                    string linha(c);
-                    if (i == 0)
-                    {
-                        if (linha.length() < maxU) //verifica se é menor que o tamanho maximo do userId
-                        {
-                            linha = completeString(maxU - linha.length(), linha);
-                        }
-                        arq.write(reinterpret_cast<const char* >(linha.c_str()), linha.length());
-                    }
-                    if (i == 3)
-                    {
-                        if (linha.length() < maxT) //verifica se é menor que o tamanho máximo do timeStamp
-                        {
-                            linha = completeString(10 - linha.length(), linha);
-                        }
-                        arq.write(reinterpret_cast<const char* >(linha.c_str()), linha.length());
-                    }
+                    if (length - arqCsv.tellg() < a)
+                        a = length - arqCsv.tellg();
 
-                    if (i == 1 || i == 2)
-                    {
-                        arq.write(reinterpret_cast<const char *>(linha.c_str()), linha.length());
-                        //if(i == 2){
-                            //if(linha.length() != 3)
-                                //cout << "rating de tamanho: "<<linha.length() << endl;
-                        //}
-                        //stringstream si(linha);
-                        //si >> val;
-                        //arq.write(reinterpret_cast<const char *>(&val), sizeof(int));
-                    }
+                    buffer = zeraVetor(tam, buffer);
+                    arqCsv.read(buffer, a); // lendo a bytes
 
-                    i++;
-                    if (i == 4)
+                    if (buffer[a - 1] == '\n')
+                    {
+                        // leu numero inteiro de registros
+                        buffer[a] = '\0';
+                    }
+                    else if (buffer[a - 1] != '!')
                     {
                         
-                        //cout << registro << endl;
-                        i = 0;
+                        // ajustar o buffer para nao dar exceção
+                        int k = a;
+                        while (buffer[k] == '!')
+                        {
+                            k--;
+                        }
+                        buffer[k + 1] = '\0';
+                        if (!arqCsv.eof())
+                        {
+                            k = a;
+                            char *aux = new char[1];
+                            arqCsv.read(aux, 1);
+                            while (aux[0] != '\n')
+                            {
+                                if (arqCsv.eof())
+                                    break;
+                                buffer[k] = aux[0];
+                                k++;
+                                arqCsv.read(aux, 1);
+                            }
+                            buffer[k] = '\0';
+                            delete[] aux;
+                        }
                     }
 
-                    c = strtok(NULL, cant);
-                
+                    char *c = strtok(buffer, cant);
+
+                    while (c)
+                    {
+                        string linha(c);
+                        if (i == 0)
+                        {
+                            if (linha.length() < maxU) // verifica se é menor que o tamanho maximo do userId
+                            {
+                                linha = completeString(maxU - linha.length(), linha);
+                            }
+                            arq.write(reinterpret_cast<const char *>(linha.c_str()), linha.length());
+                        }
+                        if (i == 3)
+                        {
+                            if (linha.length() < maxT) // verifica se é menor que o tamanho máximo do timeStamp
+                            {
+                                linha = completeString(10 - linha.length(), linha);
+                            }
+                            arq.write(reinterpret_cast<const char *>(linha.c_str()), linha.length());
+                        }
+
+                        if (i == 1 || i == 2)
+                        {
+                            arq.write(reinterpret_cast<const char *>(linha.c_str()), linha.length());
+                        }
+
+                        i++;
+                        if (i == 4)
+                        {
+                            i = 0;
+                        }
+
+                        c = strtok(NULL, cant);
+                    }
                 }
+                delete[] cant;
+                delete[] buffer;
+                
+                high_resolution_clock::time_point inicio = high_resolution_clock::now();
+                high_resolution_clock::time_point fim = high_resolution_clock::now();
+                auto duracao = duration_cast<duration<double, std::nano>>(fim - inicio);
+                std::cout << "Tempo para gerar o binario: " << duracao.count() * pow(10, -9) << std::endl;
             }
-            delete[] cant;
-            delete[] buffer;
-            t_fim = time(NULL);
-            cout << "Tempo(Usando a Time) : " << difftime(t_fim, t_ini) << endl;
+            else
+                cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
         }
         else
-            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
-    }
-    else
-        cerr << "Erro ao tentar abrir o arquivo .csv" << endl;
+            cerr << "Erro ao tentar abrir o arquivo .csv" << endl;
 
-    cout << "Tamanho em bytes apos escrita: " << arq.tellp() << endl;
-    arqCsv.close();
-    arq.close();
+        cout << "Tamanho em bytes apos escrita: " << arq.tellp() << endl;
+        arqCsv.close();
+        arq.close();
     }
-
     else
         cout << "Arquivo binario ja existe. Acessando..." << endl;
 }
-
 
 void File::getReview(int i){
     ifstream arq(this->path + "ratings.bin", ios::binary);
 
     if(arq.is_open())
     {
-        char userId[22], productId[11], ratings[3], timeStamp[11];
-        arq.seekg(i*44);
+        char userId[22], productId[11], ratings[4], timeStamp[11];
+        arq.seekg(i*44); //Cada registro contém 44 bytes por padrão.
+
         arq.read(userId, 21);
 
         for(int i = 0; i < 21; i++){
@@ -207,12 +194,15 @@ void File::getReview(int i){
         }
         userId[21] = '\0'; 
         cout << userId << ", ";
+
         arq.read(productId, 10);
         productId[10] = '\0';
         cout << productId << ", ";
+
         arq.read(ratings, 3);
         ratings[3] = '\0';
         cout << ratings << ", ";
+
         arq.read(timeStamp, 10);
         for(int i = 0; i < 11; i++){
             if(timeStamp[i] == '?')
@@ -232,8 +222,6 @@ ProductReview File::converteReview(int i){
     ifstream arq(this->path + "ratings.bin", ios::binary);
 
     char userId[22], productId[11], ratings[4], timeStamp[11];
-
-    //cout <<"abc: " << this->pathFile<<endl;
 
     if(arq.is_open())
     {
@@ -264,17 +252,20 @@ ProductReview File::converteReview(int i){
 
     arq.close();
 
+    //converter os chars de volta para string
     string usID(userId);
     string prodId(productId);
     string rat(ratings);
     string timeSt(timeStamp);
 
+    //gera o registro
     ProductReview review(usID, prodId, ratings, timeStamp);
 
     return review;
 
 }
 
+//Função para gerar os indices aleatorios que serão pulados no arquivo binario pela seekg.
 unsigned long long llrand() {
     unsigned long long r = 0;
 
@@ -298,9 +289,11 @@ ProductReview* File::import(int n){
     {
         p = 1;
     }
+    
     Hash *tabela = new Hash(p);
     unsigned long long chave = llrand() % MAXCSV;
-    //cout<<"tamanho Chave "<< chave <<endl;
+    
+
     if(chavesImport.is_open()){
         for (int i = 0; i < n; i++)
         {

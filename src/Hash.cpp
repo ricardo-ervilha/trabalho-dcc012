@@ -32,6 +32,7 @@ Hash::~Hash(){
     delete [] vet;
 }
 
+//inicializa os ponteiros da tabela hash
 void Hash::inicializaTabela(){
 
     for(int i = 0; i < tam; i++)
@@ -41,11 +42,12 @@ void Hash::inicializaTabela(){
     }
 }
 
+//funcao hash de divisao
 int Hash::funcaoHash(unsigned long long chave){
-    //cout<<"tamanho tam "<< tam <<endl;
     return chave % tam;
 }
 
+//insercao com uso do tratamento de colisao por lista encadeada
 void Hash::inserir(unsigned long long valor){
     int id = funcaoHash(valor);
 

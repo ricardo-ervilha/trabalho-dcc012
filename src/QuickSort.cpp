@@ -21,7 +21,6 @@ QuickSort::~QuickSort()
 };
 void QuickSort::Troca(ProductReview *list, int i, int j, int Comp_Mov[2])
 {
-    //cout<<"Entrou no troca i="<<i<<" j="<<j<<endl;
     ProductReview *aux= new ProductReview [1];
     aux[0] = list[i]; 
     list[i] = list[j];//troca o regitsro indice i
@@ -33,35 +32,32 @@ int QuickSort::RandomPivo(int inicio, int fim)//Gera um pivô aleatório dentre 
 {
     int posicao_pivo;
     posicao_pivo=inicio + (rand() % (fim-inicio+1));
-    //cout<<"Pivo "<<posicao_pivo<<" inicio "<<inicio<<" fim "<<fim<<endl;
     return posicao_pivo;
 }
 
 int QuickSort:: Particiona(ProductReview *list, int inicio, int fim, int Comp_Mov[2])
 {
-    //cout<<"Entrou no Particiona "<<fim<<endl;
     int posico_pivo = RandomPivo(inicio,fim);
     ProductReview pivo = list[posico_pivo];
     int i = inicio, j = fim;
-    //cout<<"i = "<<i<<" j="<<j<<endl;
 
     while(true){
         while(list[i].getUserId()<pivo.getUserId()){
-            //cout << "valor de i: " << i << endl;
+            
             Comp_Mov[comparacoes] += 1;
             i++;
         }
         while(list[j].getUserId()>pivo.getUserId()){
-            //cout << "valor de j: " << j << endl;
+            
             Comp_Mov[comparacoes] += 1;
             j--;
         }
         if(i >= j)
         {    
-             //cout << "valor de j retornado: " << j << endl;
+             
              return j;
         }
-        //cout << "Trocou i = " << i << " por j = " << j << endl;
+        
         Troca(list,i,j, Comp_Mov);
         i++;
         j--;
@@ -70,7 +66,6 @@ int QuickSort:: Particiona(ProductReview *list, int inicio, int fim, int Comp_Mo
 
 void QuickSort::QuickSortRec(ProductReview *list, int inicio, int fim, int Comp_Mov[2])
 {
-    //cout<<"Entrou no QuickSortRec "<<fim<<endl;
     
     if(inicio < fim)
     {
@@ -81,18 +76,15 @@ void QuickSort::QuickSortRec(ProductReview *list, int inicio, int fim, int Comp_
 }
 void QuickSort::sort()
 {
-    
     srand(time(NULL));//Gerar sementes diferentes a cada execução
-    //cout<<"Quick"<<endl;
+    
     QuickSortRec(list, 0, registros-1,Comp_Mov);
-    // cout<<"Numero de comparacoes: "<< Comp_Mov[comparacoes]<<endl;
-    // cout<<"Numero de movimentacoes: "<< Comp_Mov[movimentacoes]<<endl;
 }
 
 void QuickSort::imprime()
 {
     for (int i = 0; i < registros; i++)
     {
-        //cout << list[i].getUserId() << endl;
+        cout << list[i].getUserId() << endl;
     }
 }

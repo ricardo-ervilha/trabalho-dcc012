@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//Uma lista criada para usar no bucketsort.
 ListaEncadProductReview::ListaEncadProductReview()
 {
     primeiro = NULL;

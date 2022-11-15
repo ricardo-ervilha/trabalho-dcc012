@@ -15,10 +15,7 @@ ProductReview::ProductReview(string usuarioId, string produtoId, string avaliaca
 }
 
 
-ProductReview::~ProductReview(){
-
-}
-
+ProductReview::~ProductReview(){}
 
 void ProductReview::print(){
     cout << "{UserId: " << userId << ", ProductId: " << productId << ", Rating: " << 

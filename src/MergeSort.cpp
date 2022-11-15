@@ -24,7 +24,6 @@ MergeSort::~MergeSort()
 void MergeSort::Merge(ProductReview *list, ProductReview *Aux, int inicio, int meio, int fim)
 {
     int i = inicio, j = meio + 1, k = 0;
-    //cout<<"Entrou no Merge "<<meio<<endl;
     while(i <= meio && j <= fim)
     {
         Comp_Mov[comparacoes]++;//Acrescenta ao número de comparações
@@ -66,7 +65,6 @@ void MergeSort::Merge(ProductReview *list, ProductReview *Aux, int inicio, int m
 }
 void MergeSort::MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio, int fim)
 {
-    //cout<<"Entrou no MergeSortRec "<<fim<<endl;
     
     if(inicio < fim)
     {
@@ -78,9 +76,9 @@ void MergeSort::MergeSortRec(ProductReview *list, ProductReview *Aux, int inicio
         Merge(list, Aux, inicio, meio, fim);//Ordena as duas partições entre si
     }
 }
+
 void MergeSort::sort()
 {
-    //cout<<"Entrou no Sort"<<endl;
     ProductReview *Aux = new ProductReview[registros];
     
     Comp_Mov[comparacoes]=0;

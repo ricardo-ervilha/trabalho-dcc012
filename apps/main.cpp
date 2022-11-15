@@ -63,7 +63,7 @@ void hashFunction()
 {
     HashProduct *hashTeste = new HashProduct(path);
 
-    hashTeste->createTable(100);
+    hashTeste->createTable(1598517);
     hashTeste->printTable();
 
     int p;
@@ -192,9 +192,6 @@ int main()
 
     cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
     getline(cin, path);
-    // path = "/home/ricardo/dcc-012/trabalho-dcc012/";
-    // path = "/EDII/trabalho-dcc012/";
-    // path  = "/home/lucas/Documentos/UFJF/2022.3/DCC012/trabalho-dcc012/data/";
     File *ratings = new File();
 
     ratings->createBinary(path);
@@ -240,16 +237,10 @@ int main()
             getline(inputDat, linha);
 
             ProductReview *vet;
-            // chrono::time_point<chrono::system_clock> start, end;
-            // start = chrono::system_clock::now();
+
             cout << "Registros a serem importados: " << linha << endl;
             vet = ratings->import(stoi(linha));
-            // end = chrono::system_clock::now();
-            // chrono::duration<double> elapsed_seconds = end - start;
-            // time_t end_time = chrono::system_clock::to_time_t(end);
-
-            // cout << "Tempo para importar: " << linha << ": " << elapsed_seconds.count() << "s\n";
-
+            
             sort(vet, stoi(linha), methodId);
 
             break;

@@ -67,7 +67,8 @@ typedef struct{
 class HashProduct{
 
 private:
-    int tam;
+    int M;
+    int Mlinha;
     RegistroHash *table;
     string path;
     ofstream arqTabelaHash;
@@ -76,6 +77,7 @@ private:
     int RandomPivo(int inicio, int fim);
     int Particiona(RegistroHash *list, int inicio, int fim);
     void QuickSortRec(RegistroHash *list, int inicio, int fim);
+    void adicionaPrimos(int n);
 public:
     HashProduct(string path);
     ~HashProduct();

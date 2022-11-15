@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//Lista encadeada para auxilio durante o bucketsort.
 ListaEncad::ListaEncad()
 {
     primeiro = NULL;
@@ -245,7 +246,6 @@ void ListaEncad::remove(int k)
 void ListaEncad::printList()
 {
     No *p;
-    // cout << "_Lista Encadeada_" << endl;
     for (p = primeiro; p != NULL; p = p->getProx())
         p->getInfo()->print();
 
