@@ -22,11 +22,7 @@ public:
     void sort();
     void printBuckets();
     void printVet();
-    void mergeSort(int);
-    void concatBucket(int);
     void putInBuckets();
-    void listToArray();
-    void printOcup();
     void insertionSort(int);
     void sortedInsert(NoProductReview *, int);
     int *getCompMov() { return compMov; };
