@@ -28,6 +28,8 @@ public:
     int getSize();
     void insereListaFinal(ListaEncadProductReview *);
     NoProductReview *getPrimeiro() { return primeiro; }
+    void setPrimeiro(NoProductReview * val) { this->primeiro = val; }
+    void setUltimo(NoProductReview * val) { this->ultimo = val; }
     NoProductReview *getUltimo() { return ultimo; }
     void insertionSort();
     void sortedInsert(NoProductReview*);

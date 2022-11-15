@@ -1,10 +1,3 @@
-/*
-TODO:
-    - Na hora de inserir na lista encadeada de cada balde, devo passar uma referência ou uma cópia do registro no vetor?
-    - Como fazer para passar os nós da lista encadeada para o vet???
-    - Dividir usando 3 char para ver se melhora  desempenho
-    - Ignorar caracteres que representam o balde ao fazer a compração das strings
-*/
 #include <iostream>
 #include "BucketSort.h"
 #include "MergeSort.h"
@@ -13,10 +6,16 @@ TODO:
 using namespace std;
 #define BUCKET_SIZE 46656
 
+#define COMPARACOES 0
+#define MOVIMENTACOES 1
+
 BucketSort::BucketSort(ProductReview *vet, int n)
 {
     this->vet = vet;
     this->n = n;
+    this->compMov = new int[2];
+    this->compMov[0] = 0;
+    this->compMov[1] = 0;
 
     // cada posição guarda o ponteiro para uma lista
     buckets = new ListaEncadProductReview *[BUCKET_SIZE];
@@ -34,12 +33,12 @@ BucketSort::~BucketSort()
     delete vet;
 };
 
-//Bucket sort usando Merge/Quick Sort como algoritmo de ordenação intermediário
+// Bucket sort usando Merge/Quick Sort como algoritmo de ordenação intermediário
 void BucketSort::sort()
 {
     // P1: armazenar os registros nos baldes de acordo com o segundo caracter
     this->putInBuckets();
-    
+
     int i = 0;
 
     for (int b = 0; b < BUCKET_SIZE; b++)
@@ -47,39 +46,64 @@ void BucketSort::sort()
         // P2: ordenar cada balde
         if (buckets[b]->getSize() > 1)
         {
-            ProductReview *aux = new ProductReview[buckets[b]->getSize()];
-            //buckets[b]->insertionSort();
+            // ------------------------USANDO INSERTION SORT-------------
+
+            // Chama o insertion sort da lista encadeada para ordenar o balde b
+            // buckets[b]->insertionSort();
             // this->insertionSort(b);
 
+            // passa a lista no balde b, já ordenada, para o vet
+            // NoProductReview *p;
+            // for (p = buckets[b]->getPrimeiro(); p != NULL; p = p->getProx())
+            //{
+            // vet[i++] = p->getInfo();
+            // compMov[MOVIMENTACOES]+=1;
+            //}
+
+            // ------------------------USANDO MERGE/QUICK SORT-------------
+
+            // cria um vetor auxiliar com o tamanho do balde
+            ProductReview *aux = new ProductReview[buckets[b]->getSize()];
+
+            // passa os valores do balde na posição b para o vetor auxiliar
+            int j = 0;
             NoProductReview *p;
-            int j=0;
             for (p = buckets[b]->getPrimeiro(); p != NULL; p = p->getProx())
             {
                 aux[j++] = p->getInfo();
+                this->compMov[MOVIMENTACOES] += 1;
             }
 
-            MergeSort *merge = new MergeSort(aux,buckets[b]->getSize());
+            // ordena o vetor auxiliar
+            cout <<"MOVIMENTACOES: "<<this->compMov[MOVIMENTACOES]<<endl;
+            MergeSort *merge = new MergeSort(aux, buckets[b]->getSize());
             merge->sort();
+            this->compMov[MOVIMENTACOES] += merge->getCompMov()[MOVIMENTACOES];
+            this->compMov[COMPARACOES] += merge->getCompMov()[COMPARACOES];
+            
 
             // QuickSort *quick = new QuickSort(aux,buckets[b]->getSize());
             // quick->sort(false);
 
-
             // P3: Concatenar os baldes
-            while(j>0)
+            while (j > 0)
             {
                 vet[i++] = aux[--j];
+                this->compMov[MOVIMENTACOES] += merge->getCompMov()[MOVIMENTACOES];
             }
 
             delete[] aux;
-        }else if(buckets[b]->getSize() == 1){
+            // ------------------------USANDO MERGE/QUICK SORT-------------
+        }
+        else if (buckets[b]->getSize() == 1)
+        { // se a lista encadeada no balde b tem tamanho 1, apenas passa o valor para o balde
+            this->compMov[MOVIMENTACOES] += 1;
             vet[i++] = buckets[b]->getPrimeiro()->getInfo();
         }
-
     }
 }
 
-//Bucket sort usando Insertion Sort (usando lista encadeada) como algoritmo de ordenação intermediário
+// Bucket sort usando Insertion Sort (usando lista encadeada) como algoritmo de ordenação intermediário
 /*void BucketSort::sort()
 {
     // P1: armazenar os registros nos baldes de acordo com o segundo caracter
@@ -193,6 +217,7 @@ void BucketSort::putInBuckets()
 
     for (int i = 0; i < n; i++)
     {
+        compMov[COMPARACOES] += 1;
         if (vet[i].getUserId()[1] >= '0' && vet[i].getUserId()[1] <= '9')
         {
             c1 = (vet[i].getUserId()[1] - '0');
@@ -206,6 +231,7 @@ void BucketSort::putInBuckets()
             c1 = (vet[i].getUserId()[1] - 'A' + 10);
         }
 
+        compMov[COMPARACOES] += 1;
         if (vet[i].getUserId()[2] >= '0' && vet[i].getUserId()[2] <= '9')
         {
             c2 = (vet[i].getUserId()[2] - '0');
@@ -219,6 +245,7 @@ void BucketSort::putInBuckets()
             c2 = (vet[i].getUserId()[2] - 'A' + 10);
         }
 
+        compMov[COMPARACOES] += 1;
         if (vet[i].getUserId()[3] >= '0' && vet[i].getUserId()[3] <= '9')
         {
             c3 = (vet[i].getUserId()[3] - '0');
@@ -234,6 +261,7 @@ void BucketSort::putInBuckets()
 
         pos = c1 * 36 * 36 + c2 * 36 + c3;
 
+        compMov[MOVIMENTACOES] += 1; // Inserção em lista encadeada é O(1), precisa incrementar aqui?
         buckets[pos]->insereInicio(vet[i]);
     }
 }
@@ -245,7 +273,7 @@ void BucketSort::putInBuckets()
         listaOrdenada->insereListaFinal(buckets[b]);
     }
 }*/
-void BucketSort::insertionSort(int b)
+/*void BucketSort::insertionSort(int b)
 {
     if (buckets[b]->getSize() > 1)
     {
@@ -270,7 +298,7 @@ void BucketSort::insertionSort(int b)
         // cout << "BALDE: " << b << " ORDENADO - TAMANHO: " << buckets[b]->getSize() << " CHARACTER: " << buckets[b]->get(0).getUserId()[1] <<buckets[b]->get(0).getUserId()[2]<< endl;
         // buckets[b]->printList();
     }
-}
+}*/
 /*void BucketSort::mergeSort(int b)
 {
     if (buckets[b]->getSize() > 0)
@@ -304,5 +332,85 @@ void BucketSort::printBuckets()
             cout << "BALDE: " << b << " TAMANHO: " << buckets[b]->getSize() << " CHARACTER: " << buckets[b]->get(0).getUserId()[1] << endl;
             buckets[b]->printList();
         }
+    }
+}
+void BucketSort::printVet()
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
+    }
+}
+
+void BucketSort::printOcup()
+{
+    for (int b = 0; b < BUCKET_SIZE; b++)
+    {
+        if (buckets[b]->getSize() > 0)
+        {
+            // cout << " BALDE: " << b << endl;
+            // cout << "BALDE: " << b << " TAMANHO: " << buckets[b]->getSize() << " CHARACTER: " << buckets[b]->get(0).getUserId()[1] << endl;
+            cout << "[" << b << "]\t";
+            for (int i = 0; i < buckets[b]->getSize(); i++)
+            {
+                cout << "|";
+            }
+            cout << endl;
+        }
+    }
+}
+
+void BucketSort::insertionSort(int b)
+{
+    // Initialize sorted linked list
+    ordenada = NULL;
+
+    NoProductReview *noAtualListaDesordenada = buckets[b]->getPrimeiro();
+
+    while (noAtualListaDesordenada != NULL)
+    {
+        // Guarda o proximo no a ser inserido na lista ordenada
+        NoProductReview *next = noAtualListaDesordenada->getProx();
+
+        // inserir noAtualListaDesordenada na posição correta da lista ordenada
+        sortedInsert(noAtualListaDesordenada, b);
+
+        noAtualListaDesordenada = next;
+    }
+
+    buckets[b]->setPrimeiro(ordenada);
+}
+
+// Insere o novo nó de forma ordenada
+void BucketSort::sortedInsert(NoProductReview *novoNo, int b)
+{
+    // Nesse caso insere no inicio da lista
+    compMov[COMPARACOES] += 1;
+    if (ordenada == NULL || ordenada->getInfo().getUserId() >= novoNo->getInfo().getUserId())
+    {
+        novoNo->setProx(ordenada);
+
+        if (ordenada == NULL)
+        {
+            buckets[b]->setUltimo(novoNo);
+        }
+        ordenada = novoNo;
+    }
+    else
+    {
+        NoProductReview *noAtualListaOrdenada = ordenada;
+
+        while (noAtualListaOrdenada->getProx() != NULL && noAtualListaOrdenada->getProx()->getInfo().getUserId() < novoNo->getInfo().getUserId())
+        {
+            compMov[COMPARACOES] += 1;
+            noAtualListaOrdenada = noAtualListaOrdenada->getProx();
+        }
+
+        novoNo->setProx(noAtualListaOrdenada->getProx());
+        if (noAtualListaOrdenada->getProx() == NULL)
+        {
+            buckets[b]->setUltimo(novoNo);
+        }
+        noAtualListaOrdenada->setProx(novoNo);
     }
 }

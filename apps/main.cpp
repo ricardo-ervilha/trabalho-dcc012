@@ -41,23 +41,16 @@ void sort(ProductReview *vet, int n, int methodId)
     {
         QuickSort *quick = new QuickSort(vet, n);
         quick->sort();
-        compMov[comparacoes]=quick->getCompMov()[comparacoes];
-        compMov[movimentacoes]=quick->getCompMov()[movimentacoes];
+        compMov[comparacoes] = quick->getCompMov()[comparacoes];
+        compMov[movimentacoes] = quick->getCompMov()[movimentacoes];
         break;
     }
     case 2:
     {
-
         BucketSort *bucket = new BucketSort(vet, n);
-        // cout <<endl<<"VET ANTES DE ORDENAR:..."<<endl;
-        // for(int i =0;i<n;i++){
-        //     cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
-        // }
         bucket->sort();
-        // cout <<endl<<"VET DEPOIS DE ORDENAR:..."<<endl;
-        // for(int i =0;i<n;i++){
-        //     cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
-        // }
+        compMov[comparacoes] = bucket->getCompMov()[comparacoes];
+        compMov[movimentacoes] = bucket->getCompMov()[movimentacoes];
         break;
     }
     default:
@@ -86,25 +79,26 @@ void gerarSaida(int n)
     saida.open("saida.txt");
     File *ratings = new File();
 
-    for(int j = 0; j < 3; j++){
-         for (int l = 0; l < 3; l++)
-         {
+    for (int j = 2; j < 3; j++)
+    {
+        for (int l = 0; l < 3; l++)
+        {
             medias[l] = 0.0;
         }
         for (int i = 0; i < 3; i++)
         {
             ProductReview *vet = new ProductReview();
-            if(j == 0)
+            if (j == 0)
             {
-                saida<<"MergeSort("<<i+1<<")"<<endl;
+                saida << "MergeSort(" << i + 1 << ")" << endl;
             }
-            if(j == 1)
+            if (j == 1)
             {
-                saida<<"QuickSort("<<i+1<<")"<<endl;
+                saida << "QuickSort(" << i + 1 << ")" << endl;
             }
-            if(j == 2)
+            if (j == 2)
             {
-                saida<<"BucketSort("<<i+1<<")"<<endl;
+                saida << "BucketSort(" << i + 1 << ")" << endl;
             }
             vet = ratings->import(n);
             std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -127,37 +121,40 @@ void gerarSaida(int n)
             medias[tempo] += elapsed_seconds.count();
             saida << endl;
 
-            compMov[comparacoes]=0;
-            compMov[movimentacoes]=0;
+            compMov[comparacoes] = 0;
+            compMov[movimentacoes] = 0;
 
-            delete [] vet;
+            delete[] vet;
         }
 
         for (int k = 0; k < 3; k++)
         {
-            medias[k] = (medias[k]) / 3;    
+            medias[k] = (medias[k]) / 3;
         }
 
-        if(j == 0){
+        if (j == 0)
+        {
             saida << "************************************************************************" << endl;
             saida << "Medias MergeSort " << n << endl
-                << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
+                  << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
             saida << "************************************************************************" << endl
-                << endl;
+                  << endl;
         }
-        if(j == 1){
+        if (j == 1)
+        {
             saida << "************************************************************************" << endl;
             saida << "Medias QuickSort " << n << endl
-                << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
+                  << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
             saida << "************************************************************************" << endl
-                << endl;
+                  << endl;
         }
-        if(j == 2){
+        if (j == 2)
+        {
             saida << "************************************************************************" << endl;
             saida << "Medias BucketSort " << n << endl
-                << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
+                  << "Comparacoes: " << medias[comparacoes] << ", Movimentacoes: " << medias[movimentacoes] << ", Tempo: " << medias[tempo] << endl;
             saida << "************************************************************************" << endl
-                << endl;
+                  << endl;
         }
     }
     saida.close();
