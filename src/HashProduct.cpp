@@ -206,20 +206,16 @@ RegistroHash *HashProduct::createTable(int n)
     inicializa(M);
 
     ProductReview *dadosImportados = arquivo->import(n);
-    
-    if (arqTabelaHash.is_open()){
-        for (int i = 0; i < n; i++)
+
+    for (int i = 0; i < n; i++)
+    {
+        bool result = insere(dadosImportados[i]);
+        if (result == false)
         {
-            bool result = insere(dadosImportados[i]);
-            if (result == false)
-            {
-                cout << "Falha na inserção.\n";
-                exit(1);
-            }
+            cout << "Falha na inserção.\n";
+            exit(1);
         }
     }
-    
-    arqTabelaHash.close();
     delete[] dadosImportados;
 
     return table;
@@ -227,7 +223,6 @@ RegistroHash *HashProduct::createTable(int n)
 
 void HashProduct::printTable()
 {
-
     for (int i = 0; i < M; i++)
     {
         // imprime somente se tiver algum valor na posição i da tabela
@@ -296,19 +291,17 @@ void HashProduct::QuickSortRec(RegistroHash *list, int inicio, int fim)
 
 
 void HashProduct::hashEtapa3(int p){
-
     RegistroHash *vet = new RegistroHash[M];
 
     //passa os valores da tabela para um vetor auxiliar
     int j = 0;
     for(int i = 0; i < M; i++){
         if(table[i].productId != ""){
-            vet[j] = table[i];
-            j++;
+            vet[j++] = table[i];
         }
     }
     //ordena os valores do vetor auxiliar 
-    QuickSortRec(vet, 0, M-1);
+    QuickSortRec(vet, 0, j);
     
     //imprime os p elementos pedidos pelo usuario;
     for(int i = 0; i < p; i++){
