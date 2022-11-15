@@ -301,7 +301,7 @@ void HashProduct::hashEtapa3(int p){
         }
     }
     //ordena os valores do vetor auxiliar 
-    QuickSortRec(vet, 0, j);
+    QuickSortRec(vet, 0, j-1);
     
     //imprime os p elementos pedidos pelo usuario;
     for(int i = 0; i < p; i++){
