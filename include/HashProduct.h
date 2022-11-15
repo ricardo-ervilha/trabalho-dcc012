@@ -72,10 +72,10 @@ private:
     string path;
     ofstream arqTabelaHash;
 
-    void sort(RegistroHash *vet, RegistroHash *vAux, int ini, int fim);
-    void merge(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim);
-    void mergeProd(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim);
-    void sortProd(RegistroHash *vet, RegistroHash *vAux, int ini, int fim);
+    void Troca(RegistroHash *list, int i, int j);
+    int RandomPivo(int inicio, int fim);
+    int Particiona(RegistroHash *list, int inicio, int fim);
+    void QuickSortRec(RegistroHash *list, int inicio, int fim);
 public:
     HashProduct(string path);
     ~HashProduct();

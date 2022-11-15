@@ -277,8 +277,8 @@
 
 //testar para 100000 -> 73237 e 71147
 
-#define M 139//60259
-#define Mlinha 131//60139 //deve ser menor que M
+#define M 10723//60259
+#define Mlinha 10711//60139 //deve ser menor que M
 
 int superCont = 0;
 
@@ -542,89 +542,73 @@ void HashProduct::printTable()
     cout << "repet + cont: " << variavel << endl;
 }
 
-void HashProduct::merge(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim){
-    int i = ini, j = meio+1, k = 0;
+void HashProduct::Troca(RegistroHash *list, int i, int j)
+{
+    //cout<<"Entrou no troca i="<<i<<" j="<<j<<endl;
+    RegistroHash aux;
+    aux = list[i]; 
+    list[i] = list[j];//troca o regitsro indice i
+    list[j]= aux;//troca o registro indice j
+    
+}
 
-    while(i <= meio && j <= fim){
-        if(vet[i].qtdReviews >= vet[j].qtdReviews){
-            vAux[k] = vet[i];
+int HashProduct::RandomPivo(int inicio, int fim)//Gera um pivô aleatório dentre os possíveis índices do vetor
+{
+    int posicao_pivo;
+    posicao_pivo=inicio + (rand() % (fim-inicio+1));
+    //cout<<"Pivo "<<posicao_pivo<<" inicio "<<inicio<<" fim "<<fim<<endl;
+    return posicao_pivo;
+}
+
+int HashProduct::Particiona(RegistroHash *list, int inicio, int fim)
+{
+    //cout<<"Entrou no Particiona "<<fim<<endl;
+    int posico_pivo = RandomPivo(inicio,fim);
+    RegistroHash pivo = list[posico_pivo];
+    int i = inicio, j = fim;
+    //cout<<"i = "<<i<<" j="<<j<<endl;
+
+    while(true){
+        while(list[i].qtdReviews > pivo.qtdReviews){
+            //cout << "valor de i: " << i << endl;
+            
             i++;
-        } else{
-            vAux[k] = vet[j];
-            j++;
         }
-        k++;
-    }
-    while(i <= meio){
-        vAux[k] = vet[i];
-        i++;
-        k++;
-    }
-    while(j <= fim){
-        vAux[k] = vet[j];
-        j++;
-        k++;
-    }
-
-    for(k=0; k < fim-ini+1; k++)
-        vet[ini+k] = vAux[k];
-}
-
-void HashProduct::mergeProd(RegistroHash *vet, RegistroHash *vAux, int ini, int meio, int fim){
-    int i = ini, j = meio+1, k = 0;
-
-
-    //MAIOR OU IGUAL OU SÓ IGUAL ?
-    while(i <= meio && j <= fim){
-        if(vet[i].productId <= vet[j].productId){
-            vAux[k] = vet[i];
+        while(list[j].qtdReviews < pivo.qtdReviews){
+            //cout << "valor de j: " << j << endl;
+            
+            j--;
+        }
+        if(i < j)
+        {    
+             //cout << "Trocou i = " << i << " por j = " << j << endl;
+            Troca(list,i,j);
             i++;
+            j--;
+             
         } else{
-            vAux[k] = vet[j];
-            j++;
+            return j;
         }
-        k++;
-    }
-    while(i <= meio){
-        vAux[k] = vet[i];
-        i++;
-        k++;
-    }
-    while(j <= fim){
-        vAux[k] = vet[j];
-        j++;
-        k++;
-    }
-
-    for(k=0; k < fim-ini+1; k++)
-        vet[ini+k] = vAux[k];
-}
-
-void HashProduct::sortProd(RegistroHash *vet, RegistroHash *vAux, int ini, int fim){
-    if(ini < fim){
-        int meio = (ini + fim)/2;
-
-        sortProd(vet, vAux, ini, meio);
-        sortProd(vet, vAux, meio+1, fim);
-        mergeProd(vet, vAux, ini, meio, fim);
+        
     }
 }
 
-void HashProduct::sort(RegistroHash *vet, RegistroHash *vAux, int ini, int fim){
-    if(ini < fim){
-        int meio = (ini + fim)/2;
-
-        sort(vet, vAux, ini, meio);
-        sort(vet, vAux, meio+1, fim);
-        merge(vet, vAux, ini, meio, fim);
+void HashProduct::QuickSortRec(RegistroHash *list, int inicio, int fim)
+{
+    //cout<<"Entrou no QuickSortRec "<<fim<<endl;
+    
+    if(inicio < fim)
+    {
+        int posicao = Particiona(list, inicio, fim);
+        QuickSortRec(list, inicio, posicao); //Processo recursivo para particionar até que chegar a partições ordenadas(partições unicas) 
+        QuickSortRec(list,posicao+1, fim); 
     }
 }
+
 
 void HashProduct::hashEtapa3(int p){
 
     RegistroHash *vet = new RegistroHash[M];
-
-    RegistroHash *vAux = new RegistroHash[M];
 
     //passa os valores da tabela para um vetor auxiliar
     int j = 0;
@@ -634,16 +618,11 @@ void HashProduct::hashEtapa3(int p){
             j++;
         }
     }
-
-
-    sortProd(vet, vAux, 0, j-1);
-
-    delete [] vAux;
-
-    vAux = new RegistroHash[M];
-
+    cout << "Cheguei marilene\n";
+    QuickSortRec(vet, 0, M-1);
+    cout << "Tainha e vinho\n";
     //ordena os valores do vetor auxiliar 
-    sort(vet, vAux, 0, j-1);;
+
 
     //imprime os p elementos pedidos pelo usuario;
     for(int i = 0; i < p; i++){
