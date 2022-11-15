@@ -6,6 +6,7 @@ using namespace std;
 class QuickSort{
     private:
         ProductReview *list;
+        int *Comp_Mov;
         int registros;
         int RandomPivo(int inicio, int fim);
         int Particiona(ProductReview *list, int inicio, int fim, int Comp_Mov[2]);
@@ -14,6 +15,10 @@ class QuickSort{
         
         
     public:
+        int * getCompMov()  
+        {
+            return Comp_Mov;
+        }
         QuickSort();
         QuickSort(ProductReview *, int);
         ~QuickSort();

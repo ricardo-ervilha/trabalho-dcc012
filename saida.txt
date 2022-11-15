@@ -1,60 +1,60 @@
 MergeSort(1)
------>   Comparacoes: 34
------>   Movimentacoes: 68
------>    Tempo: 2.66e-05
+----->   Comparacoes: 133616
+----->   Movimentacoes: 267232
+----->    Tempo: 0.156913
 
 MergeSort(2)
------>   Comparacoes: 34
------>   Movimentacoes: 68
------>    Tempo: 2.27e-05
+----->   Comparacoes: 133616
+----->   Movimentacoes: 267232
+----->    Tempo: 0.15591
 
 MergeSort(3)
------>   Comparacoes: 34
------>   Movimentacoes: 68
------>    Tempo: 2.46e-05
+----->   Comparacoes: 133616
+----->   Movimentacoes: 267232
+----->    Tempo: 0.158702
 
 ************************************************************************
-Medias MergeSort 10
-Comparacoes: 34, Movimentacoes: 68, Tempo: 2.46333e-05
+Medias MergeSort 10000
+Comparacoes: 133616, Movimentacoes: 267232, Tempo: 0.157175
 ************************************************************************
 
 QuickSort(1)
------>   Comparacoes: 0
------>   Movimentacoes: 0
------>    Tempo: 0.0001282
+----->   Comparacoes: 111666
+----->   Movimentacoes: 31240
+----->    Tempo: 0.17822
 
 QuickSort(2)
------>   Comparacoes: 0
------>   Movimentacoes: 0
------>    Tempo: 8.07e-05
+----->   Comparacoes: 119139
+----->   Movimentacoes: 31199
+----->    Tempo: 0.143919
 
 QuickSort(3)
------>   Comparacoes: 0
------>   Movimentacoes: 0
------>    Tempo: 8.47e-05
+----->   Comparacoes: 106905
+----->   Movimentacoes: 31506
+----->    Tempo: 0.14097
 
 ************************************************************************
-Medias QuickSort 10
-Comparacoes: 0, Movimentacoes: 0, Tempo: 9.78667e-05
+Medias QuickSort 10000
+Comparacoes: 112570, Movimentacoes: 31315, Tempo: 0.15437
 ************************************************************************
 
 BucketSort(1)
 ----->   Comparacoes: 0
 ----->   Movimentacoes: 0
------>    Tempo: 0.0017375
+----->    Tempo: 0.089973
 
 BucketSort(2)
 ----->   Comparacoes: 0
 ----->   Movimentacoes: 0
------>    Tempo: 0.0020395
+----->    Tempo: 0.086972
 
 BucketSort(3)
 ----->   Comparacoes: 0
 ----->   Movimentacoes: 0
------>    Tempo: 0.0020107
+----->    Tempo: 0.086942
 
 ************************************************************************
-Medias BucketSort 10
-Comparacoes: 0, Movimentacoes: 0, Tempo: 0.00192923
+Medias BucketSort 10000
+Comparacoes: 0, Movimentacoes: 0, Tempo: 0.0879623
 ************************************************************************
 

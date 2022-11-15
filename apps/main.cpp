@@ -41,14 +41,12 @@ void sort(ProductReview *vet, int n, int methodId)
     {
         QuickSort *quick = new QuickSort(vet, n);
         quick->sort();
-        //compMov[comparacoes]=quick->getCompMov()[comparacoes];
-        //compMov[movimentacoes]=quick->getCompMov()[movimentacoes];
+        compMov[comparacoes]=quick->getCompMov()[comparacoes];
+        compMov[movimentacoes]=quick->getCompMov()[movimentacoes];
         break;
     }
     case 2:
     {
-        chrono::time_point<chrono::system_clock> start, end;
-        start = chrono::system_clock::now();
 
         BucketSort *bucket = new BucketSort(vet, n);
         // cout <<endl<<"VET ANTES DE ORDENAR:..."<<endl;
@@ -60,12 +58,6 @@ void sort(ProductReview *vet, int n, int methodId)
         // for(int i =0;i<n;i++){
         //     cout << "[" << i << "] \t" << vet[i].getUserId() << endl;
         // }
-
-        end = chrono::system_clock::now();
-        chrono::duration<double> elapsed_seconds = end - start;
-        time_t end_time = chrono::system_clock::to_time_t(end);
-
-        cout << "Bucket: Tempo para ordenar: " << elapsed_seconds.count() << "s\n";
         break;
     }
     default:
