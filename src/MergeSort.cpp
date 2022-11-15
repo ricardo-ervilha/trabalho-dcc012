@@ -83,7 +83,8 @@ void MergeSort::sort()
     //cout<<"Entrou no Sort"<<endl;
     ProductReview *Aux = new ProductReview[registros];
     
-
+    Comp_Mov[comparacoes]=0;
+    Comp_Mov[movimentacoes]=0;
     MergeSortRec(list, Aux, 0, registros-1);
     delete  [] Aux;
     
