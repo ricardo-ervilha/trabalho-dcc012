@@ -79,7 +79,7 @@ void gerarSaida(int n)
     saida.open("saida.txt");
     File *ratings = new File();
 
-    for (int j = 2; j < 3; j++)
+    for (int j = 0; j < 3; j++)
     {
         for (int l = 0; l < 3; l++)
         {
