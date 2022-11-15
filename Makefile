@@ -13,7 +13,6 @@ pre:
 
 libed:
 	g++ -c .$(PS)src$(PS)ProductReview.cpp -I .$(PS)include -o .$(PS)obj$(PS)ProductReview.o
-	g++ -c .$(PS)src$(PS)ListaEncad.cpp -I .$(PS)include -o .$(PS)obj$(PS)ListaEncad.o
 	g++ -c .$(PS)src$(PS)ListaEncadProductReview.cpp -I .$(PS)include -o .$(PS)obj$(PS)ListaEncadProductReview.o
 	g++ -c .$(PS)src$(PS)List.cpp -I .$(PS)include -o .$(PS)obj$(PS)List.o
 	g++ -c .$(PS)src$(PS)Hash.cpp -I .$(PS)include -o .$(PS)obj$(PS)Hash.o
@@ -24,7 +23,7 @@ libed:
 	g++ -c .$(PS)src$(PS)HashProduct.cpp -I .$(PS)include -o .$(PS)obj$(PS)HashProduct.o
 
 make myapps:
-	g++ .$(PS)apps$(PS)main.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)MergeSort.o	.$(PS)obj$(PS)QuickSort.o .$(PS)obj$(PS)BucketSort.o .$(PS)obj$(PS)ListaEncad.o .$(PS)obj$(PS)ListaEncadProductReview.o .$(PS)obj$(PS)HashProduct.o -I .$(PS)include -o .$(PS)bin$(PS)main		
+	g++ .$(PS)apps$(PS)main.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)MergeSort.o	.$(PS)obj$(PS)QuickSort.o .$(PS)obj$(PS)BucketSort.o .$(PS)obj$(PS)ListaEncadProductReview.o .$(PS)obj$(PS)HashProduct.o -I .$(PS)include -o .$(PS)bin$(PS)main		
 
 clean:
 	$(RM) .$(PS)bin$(PS)*
