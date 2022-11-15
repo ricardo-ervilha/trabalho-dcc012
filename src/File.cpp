@@ -14,10 +14,10 @@
 using namespace std;
 using namespace chrono;
 
-File::File(){
+File::File(string path){
     maxU = 21;
     maxT = 10;
-    path = "";
+    this->path = path;
     srand(time(NULL));
 }
 
@@ -219,7 +219,8 @@ void File::getReview(int i){
 }
 
 ProductReview File::converteReview(int i){
-    ifstream arq(this->path + "ratings.bin", ios::binary);
+    string filePath = this->path + "ratings.bin";
+    ifstream arq(filePath, ios::binary);
 
     char userId[22], productId[11], ratings[4], timeStamp[11];
 
@@ -247,6 +248,7 @@ ProductReview File::converteReview(int i){
 
     } else{
         cout << "ERRO: Falha ao abrir o arquivo(converteReview).\n";
+        cout <<"Caminho: "<<filePath<<endl;
         exit(1);
     }
 

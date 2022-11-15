@@ -200,7 +200,7 @@ RegistroHash *HashProduct::createTable(int n)
 {
     adicionaPrimos(n); //acha os valores da tabela.
 
-    File *arquivo = new File();
+    File *arquivo = new File(path);
 
     table = new RegistroHash[M];
     inicializa(M);
@@ -219,6 +219,7 @@ RegistroHash *HashProduct::createTable(int n)
         }
     }
     
+    arqTabelaHash.close();
     delete[] dadosImportados;
 
     return table;
@@ -306,7 +307,6 @@ void HashProduct::hashEtapa3(int p){
             j++;
         }
     }
-    
     //ordena os valores do vetor auxiliar 
     QuickSortRec(vet, 0, M-1);
     

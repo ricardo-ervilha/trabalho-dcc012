@@ -15,7 +15,7 @@ private:
     string path;//diretorio onde ficarão os arquivos binario e .csv
     ofstream chavesImport;
 public:
-    File();
+    File(string path);
     ~File();
     void createBinary(string& path);
     void getReview(int i);

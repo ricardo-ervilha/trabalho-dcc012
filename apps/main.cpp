@@ -88,7 +88,7 @@ void gerarSaida()
 
     ofstream saida; // variável para gerar a saída com as estatísticas
     saida.open("saida.txt");
-    File *ratings = new File();
+    File *ratings = new File(path);
     int n;
     // Gera o arquivo de saída para número de registros do inputDat
     while (getline(inputDat, linha))
@@ -188,11 +188,12 @@ int main()
 {
     int opcao = 1;
     int methodId;
-    string path;
-
     cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
     getline(cin, path);
-    File *ratings = new File();
+    // path = "/home/ricardo/dcc-012/trabalho-dcc012/";
+    // path = "/EDII/trabalho-dcc012/";
+    // path  = "/home/lucas/Documentos/UFJF/2022.3/DCC012/trabalho-dcc012/data/";
+    File *ratings = new File(path);
 
     ratings->createBinary(path);
     while (opcao != 4)
