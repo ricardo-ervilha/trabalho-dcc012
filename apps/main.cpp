@@ -62,7 +62,10 @@ void hashFunction()
 {
     HashProduct *hashTeste = new HashProduct(path);
 
-    hashTeste->createTable(1598517);
+    int n;
+    cout << "Digite o tamanho de n: " <<endl;
+    cin >> n; 
+    hashTeste->createTable(n);
     hashTeste->printTable();
 
     int p;
@@ -228,20 +231,17 @@ int main()
 
             if (methodId != 3)
             {
-                if (!inputDat)
-                {
-                    cout << "Erro ao abrir input.dat" << endl;
-                    return 0;
-                }
-                getline(inputDat, linha);
+                int linha;
+                cout << "Digite o valor de n: \n";
+                cin >> linha;
 
                 ProductReview *vet;
 
                 cout << "Registros a serem importados: " << linha << endl;
-                vet = ratings->import(stoi(linha));
+                vet = ratings->import(linha);
 
 
-                sort(vet, stoi(linha), methodId);
+                sort(vet, linha, methodId);
             }
 
             break;

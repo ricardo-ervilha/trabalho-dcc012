@@ -281,8 +281,6 @@ unsigned long long llrand() {
 ProductReview* File::import(int n){
 
     srand(time(NULL));
-
-    chavesImport.open("chavesImport.csv");
     
     ProductReview *listaReviews = new ProductReview[n];
     int p = n;
@@ -296,7 +294,6 @@ ProductReview* File::import(int n){
     unsigned long long chave = llrand() % MAXCSV;
     
 
-    if(chavesImport.is_open()){
         for (int i = 0; i < n; i++)
         {
 
@@ -313,11 +310,9 @@ ProductReview* File::import(int n){
 
             tabela->inserir(chave);
 
-            chavesImport << review.getProductId() << endl;
-
             chave = llrand() % MAXCSV;
         }
-    }
+    
     
     return listaReviews;
 }
