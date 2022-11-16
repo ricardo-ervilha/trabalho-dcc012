@@ -50,7 +50,7 @@ de uma tabela hash<br>para acelerar na verificação de reviews já sorteados an
 ```bash
 
 # Clone este repositório
-$ https://github.com/ricardo-ervilha/trabalho-dcc012
+$ git clone https://github.com/ricardo-ervilha/trabalho-dcc012
 
 # Acesse a pasta do projeto no seu terminal/cmd
 $ cd trabalho-dcc012
