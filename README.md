@@ -45,6 +45,20 @@ de uma tabela hash<br>para acelerar na verificação de reviews já sorteados an
 <li>make clean: Limpa os arquivos binários gerados nas pastas obj e bin.</li>
 </ol>
 
+#### 🧭 Rodando a aplicação pelo terminal
+
+```bash
+
+# Clone este repositório
+$ git clone https://github.com/ricardo-ervilha/trabalho-dcc012
+
+# Acesse a pasta do projeto no seu terminal/cmd
+$ cd trabalho-dcc012
+
+# Compilar e executar a aplicação
+make clean pre libed myapps && ./bin/main
+```
+
 <h3>🛈 Fontes usadas para consulta durante o trabalho</h3>
 <ul>
 <li>https://www.javatpoint.com/how-to-split-strings-in-cpp</li>
