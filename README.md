@@ -44,3 +44,14 @@ de uma tabela hash<br>para acelerar na verificação de reviews já sorteados an
 <li>make myapps: Compila e gera o executável da main.</li>
 <li>make clean: Limpa os arquivos binários gerados nas pastas obj e bin.</li>
 </ol>
+
+<h3>🛈 Fontes usadas para consulta durante o trabalho</h3>
+<ul>
+<li>https://www.javatpoint.com/how-to-split-strings-in-cpp</li>
+<li>https://www.ufjf.br/jairo_souza/ensino/material/ed2/</li>
+<li>https://stackoverflow.com/questions/28115724/getting-big-random-numbers-in-c-c </li>
+<li>http://www.cse.yorku.ca/~oz/hash.html</li>
+<li>https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/</li>
+<li>https://www.geeksforgeeks.org/bucket-sort-2/</li>
+<li>Algoritmos: teoria e prática Cormen, Thomas Capítulo 8 Seção 8.4</li>
+</ul>
