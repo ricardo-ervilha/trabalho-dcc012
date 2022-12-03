@@ -29,7 +29,15 @@ bool ArvoreVP::vazia()
 void ArvoreVP::insere(ProductReview *pr)
 {
     string info = concat(pr->getUserId(),pr->getProductId());
-    raiz = auxInsere(raiz, info);
+    if(raiz == NULL){
+        raiz = new NoVP();
+        raiz->setInfo(info);
+        raiz->setEsq(NULL);
+        raiz->setDir(NULL);
+        raiz->setColor(false);
+    }else{
+        raiz = auxInsere(raiz, info);
+    }
 }
 
 NoVP *ArvoreVP::auxInsere(NoVP* p, string info)
@@ -39,12 +47,9 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info)
     if(p == NULL){
         p = new NoVP();
         p->setInfo(info);
-        if(p == raiz)
-            p->setColor() = false;
         p->setEsq(NULL);
         p->setDir(NULL);
     }
-
     else if(info < p->getInfo())
         {
             p->setEsq(auxInsere(p->getEsq(), info));
@@ -65,73 +70,65 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info)
         }
 
     if(correcao){
-        if(p->getPai()->getPai()->getDir()->getColor() == true) //pai e tio (direito) vermelhos
-        {
-            recolor(p->getPai()->getPai());
-            recolor(p->getPai());
-            recolor(p->getPai()->getPai()->getDir());
 
-            if(p->getPai()->getPai() == raiz)
-                p->getPai()->getPai()->setColor() = false;
-        }
-
-        else if(p->getPai()->getPai()->getEsq()->getColor() == true) //pai e tio (esquerdo) vermelhos
-        {
-            recolor(p->getPai()->getPai());
-            recolor(p->getPai());
-            recolor(p->getPai()->getPai()->getEsq());
-
-            if(p->getPai()->getPai() == raiz)
-                p->getPai()->getPai()->setColor() = false;
-        }
-
-        else if(p->getPai()->getPai()->getDir()->getColor() == false || p->getPai()->getPai()->getDir() == NULL){
-        //pai vermelho e tio (direito) preto ou nulo
-
-        if(p->getPai() == p->getPai()->getEsq()){
-            rotSimplesDir(p->getPai());
-            recolor(p->getPai())
-            recolor(p->getPai()->getPai())
-            if(p->getPai() == raiz)
-                p->getPai()->setColor() = false;
-        }
-        else
+        if(p->getPai()->getDir() == p){
+            if(p->getPai()->getEsq() != NULL || p->getPai()->getEsq()->getColor() == false)
             {
-                //rotacao dupla para a direita
-                 rotSimplesEsq(p);
-                 rotSimplesDir(p);
-                 recolor(p)
-                 recolor(p->getPai()->getPai())
-                 if(p == raiz)
-                    p->setColor() = false;
+                //pai vermelho e tio (esquerdo) preto 
+                if(p->getEsq() != NULL && p->getEsq()->getColor() == true){
+                    //rotacao dupla para a esquerda(rl)
+                    rotSimplesDir(p);
+                    rotSimplesEsq(p->getPai());
+                    recolor(p->getEsq());
+                    recolor(p->getPai());
+                    if (p->getEsq() == raiz)
+                        p->getEsq()->setColor(false);
+                }else if(p->getDir() != NULL && p->getDir()->getColor() == true){
+                    rotSimplesEsq(p->getPai());
+                    recolor(p);
+                    recolor(p->getPai());
+                    if (p == raiz)
+                        p->setColor(false);
+                }
+            }  else {
+                //Pai e tio (esquerdo) vermelho
+            
+                recolor(p);
+                recolor(p->getPai()->getEsq());
             }
+        }else{
+
+           if(p->getPai()->getDir() != NULL || p->getPai()->getDir()->getColor() == false){
+                //Pai vermelho e tio(direito) preto
+                if(p->getEsq() != NULL && p->getEsq()->getColor() == true){
+                    rotSimplesDir(p->getPai());
+                    recolor(p);
+                    recolor(p->getPai());
+                    if (p == raiz)
+                        p->setColor(false);
+                }
+                else if(p->getDir() != NULL && p->getDir()->getColor() == true)
+                {
+                    //Rotação dupla para a direita
+                    rotSimplesEsq(p);
+                    rotSimplesDir(p->getPai());
+                    recolor(p->getDir());
+                    recolor(p->getPai());
+                    if (p->getDir() == raiz)
+                        p->getDir()->setColor(false);
+                }
+           }else{
+                //pai vermelho e tio(direito) vermelho
+
+                recolor(p);
+                recolor(p->getPai()->getDir());
+
+                if (p->getPai() == raiz)
+                    p->getPai()->setColor(false);
+         
+           }
 
         }
-
-        else if(p->getPai()->getPai()->getEsq()->getColor() == false || p->getPai()->getPai()->getEsq() == NULL){
-        //pai vermelho e tio (esquerdo) preto ou nulo
-
-        if(p->getPai() == p->getPai()->getDir())
-        {
-            rotSimplesEsq(p->getPai());
-            recolor(p->getPai())
-            recolor(p->getPai()->getPai())
-            if(p->getPai() == raiz)
-                p->getPai()->setColor() = false;
-        }
-        else
-            {
-                //rotacao dupla para a esquerda
-                 rotSimplesDir(p);
-                 rotSimplesEsq(p);
-                 recolor(p)
-                 recolor(p->getPai()->getPai())
-                 if(p == raiz)
-                    p->setColor() = false;
-            }
-
-        }
-
         correcao = false;
 
     }
@@ -141,9 +138,9 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info)
 
 void ArvoreVP::recolor(NoVP* p){
     if(p->getColor() == false)
-        p->setColor() == true;
+        p->setColor(true);
     else
-        p->setColor() == false;
+        p->setColor(false);
 }
 
 string ArvoreVP::concat(string s1, string s2){
@@ -151,22 +148,51 @@ string ArvoreVP::concat(string s1, string s2){
 }
 
 void ArvoreVP::rotSimplesEsq(NoVP* r){
-    q = r->getDir();
-    r->setDir() = q->getEsq();
-    q->setEsq() = r;
+    NoVP *q = r->getDir();
+    r->setDir(q->getEsq());
+    q->setEsq(r);
 }
 
 void ArvoreVP::rotSimplesDir(NoVP* r){
-    q = r->getEsq();
-    r->setEsq() = q->getDir();
-    q->setDir() = r;
+    NoVP *q = r->getEsq();
+    r->setEsq(q->getDir());
+    q->setDir(r);
 }
 
-ProductReview *ArvoreVP::busca(string userId, string productId)
-{
+// ProductReview *ArvoreVP::busca(string userId, string productId)
+// {
+//     return auxBusca(raiz, concat(userId, productId));
+// }
 
-}
+// ProductReview* ArvoreVP::auxBusca(NoVP *p, string info){
+//     if(p == NULL)
+//         return NULL;
+//     else if(info == p->getInfo())
+//         return p;
+//     else if(info < p->getInfo())
+//         return auxBusca(p->getEsq(), info);
+//     else
+//         return auxBusca(p->getDir(), info);
+// }
 
 void ArvoreVP::print()
 {
+    auxPrint(raiz);
+    cout << endl;
+}
+
+void ArvoreVP::auxPrint(NoVP *p){
+    if(p != NULL){
+        auxPrint(p->getEsq());
+
+        if(p->getColor() == true){
+            cout << "\033[0;31m";
+            cout << p->getInfo() <<  " ";
+            cout << "\033[0m";
+        }else{
+            cout << p->getInfo() <<  " ";
+        }
+
+        auxPrint(p->getDir());
+    }
 }

@@ -4,7 +4,6 @@
 #include <sstream>
 #include <time.h>
 #include "ProductReview.h"
-#include "ListaEncad.h"
 #include "File.h"
 #include <chrono>
 #include "HashProduct.h"

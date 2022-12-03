@@ -21,6 +21,10 @@ File::File(string path){
     srand(time(NULL));
 }
 
+File::File(){
+    
+}
+
 File::~File(){}
 
 //Função para completar e padronizar o tamanho de cada string

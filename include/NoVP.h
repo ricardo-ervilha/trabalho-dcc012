@@ -20,9 +20,9 @@ public:
     NoVP *getEsq() { return esq; };
     NoVP *getDir() { return dir; };
     NoVP *getPai() {return pai;};
-    NoVP *setPai(NoVP* pai) {this->pai = pai;};
-    bool getColor(); {return this->color;};
-    void setColor(bool color); {this->color = color;};
+    void setPai(NoVP* pai) {this->pai = pai;};
+    bool getColor() {return color;};
+    void setColor(bool color) {this->color = color;};
     void setInfo(string id) { this->id = id; };
     void setEsq(NoVP *esq) { this->esq = esq; };
     void setDir(NoVP *dir) { this->dir = dir; };

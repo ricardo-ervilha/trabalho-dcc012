@@ -16,6 +16,8 @@ private:
     void recolor(NoVP *p);
     NoVP* libera(NoVP *p);
     NoVP* auxInsere(NoVP* p, string info);
+    ProductReview* auxBusca(NoVP *p, string info);
+    void auxPrint(NoVP *p);
 
 public:
     ArvoreVP();

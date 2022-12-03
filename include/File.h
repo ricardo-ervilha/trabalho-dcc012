@@ -16,6 +16,7 @@ private:
     ofstream chavesImport;
 public:
     File(string path);
+    File();
     ~File();
     void createBinary(string& path);
     void getReview(int i);
