@@ -11,13 +11,18 @@ private:
     NoVP *esq;
     NoVP *dir;
     int indexLoc; //índice de localização dentro do arquivo binário
+    NoVP* pai;
 
 public:
-    NoVP(){};
+    NoVP(){this->color = true;};
     ~NoVP(){};
     string getInfo() { return id; };
     NoVP *getEsq() { return esq; };
     NoVP *getDir() { return dir; };
+    NoVP *getPai() {return pai;};
+    NoVP *setPai(NoVP* pai) {this->pai = pai;};
+    bool getColor(); {return this->color;};
+    void setColor(bool color); {this->color = color;};
     void setInfo(string id) { this->id = id; };
     void setEsq(NoVP *esq) { this->esq = esq; };
     void setDir(NoVP *dir) { this->dir = dir; };

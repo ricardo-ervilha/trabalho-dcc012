@@ -15,6 +15,7 @@ private:
     void balanceia(NoVP *p);
     void recolor(NoVP *p);
     NoVP* libera(NoVP *p);
+    NoVP* auxInsere(NoVP* p, string info);
 
 public:
     ArvoreVP();
