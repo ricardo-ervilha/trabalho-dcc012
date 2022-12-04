@@ -62,7 +62,10 @@ void hashFunction()
 {
     HashProduct *hashTeste = new HashProduct(path);
 
-    hashTeste->createTable(100000);
+    int n;
+    cout << "Digite o tamanho de n: " <<endl;
+    cin >> n; 
+    hashTeste->createTable(n);
     hashTeste->printTable();
 
     int p;
@@ -87,7 +90,7 @@ void gerarSaida()
 
     ofstream saida; // variável para gerar a saída com as estatísticas
     saida.open("saida.txt");
-    File *ratings = new File();
+    File *ratings = new File(path);
     int n;
     // Gera o arquivo de saída para número de registros do inputDat
     while (getline(inputDat, linha))
@@ -183,24 +186,22 @@ void gerarSaida()
     inputDat.close();
 }
 
-int main()
+int main(int argc, char **argv)
 {
     int opcao = 1;
     int methodId;
-    string path;
+    
+    if(argc == 2)
+        path = argv[1];
+    
+    // cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
+    // getline(cin, path);
 
-    cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
-    getline(cin, path);
-    // path = "/home/ricardo/dcc-012/trabalho-dcc012/";
-    // path = "/EDII/trabalho-dcc012/";
-    // path  = "/home/lucas/Documentos/UFJF/2022.3/DCC012/trabalho-dcc012/data/";
-    File *ratings = new File();
+    File *ratings = new File(path);
 
     ratings->createBinary(path);
-    
     while (opcao != 4)
     {
-        methodId = 4;
         cout << "Digite um valor para executar a etapa desejada: " << endl;
         cout << "[1] Ordenacao." << endl;
         cout << "[2] Hash." << endl;
@@ -216,41 +217,36 @@ int main()
         {
             cin.ignore();
 
-            while (methodId != 0 && methodId != 1 && methodId != 2 && methodId != 3)
+            do
             {
-
                 cout << "Digite qual metodo de ordenacao sera utilizado:" << endl;
-                cout << "[0] Merge Sort"<<endl;
-                cout << "[1] Quick Sort"<<endl;
-                cout << "[2] Bucket Sort"<<endl;
-                cout << "[3] Retornar ao menu anterior"<<endl;
+                cout << "[0] Merge Sort" << endl;
+                cout << "[1] Quick Sort" << endl;
+                cout << "[2] Bucket Sort" << endl;
+                cout << "[3] Retornar ao menu anterior" << endl;
 
                 cin >> methodId;
-                if (methodId != 0 && methodId != 1 && methodId != 2 && methodId != 3)
+                if (methodId < 0 || methodId > 3)
                 {
-                    cout << "Valor invalido" << endl;
+                    cout << "Valor inválido: digite um valor entre 0 e 3..." << endl;
                 }
-            }
 
-            if (!inputDat)
+            } while (methodId < 0 || methodId > 3);
+
+            if (methodId != 3)
             {
-                cout << "Erro ao abrir input.dat" << endl;
-                return 0;
+                int linha;
+                cout << "Digite o valor de n: \n";
+                cin >> linha;
+
+                ProductReview *vet;
+
+                cout << "Registros a serem importados: " << linha << endl;
+                vet = ratings->import(linha);
+
+
+                sort(vet, linha, methodId);
             }
-            getline(inputDat, linha);
-
-            ProductReview *vet;
-            // chrono::time_point<chrono::system_clock> start, end;
-            // start = chrono::system_clock::now();
-            cout << "Registros a serem importados: " << linha << endl;
-            vet = ratings->import(stoi(linha));
-            // end = chrono::system_clock::now();
-            // chrono::duration<double> elapsed_seconds = end - start;
-            // time_t end_time = chrono::system_clock::to_time_t(end);
-
-            // cout << "Tempo para importar: " << linha << ": " << elapsed_seconds.count() << "s\n";
-
-            sort(vet, stoi(linha), methodId);
 
             break;
         }
