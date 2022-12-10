@@ -21,9 +21,12 @@ Hash::Hash(int n){
         tam = 310049;
     else if(n == 1000000)
         tam = 535099;
-    else
-        tam = (int) (0.637 * n);
-        
+    else{
+        if(n != 1)
+            tam = (int) (0.637 * n);
+        else
+            tam = 1;
+    }
     vet = new List*[tam];
     inicializaTabela();
 }
