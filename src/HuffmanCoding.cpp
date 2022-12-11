@@ -1,12 +1,19 @@
 #include "HuffmanCoding.h"
 #include "File.h"
+#include <cstring>
 
 #define TAM 128 //Total de caracteres da tabela ASCII
 
 HuffmanCoding::HuffmanCoding(){
     path = "/home/ricardo/dcc-012/trabalho-dcc012/";
     
+    altura = 0;
+
     inicializa_Lista();
+
+    table_freq = new int[TAM];
+
+    inicializa_com_zeros();
 }
 
 void HuffmanCoding::inicializa_Lista(){
@@ -49,13 +56,17 @@ void HuffmanCoding::inicializa_com_zeros(){
         table_freq[i] = 0;
 }
 
+void HuffmanCoding::contabiliza_Frequencia_string(string s){
+    for(int i = 0; i < s.length(); i++){
+        table_freq[s[i]]++;
+    }
+}
+
 void HuffmanCoding::contabilizaFrequencia(int n){
 
     File* arq = new File(path);
 
-    table_freq = new int[TAM];
-
-    inicializa_com_zeros();
+    
      
     ProductReview *vet = arq->import(n);
 
@@ -135,4 +146,62 @@ NoHuff* HuffmanCoding::create_arvore_huffman(){
     }
 
     return lista->inicio; //raiz da árvore de Huffman
+}
+
+void HuffmanCoding::calcula_altura_arvore(){
+    altura = aux_calcula_altura_arvore(lista->inicio);
+}
+
+void HuffmanCoding::gera_Dicionario(){
+    dicionario = new char*[TAM];
+
+    for(int i = 0; i < TAM; i++){
+        dicionario[i] = new char[altura+1];
+    }
+}
+
+void HuffmanCoding::preenche_Dicionario(){
+
+    gera_Dicionario();
+    string c = "";
+    aux_preenche_Dicionario(lista->inicio, c, altura+1);
+}
+
+void HuffmanCoding::aux_preenche_Dicionario(NoHuff *p, string caminho, int colunas){
+    if(p->getEsq() == NULL && p->getDir() == NULL)
+        strcpy(dicionario[p->getCaracter()], caminho.c_str());
+    else{
+        string esquerda, direita;
+
+        esquerda = caminho;
+        direita = caminho;
+
+        esquerda += "0";
+        direita += "1";
+
+        aux_preenche_Dicionario(p->getEsq(), esquerda, colunas);
+        aux_preenche_Dicionario(p->getDir(), direita, colunas);
+    }
+}
+
+int HuffmanCoding::aux_calcula_altura_arvore(NoHuff *p){
+    if(p == NULL){
+        return -1;
+    }else{
+        int esq = aux_calcula_altura_arvore(p->getEsq());
+        int dir = aux_calcula_altura_arvore(p->getDir());
+
+        if(esq > dir)
+            return esq + 1;
+        else
+            return dir + 1;
+    }
+}
+
+void HuffmanCoding::impressao_dicionario(){
+    cout << "Altura da arvore: " << altura << endl;
+    for(int i = 0; i < TAM; i++){
+        if(table_freq[i] > 0)
+            cout << (char) i << "    " << dicionario[i] << endl;
+    }
 }

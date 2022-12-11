@@ -30,17 +30,27 @@ int main(){
     HuffmanCoding* teste = new HuffmanCoding();
 
     //Parte 1 - Contabilizar a frequência dos caracteres.
-    teste->contabilizaFrequencia(2);
-
+    //teste->contabilizaFrequencia(2);
+    cout << "Teste 1\n";
+    teste->contabiliza_Frequencia_string("eeisieeiiieaaiiie");
+    cout << "Teste 2\n";
     //Parte 2 - Preencher uma lista de prioridade(min val) com as frequências e caracteres associados
     teste->preenche_lista_prioridade();
     teste->imprime_lista_prioridade();
 
     //Parte 3 - Construir a árvore de Huffman
-
     NoHuff* no = teste->create_arvore_huffman();
     cout << "**---------Árvore de Huffman---------**" << endl;
     imprime_arvore_huffman(no);
+
+    //Parte 4 - Construção do Dicionário
+    
+    teste->calcula_altura_arvore();
+    
+    teste->preenche_Dicionario();
+    cout << "*---------Dicionário de Compressão---------**" << endl;
+    
+    teste->impressao_dicionario();
 }
 
 //Parte Relacionada a Árvore Vermelho e Preto
