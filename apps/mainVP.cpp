@@ -24,47 +24,47 @@ void imprime_arvore_huffman(NoHuff *p){
     }
 }
 
-int main(){
+// int main(){
     
-    //Parte relacionada ao código de Huffman
-    HuffmanCoding* teste = new HuffmanCoding();
+//     //Parte relacionada ao código de Huffman
+//     HuffmanCoding* teste = new HuffmanCoding();
 
-    //Parte 1 - Contabilizar a frequência dos caracteres.
-    //teste->contabilizaFrequencia(2);
-    cout << "Teste 1\n";
-    teste->contabiliza_Frequencia_string("eeisieeiiieaaiiie");
-    cout << "Teste 2\n";
-    //Parte 2 - Preencher uma lista de prioridade(min val) com as frequências e caracteres associados
-    teste->preenche_lista_prioridade();
-    teste->imprime_lista_prioridade();
+//     //Parte 1 - Contabilizar a frequência dos caracteres.
+//     //teste->contabilizaFrequencia(2);
+//     cout << "Teste 1\n";
+//     teste->contabiliza_Frequencia_string("eeisieeiiieaaiiie");
+//     cout << "Teste 2\n";
+//     //Parte 2 - Preencher uma lista de prioridade(min val) com as frequências e caracteres associados
+//     teste->preenche_lista_prioridade();
+//     teste->imprime_lista_prioridade();
 
-    //Parte 3 - Construir a árvore de Huffman
-    NoHuff* no = teste->create_arvore_huffman();
-    cout << "**---------Árvore de Huffman---------**" << endl;
-    imprime_arvore_huffman(no);
+//     //Parte 3 - Construir a árvore de Huffman
+//     NoHuff* no = teste->create_arvore_huffman();
+//     cout << "**---------Árvore de Huffman---------**" << endl;
+//     imprime_arvore_huffman(no);
 
-    //Parte 4 - Construção do Dicionário
+//     //Parte 4 - Construção do Dicionário
     
-    teste->calcula_altura_arvore();
+//     teste->calcula_altura_arvore();
     
-    teste->preenche_Dicionario();
-    cout << "*---------Dicionário de Compressão---------**" << endl;
+//     teste->preenche_Dicionario();
+//     cout << "*---------Dicionário de Compressão---------**" << endl;
     
-    teste->impressao_dicionario();
-}
+//     teste->impressao_dicionario();
+// }
 
 //Parte Relacionada a Árvore Vermelho e Preto
-// int main(){
+int main(){
 
-//     File* arq = new File("/dcc-012/trabalho-dcc012/");
+    File* arq = new File("/home/pedro/EDII/trabalho-dcc012/");
 
-//     ArvoreVP *tree = new ArvoreVP();
+    ArvoreVP *tree = new ArvoreVP();
 
-//     ProductReview *list = arq->import(3);
+    ProductReview *list = arq->import(3);
 
-//     tree->insere(&list[0]);
-//     tree->insere(&list[1]);
-//     tree->insere(&list[2]);
+    tree->insere(&list[0]);
+    tree->insere(&list[1]);
+    tree->insere(&list[2]);
 
-//     tree->print();
-// }
+    tree->print();
+}

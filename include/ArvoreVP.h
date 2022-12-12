@@ -10,10 +10,9 @@ private:
     NoVP * raiz;
     int n; //Quantidade de nós
     string concat(string s1, string s2); //Concatena userId e productId
-    void rotSimplesEsq(NoVP *p);
-    void rotSimplesDir(NoVP *p);
-    void balanceia(NoVP *p);
-    void recolor(NoVP *p);
+    NoVP* rotSimplesEsq(NoVP *p);
+    NoVP* rotSimplesDir(NoVP *p);
+    NoVP* recolor(NoVP *p);
     NoVP* libera(NoVP *p);
     NoVP* auxInsere(NoVP* p, string info);
     ProductReview* auxBusca(NoVP *p, string info);

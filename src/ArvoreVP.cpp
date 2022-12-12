@@ -1,5 +1,10 @@
 #include "ArvoreVP.h"
 
+bool rotSimEsq = false;
+bool rotSimDir = false;
+bool rotDupEsq = false;
+bool rotDupDir = false;
+
 ArvoreVP::ArvoreVP()
 {
     n = 0;
@@ -28,6 +33,7 @@ bool ArvoreVP::vazia()
 
 void ArvoreVP::insere(ProductReview *pr)
 {
+    n++;
     string info = concat(pr->getUserId(),pr->getProductId());
     if(raiz == NULL){
         raiz = new NoVP();
@@ -35,6 +41,7 @@ void ArvoreVP::insere(ProductReview *pr)
         raiz->setEsq(NULL);
         raiz->setDir(NULL);
         raiz->setColor(false);
+        raiz->setPai(NULL);
     }else{
         raiz = auxInsere(raiz, info);
     }
@@ -55,7 +62,7 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info)
             p->setEsq(auxInsere(p->getEsq(), info));
             p->getEsq()->setPai(p);
             if(p != raiz){
-                if(p->getColor() == true && p->getEsq()->getColor() == true)
+                if(p->getColor() == true)
                     correcao = true;
             }
         }
@@ -64,99 +71,176 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info)
             p->setDir(auxInsere(p->getDir(), info));
             p->getDir()->setPai(p);
             if(p != raiz){
-                if(p->getColor() == true && p->getDir()->getColor() == true)
+                if(p->getColor() == true)
                     correcao = true;
             }
         }
 
-    if(correcao){
+    if(rotSimEsq){
+        p = rotSimplesEsq(p); //realiza rotacao simples a esquerda
+        
+        //recolorir pai e avo
+        p = recolor(p);
+        p->setEsq(recolor(p->getEsq()));
 
-        if(p->getPai()->getDir() == p){
-            if(p->getPai()->getEsq() != NULL || p->getPai()->getEsq()->getColor() == false)
-            {
-                //pai vermelho e tio (esquerdo) preto 
-                if(p->getEsq() != NULL && p->getEsq()->getColor() == true){
-                    //rotacao dupla para a esquerda(rl)
-                    rotSimplesDir(p);
-                    rotSimplesEsq(p->getPai());
-                    recolor(p->getEsq());
-                    recolor(p->getPai());
-                    if (p->getEsq() == raiz)
-                        p->getEsq()->setColor(false);
-                }else if(p->getDir() != NULL && p->getDir()->getColor() == true){
-                    rotSimplesEsq(p->getPai());
-                    recolor(p);
-                    recolor(p->getPai());
-                    if (p == raiz)
-                        p->setColor(false);
-                }
-            }  else {
-                //Pai e tio (esquerdo) vermelho
-            
-                recolor(p);
-                recolor(p->getPai()->getEsq());
-            }
-        }else{
+        rotSimEsq = false;
+    }
 
-           if(p->getPai()->getDir() != NULL || p->getPai()->getDir()->getColor() == false){
-                //Pai vermelho e tio(direito) preto
-                if(p->getEsq() != NULL && p->getEsq()->getColor() == true){
-                    rotSimplesDir(p->getPai());
-                    recolor(p);
-                    recolor(p->getPai());
-                    if (p == raiz)
-                        p->setColor(false);
-                }
-                else if(p->getDir() != NULL && p->getDir()->getColor() == true)
-                {
-                    //Rotação dupla para a direita
-                    rotSimplesEsq(p);
-                    rotSimplesDir(p->getPai());
-                    recolor(p->getDir());
-                    recolor(p->getPai());
-                    if (p->getDir() == raiz)
-                        p->getDir()->setColor(false);
-                }
-           }else{
-                //pai vermelho e tio(direito) vermelho
+    else if(rotSimDir){
+        p = rotSimplesDir(p); //realiza rotacao simples a direita
 
-                recolor(p);
-                recolor(p->getPai()->getDir());
+        //recolorir pai e avo
+        p = recolor(p);
+        p->setDir(recolor(p->getDir()));
 
-                if (p->getPai() == raiz)
-                    p->getPai()->setColor(false);
-         
-           }
-
-        }
-        correcao = false;
+        rotSimDir = false;
 
     }
 
+    else if(rotDupEsq)
+    {
+        p->setDir(rotSimplesDir(p->getDir()));
+        p->getDir()->setPai(p);
+        p = rotSimplesEsq(p);
+
+        //recolorir no e avo
+        p = recolor(p);
+        p->setEsq(recolor(p->getEsq()));
+
+        rotDupEsq = false;
+    }
+
+    else if(rotDupDir)
+    {
+        p->setEsq(rotSimplesEsq(p->getEsq()));
+        p->getEsq()->setPai(p);
+        p = rotSimplesDir(p);
+
+        //recolorir no e avo
+        p = recolor(p);
+        p->setDir(recolor(p->getDir()));
+
+        rotDupDir = false;
+    }
+
+    if(correcao){
+        if(p->getPai()->getDir() == p) //pai esta na direita
+        {
+            if(p->getPai()->getEsq() != NULL && p->getPai()->getEsq()->getColor() == true){
+                //pai e tio (da esquerda) do no sao vermelhos
+                p = recolor(p);
+                p->getPai()->setEsq(recolor(p->getPai()->getEsq()));
+                p->setPai(recolor(p->getPai()));
+
+                if(p->getPai() == raiz)
+                    p->getPai()->setColor(false);
+
+            }
+
+            else
+            {
+                //pai vermelho e tio (da esquerda) nulo (NIL) ou preto
+                if(p->getDir() != NULL && p->getDir()->getColor() == true)
+                {
+                    //filho existe e esta na direita do pai
+                    rotSimEsq = true;
+                }
+
+                else if(p->getEsq() != NULL && p->getEsq()->getColor() == true)
+                {
+                    //filho existe e esta na direita do pai
+                    rotDupEsq = true;
+                }
+
+            }
+
+        }
+
+        else //pai esta na esquerda
+        {
+            if(p->getPai()->getDir() != NULL && p->getPai()->getDir()->getColor() == true){
+                //pai e tio (da direita) do no sao vermelhos
+                p = recolor(p);
+                p->getPai()->setDir(recolor(p->getPai()->getDir()));
+                p->setPai(recolor(p->getPai()));
+
+                if(p->getPai() == raiz)
+                    p->getPai()->setColor(false);
+
+            }
+
+            else if(p->getPai()->getDir() == NULL || p->getPai()->getDir()->getColor() == false)
+            {
+                //pai vermelho e tio (da direita) nulo (NIL) ou preto
+                if(p->getEsq() != NULL && p->getEsq()->getColor() == true)
+                {
+                    //filho existe e esta na esquerda do pai
+                    rotSimDir = true;
+                }
+
+                else if(p->getDir() != NULL && p->getDir()->getColor() == true)
+                {
+                    //filho existe e esta na direita do pai
+                    rotDupDir = true;
+                }
+
+            }
+
+        }
+        correcao = false;
+    }
     return p;
 }
 
-void ArvoreVP::recolor(NoVP* p){
-    if(p->getColor() == false)
-        p->setColor(true);
+NoVP* ArvoreVP::recolor(NoVP* p){
+    NoVP* corTrocada = p;
+    if(corTrocada->getColor() == false)
+        corTrocada->setColor(true);
     else
-        p->setColor(false);
+        corTrocada->setColor(false);
+    
+    return corTrocada;
 }
 
 string ArvoreVP::concat(string s1, string s2){
     return s1+s2;
 }
 
-void ArvoreVP::rotSimplesEsq(NoVP* r){
+NoVP* ArvoreVP::rotSimplesEsq(NoVP* r){
     NoVP *q = r->getDir();
     r->setDir(q->getEsq());
     q->setEsq(r);
+
+    if(r == raiz)
+        q->setPai(NULL);
+    else
+        q->setPai(r->getPai());
+
+    if(r->getDir() != NULL){
+        r->getDir()->setPai(r);
+    }
+
+    r->setPai(q);
+    
+    return q;
 }
 
-void ArvoreVP::rotSimplesDir(NoVP* r){
+NoVP* ArvoreVP::rotSimplesDir(NoVP* r){
     NoVP *q = r->getEsq();
     r->setEsq(q->getDir());
     q->setDir(r);
+
+    if(r == raiz)
+        q->setPai(NULL);
+    else
+        q->setPai(r->getPai());
+
+    if(r->getEsq() != NULL)
+        r->getEsq()->setPai(r);
+
+    r->setPai(q);
+    
+    return q;
 }
 
 // ProductReview *ArvoreVP::busca(string userId, string productId)
