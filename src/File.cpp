@@ -265,7 +265,7 @@ ProductReview File::converteReview(int i){
     string timeSt(timeStamp);
 
     //gera o registro
-    ProductReview review(usID, prodId, ratings, timeStamp);
+    ProductReview review(usID, prodId, ratings, timeStamp, i);
 
     return review;
 

@@ -1,12 +1,14 @@
 #include "ArvoreVP.h"
+#include "File.h"
 
 bool rotSimEsq = false;
 bool rotSimDir = false;
 bool rotDupEsq = false;
 bool rotDupDir = false;
 
-ArvoreVP::ArvoreVP()
+ArvoreVP::ArvoreVP(File* arq)
 {
+    this->arq = arq;
     n = 0;
     raiz = NULL;
 }
@@ -38,28 +40,30 @@ void ArvoreVP::insere(ProductReview *pr)
     if(raiz == NULL){
         raiz = new NoVP();
         raiz->setInfo(info);
+        raiz->setInd(pr->getLocal());
         raiz->setEsq(NULL);
         raiz->setDir(NULL);
         raiz->setColor(false);
         raiz->setPai(NULL);
     }else{
-        raiz = auxInsere(raiz, info);
+        raiz = auxInsere(raiz, info, pr->getLocal());
     }
 }
 
-NoVP *ArvoreVP::auxInsere(NoVP* p, string info)
+NoVP *ArvoreVP::auxInsere(NoVP* p, string info, int local)
 {
     bool correcao = false;
 
     if(p == NULL){
         p = new NoVP();
         p->setInfo(info);
+        p->setInd(local);
         p->setEsq(NULL);
         p->setDir(NULL);
     }
     else if(info < p->getInfo())
         {
-            p->setEsq(auxInsere(p->getEsq(), info));
+            p->setEsq(auxInsere(p->getEsq(), info, local));
             p->getEsq()->setPai(p);
             if(p != raiz){
                 if(p->getColor() == true)
@@ -68,7 +72,7 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info)
         }
     else
         {
-            p->setDir(auxInsere(p->getDir(), info));
+            p->setDir(auxInsere(p->getDir(), info, local));
             p->getDir()->setPai(p);
             if(p != raiz){
                 if(p->getColor() == true)
@@ -243,21 +247,25 @@ NoVP* ArvoreVP::rotSimplesDir(NoVP* r){
     return q;
 }
 
-// ProductReview *ArvoreVP::busca(string userId, string productId)
-// {
-//     return auxBusca(raiz, concat(userId, productId));
-// }
+ProductReview* ArvoreVP::busca(string userId, string productId)
+{
+    return auxBusca(raiz, concat(userId, productId));
+}
 
-// ProductReview* ArvoreVP::auxBusca(NoVP *p, string info){
-//     if(p == NULL)
-//         return NULL;
-//     else if(info == p->getInfo())
-//         return p;
-//     else if(info < p->getInfo())
-//         return auxBusca(p->getEsq(), info);
-//     else
-//         return auxBusca(p->getDir(), info);
-// }
+ProductReview* ArvoreVP::auxBusca(NoVP *p, string info){
+    if(p == NULL)
+        return NULL;
+    else if(info == p->getInfo()){
+        ProductReview pr = arq->converteReview(p->getInd());
+        ProductReview* prAux = new ProductReview(pr.getUserId(), pr.getProductId(), pr.getTimeStamp(), pr.getRating(), pr.getLocal());
+        return prAux;
+        
+    }
+    else if(info < p->getInfo())
+        return auxBusca(p->getEsq(), info);
+    else
+        return auxBusca(p->getDir(), info);
+}
 
 void ArvoreVP::print()
 {

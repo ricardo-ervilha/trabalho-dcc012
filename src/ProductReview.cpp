@@ -7,11 +7,12 @@ ProductReview::ProductReview(){
     
 }
 
-ProductReview::ProductReview(string usuarioId, string produtoId, string avaliacao, string carimboHora){
+ProductReview::ProductReview(string usuarioId, string produtoId, string avaliacao, string carimboHora, int local){
     userId = usuarioId;
     productId = produtoId;
     timeStamp = carimboHora;
-    rating = avaliacao;  
+    rating = avaliacao;
+    localizacao = local;
 }
 
 
@@ -39,4 +40,8 @@ string ProductReview::getTimeStamp(){
 
 string ProductReview::getRating(){
     return rating;
+}
+
+int ProductReview::getLocal(){
+    return localizacao;
 }

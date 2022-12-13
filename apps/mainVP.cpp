@@ -58,13 +58,24 @@ int main(){
 
     File* arq = new File("/home/pedro/EDII/trabalho-dcc012/");
 
-    ArvoreVP *tree = new ArvoreVP();
+    ArvoreVP *tree = new ArvoreVP(arq);
 
-    ProductReview *list = arq->import(3);
+    ProductReview *list = arq->import(4);
 
     tree->insere(&list[0]);
     tree->insere(&list[1]);
     tree->insere(&list[2]);
 
+    cout << "UserId: " << (&list[1])->getUserId() << endl;
+    cout << "ProductId: " << (&list[1])->getProductId() << endl;
+
     tree->print();
+
+    ProductReview* pr = tree->busca((&list[1])->getUserId(),(&list[1])->getProductId());
+
+    if(pr != NULL){
+    cout << "UserId pr: " << pr->getUserId() << endl;
+    cout << "ProductId pr: " << pr->getProductId() << endl;
+    }
+
 }
