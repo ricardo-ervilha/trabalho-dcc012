@@ -2,7 +2,8 @@
 
 ArvoreB::ArvoreB()
 {
-    raiz = NULL;
+    cout << "Criando árvore B...." << endl;
+    this->raiz = new NoB();
 }
 ArvoreB::~ArvoreB()
 {
@@ -56,10 +57,10 @@ NoB *ArvoreB::encontrarFolha(string keySearch)
     return folha; // retorna a folha onde deve ser inserida a chave
 }
 
-ProductReview *ArvoreB::busca(string userId, string productId)
-{
-    return auxBusca(userId + productId, raiz);
-}
+// ProductReview *ArvoreB::busca(string userId, string productId)
+// {
+//     return auxBusca(userId + productId, raiz);
+// }
 
 ProductReview *ArvoreB::auxBusca(string k, NoB *no)
 {
@@ -81,7 +82,8 @@ ProductReview *ArvoreB::auxBusca(string k, NoB *no)
         }
         else
         {
-            return no->chaves[i - 1].indexLoc; // buscar no arquivo
+            // return no->chaves[i - 1].indexLoc; // buscar no arquivo
+            return NULL;
         }
     }
     else
@@ -117,25 +119,28 @@ void ArvoreB::insere(ProductReview *pr)
             else
             {
                 NoB *novo = folha->cisao(novoInfo);
-                
-                novoInfo = folha->chaves[folha->n];//pegar a info a ser promovida
+
+                novoInfo = folha->chaves[folha->n - 1]; // pegar a info a ser promovida
 
                 if (folha == raiz)
                 {
                     /*
-                        se o no que sofreu cisa for uma raiz
+                        se o no que sofreu cisao for uma raiz
                             - cria uma nova raiz
                             - coloca chave mediana na nova raiz
                             - faz os filhos apontarem para a folha a novo no
                     */
                     NoB *novaRaiz = new NoB();
-                    novaRaiz->chaves[0] = novoInfo;//posição 0
-                    novaRaiz->filhos[0] = folha;//filho esquerda
-                    novaRaiz->filhos[1] = novo;//filho a direita
+                    novaRaiz->chaves[0] = novoInfo; // posição 0
+                    novaRaiz->filhos[0] = folha;    // filho esquerda
+                    novaRaiz->filhos[1] = novo;     // filho a direita
                     novaRaiz->n = 1;
                     novaRaiz->ehFolha = false;
                     raiz = novaRaiz;
-
+                    return;
+                }
+                else
+                {
                 }
             }
         }
@@ -143,5 +148,203 @@ void ArvoreB::insere(ProductReview *pr)
     else
     {
         cout << "Valor já está na arvore" << endl;
+    }
+}
+
+ProductReview *ArvoreB::busca(string userId, string productId)
+{
+    Info k;
+    k.id = userId + productId;
+    k.indexLoc = -1;
+
+    if (search(raiz, &k) == NULL)
+    {
+        cout << " Chave não encontrada..." << endl;
+
+        return NULL;
+    }
+
+    // ELSE PROCURAR ESSE PRODUCT REVIEW (k.indexLoc) NO ARQUIVO E RETORNAR
+    cout << " Chave encontrada..." << endl;
+    return NULL;
+}
+
+/*
+    A entrada é um ponteiro para o nó raiz e a chave k a ser procurada
+    Se for encontrado o registro, guarda a localização no arquivo, no atributo indexLoc de k
+
+*/
+NoB *ArvoreB::search(NoB *x, Info *k)
+{
+    if (x != NULL)
+    {
+        int i;
+        for (i = 0; i < x->n && x->chaves[i].id < (*k).id; i++)
+            ;
+
+        cout << "Procurando: " << (*k).id << endl;
+        cout << "Checando: " << x->chaves[i].id << endl;
+        cout << "i: " << i << endl;
+        cout << "n: " << x->n << endl;
+
+        if (i < x->n && (*k).id == x->chaves[i].id)
+        {
+            cout << " ENTROU..." << endl;
+            (*k).indexLoc = i;
+            return x;
+        }
+        else if (x->ehFolha)
+        {
+            return NULL;
+        }
+        else
+        {
+            // DISK-READ (x->filhos[i])
+            return search(x->filhos[i], k);
+        }
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+/*
+    inserindo uma chave em uma unica passagem descendente pela arvore
+    usa cisão na descida para garantir que sempre tera um no com espaço vazio no caminho de inserção
+*/
+void ArvoreB::insert(ArvoreB *T, Info k)
+{
+
+    if (T->raiz->n == 0)
+    {
+        raiz->chaves[0] = k;
+        raiz->n = raiz->n + 1;
+        return;
+    }
+
+    NoB *r = T->raiz;
+
+    // se a raiz esta cheia, a raiz é repartida e um novo nó s, que tem 2 filhos, se torna raiz
+    if (r->cheio())
+    {
+        NoB *s = new NoB();
+
+        T->raiz = s; // a raiz da arvore agora é s
+        s->ehFolha = false;
+        s->n = 0;
+
+        s->filhos[0] = r; // a antiga raiz agora é filho de s
+
+        splitChild(s, 0); // pega o filho na posição 0 que é a raiz antiga que acabei de add como filho de s
+        insertNonFull(s, k);
+    }
+    else
+    {
+        cout << "NÃO ESTA CHEIO..." << endl;
+        insertNonFull(r, k);
+    }
+}
+
+/*
+    Toma como entrada um nó interno x não cheio e um índice i tal que x->filhos[i] é um filho cheio de x
+    Reparte o filho em dois e ajusta x de modo que tenha mais um filho
+    x é o nó não cheio que está sendo repartido (x precisa não estar cheio pois vai ganhar mais uma chave e um ponteiro pra um novo filho)
+    i é o indice do filho de x que está cheio
+    y é o i-ésimo filho de x que está cheio
+    nó y tem originalmente n filhos e é reduzido para [n/2] filhos
+*/
+void ArvoreB::splitChild(NoB *x, int i)
+{
+    NoB *z = new NoB(); // novo nó que ira receber as chaves de y
+
+    NoB *y = x->filhos[i]; // filho de x
+
+    z->ehFolha = y->ehFolha;
+
+    int qtd = ceil(y->n / 2.0);
+    z->n = qtd;
+
+    // copia as qtd maiores chaves de y para z
+    for (int j = 0; j < qtd - 1; j++)
+    {
+        z->chaves[j] = y->chaves[j + qtd];
+    }
+
+    // copia os filhos correspondentes de y para z
+    if (!y->ehFolha)
+    {
+        for (int j = 0; j < qtd; j++)
+        {
+            z->filhos[j] = y->filhos[j + qtd]; // pega de qtd em diante
+        }
+    }
+
+    // y agora tem qtd-1 chaves
+    y->n = qtd - 1;
+
+    // desloca 1 posição para direita até i para posicionar o novo filho
+    for (int j = x->n; j >= i + 1; j--)
+    {
+        x->filhos[j + 1] = x->filhos[j];
+    }
+
+    // coloca o novo filho (z) em x
+    x->filhos[i + 1] = z;
+
+    // desloca uma posição para direita até i para posionar nova chave
+    for (int j = x->n - 1; j >= i; j--)
+    {
+        x->chaves[j + 1] = x->chaves[j];
+    }
+
+    // x recebe a chave mediana de y
+    x->chaves[i] = y->chaves[qtd - 1];
+
+    // atualiza a quantidade de chaves de x
+    x->n = x->n + 1;
+
+    // DISK-WRITE(y)
+    // DISK-WRITE(z)
+    // DISK-WRITE(x)
+}
+
+/*
+    insere a chave k no nó x que supostamente não está cheio quando a função é chamada
+
+*/
+void ArvoreB::insertNonFull(NoB *x, Info k)
+{
+    int i = x->n;
+    if (x->ehFolha)
+    {
+        cout << "INSERINDO NA FOLHA...: pos: " << i << endl;
+        while (i >= 0 && k.id < x->chaves[i].id)
+        {
+            x->chaves[i + 1] = x->chaves[i];
+            i--;
+        }
+
+        x->chaves[i + 1] = k;
+        x->n = x->n + 1;
+        // DISK-WRITE(X)
+    }
+    else
+    {
+        while (i >= 0 && k.id < x->chaves[i].id)
+        {
+            i--;
+        }
+        i++;
+        // DISK-READ (x.filhos[i])
+        if (x->filhos[i]->cheio())
+        {
+            splitChild(x, i);
+            if (k.id > x->chaves[i].id)
+            {
+                i++;
+            }
+        }
+        insertNonFull(x->filhos[i], k);
     }
 }

@@ -22,12 +22,11 @@ public:
     NoB *filhos[ORDEM];                 // Array de ponteiros para os m filhos
     int n;                              // Contador do número de chaves presentes no nó
     bool ehFolha = true;                // Indica se o nó é folha ou não
+    
     bool cheio() { return n == ORDEM; } // verificar se encheu o vetor de chaves
 
-    NoB *NoB::cisao(Info);//divide os valores entre o no atual e um novo no criado. retorna o novo nó criado
-    NoB NoB::inserir(Info);//inserir chave de forma ordenada
-
-
+    NoB *cisao(Info);//divide os valores entre o no atual e um novo no criado. retorna o novo nó criado
+    NoB inserir(Info);//inserir chave de forma ordenada
 };
 
 #endif
