@@ -190,7 +190,6 @@ int main(int argc, char **argv)
 {
     int opcao = 1;
     int methodId;
-    
     if(argc == 2)
         path = argv[1];
     
