@@ -24,58 +24,61 @@ void imprime_arvore_huffman(NoHuff *p){
     }
 }
 
-// int main(){
+int main(){
     
-//     //Parte relacionada ao código de Huffman
-//     HuffmanCoding* teste = new HuffmanCoding();
+    //Parte relacionada ao código de Huffman
+    HuffmanCoding* teste = new HuffmanCoding();
 
-//     //Parte 1 - Contabilizar a frequência dos caracteres.
-//     //teste->contabilizaFrequencia(2);
-//     cout << "Teste 1\n";
-//     teste->contabiliza_Frequencia_string("eeisieeiiieaaiiie");
-//     cout << "Teste 2\n";
-//     //Parte 2 - Preencher uma lista de prioridade(min val) com as frequências e caracteres associados
-//     teste->preenche_lista_prioridade();
-//     teste->imprime_lista_prioridade();
+    //Parte 1 - Contabilizar a frequência dos caracteres.
+    //teste->contabilizaFrequencia(2);
+    cout << "Teste 1\n";
+    teste->contabiliza_Frequencia_string("eeisieeiiieaaiiie");
+    cout << "Teste 2\n";
+    //Parte 2 - Preencher uma lista de prioridade(min val) com as frequências e caracteres associados
+    teste->preenche_lista_prioridade();
+    teste->imprime_lista_prioridade();
 
-//     //Parte 3 - Construir a árvore de Huffman
-//     NoHuff* no = teste->create_arvore_huffman();
-//     cout << "**---------Árvore de Huffman---------**" << endl;
-//     imprime_arvore_huffman(no);
+    //Parte 3 - Construir a árvore de Huffman
+    NoHuff* no = teste->create_arvore_huffman();
+    cout << "**---------Árvore de Huffman---------**" << endl;
+    imprime_arvore_huffman(no);
 
-//     //Parte 4 - Construção do Dicionário
+    //Parte 4 - Construção do Dicionário
     
-//     teste->calcula_altura_arvore();
+    teste->calcula_altura_arvore();
     
-//     teste->preenche_Dicionario();
-//     cout << "*---------Dicionário de Compressão---------**" << endl;
+    teste->preenche_Dicionario();
+    cout << "*---------Dicionário de Compressão---------**" << endl;
     
-//     teste->impressao_dicionario();
-// }
+    teste->impressao_dicionario();
+
+    cout << teste->comprime("eeisieeiiieaaiiie") << endl;
+    cout << teste->descomprime("11110100011110001110110100011") << endl;
+}
 
 //Parte Relacionada a Árvore Vermelho e Preto
-int main(){
+// int main(){
 
-    File* arq = new File("/home/pedro/EDII/trabalho-dcc012/");
+//     File* arq = new File("/home/pedro/EDII/trabalho-dcc012/");
 
-    ArvoreVP *tree = new ArvoreVP(arq);
+//     ArvoreVP *tree = new ArvoreVP(arq);
 
-    ProductReview *list = arq->import(4);
+//     ProductReview *list = arq->import(4);
 
-    tree->insere(&list[0]);
-    tree->insere(&list[1]);
-    tree->insere(&list[2]);
+//     tree->insere(&list[0]);
+//     tree->insere(&list[1]);
+//     tree->insere(&list[2]);
 
-    cout << "UserId: " << (&list[1])->getUserId() << endl;
-    cout << "ProductId: " << (&list[1])->getProductId() << endl;
+//     cout << "UserId: " << (&list[1])->getUserId() << endl;
+//     cout << "ProductId: " << (&list[1])->getProductId() << endl;
 
-    tree->print();
+//     tree->print();
 
-    ProductReview* pr = tree->busca((&list[1])->getUserId(),(&list[1])->getProductId());
+//     ProductReview* pr = tree->busca((&list[1])->getUserId(),(&list[1])->getProductId());
 
-    if(pr != NULL){
-    cout << "UserId pr: " << pr->getUserId() << endl;
-    cout << "ProductId pr: " << pr->getProductId() << endl;
-    }
+//     if(pr != NULL){
+//     cout << "UserId pr: " << pr->getUserId() << endl;
+//     cout << "ProductId pr: " << pr->getProductId() << endl;
+//     }
 
-}
+// }

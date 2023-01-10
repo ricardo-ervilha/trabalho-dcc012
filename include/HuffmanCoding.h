@@ -40,6 +40,9 @@ public:
     void preenche_lista_prioridade();
     void contabilizaFrequencia(int n);
     void calcula_altura_arvore();
+    string comprime(string str);
+    string descomprime(string str);
+    string auxDescomprime(NoHuff *p, string str, string descomp, int i);
 };
 
 #endif
