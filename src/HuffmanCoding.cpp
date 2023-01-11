@@ -209,18 +209,8 @@ void HuffmanCoding::impressao_dicionario(){
 string HuffmanCoding::comprime(string str){
 
     string comp = "";
-    for(int i = 0; i < str.length(); i++){
-        for(int j = 0; j < TAM; j++){
-            if(table_freq[j] > 0)
-            {
-                if(str[i] == (char) j)
-                {
-                    comp += dicionario[j];
-                }
-            }
-        }
-
-    }
+    for(int i = 0; i < str.length(); i++)
+        comp += dicionario[str[i]];
     return comp;
 }
 
@@ -246,7 +236,6 @@ string HuffmanCoding::auxDescomprime(NoHuff *p, string str, string descomp, int 
 
     if(str[i] == '0')
         return auxDescomprime(p->getEsq(), str, descomp, i+1);
-    
     else
         return auxDescomprime(p->getDir(), str, descomp, i+1);
 }

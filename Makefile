@@ -30,7 +30,7 @@ depB:
 	g++ -c .$(PS)src$(PS)ArvoreB.cpp -I .$(PS)include -o .$(PS)obj$(PS)ArvoreB.o
 
 myapps:
-	g++ .$(PS)apps$(PS)main.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)MergeSort.o	.$(PS)obj$(PS)QuickSort.o .$(PS)obj$(PS)BucketSort.o .$(PS)obj$(PS)ListaEncadProductReview.o .$(PS)obj$(PS)HashProduct.o -I .$(PS)include -o .$(PS)bin$(PS)main		
+	g++ .$(PS)apps$(PS)main.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)MergeSort.o	.$(PS)obj$(PS)QuickSort.o .$(PS)obj$(PS)BucketSort.o .$(PS)obj$(PS)ListaEncadProductReview.o .$(PS)obj$(PS)HashProduct.o .$(PS)obj$(PS)HuffmanCoding.o -I .$(PS)include -o .$(PS)bin$(PS)main		
 
 vp:
 	g++ .$(PS)apps$(PS)mainVP.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)MergeSort.o	.$(PS)obj$(PS)QuickSort.o .$(PS)obj$(PS)BucketSort.o .$(PS)obj$(PS)ListaEncadProductReview.o .$(PS)obj$(PS)HashProduct.o .$(PS)obj$(PS)ArvoreVP.o .$(PS)obj$(PS)HuffmanCoding.o -I .$(PS)include -o .$(PS)bin$(PS)mainVP		

@@ -24,91 +24,91 @@ void imprime_arvore_huffman(NoHuff *p){
     }
 }
 
-void comprime(int metodo){
+// void comprime(int metodo){
     
-    string txt = "";
-    int a = 100000 
+//     string txt = "";
+//     int a = 100000;
 
-    if(metodo == 0)
-    {
-        ifstream arqTxt(pathTxt);
+//     if(metodo == 0)
+//     {
+//         ifstream arqTxt(pathTxt);
 
-        char *buffer = new char[a];
+//         char *buffer = new char[a];
 
-        if(arqTxt.is_open()){
-            while(!eof(arqTxt)){
-                arqTxt.read(buffer, a);
-                txt += buffer;
-            }
-            delete [] buffer;
-        }
+//         if(arqTxt.is_open()){
+//             while(!eof(arqTxt)){
+//                 arqTxt.read(buffer, a);
+//                 txt += buffer;
+//             }
+//             delete [] buffer;
+//         }
 
-        else 
-            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
+//         else 
+//             cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
 
 
-        HuffmanCoding* teste = new HuffmanCoding;
-        teste->contabiliza_Frequencia_string(txt);
-        teste->preenche_lista_prioridade();
+//         HuffmanCoding* teste = new HuffmanCoding;
+//         teste->contabiliza_Frequencia_string(txt);
+//         teste->preenche_lista_prioridade();
         
-        NoHuff* no = teste->create_arvore_huffman();
-        teste->preenche_Dicionario();
+//         NoHuff* no = teste->create_arvore_huffman();
+//         teste->preenche_Dicionario();
 
-        string comp = teste->comprime(txt);
+//         string comp = teste->comprime(txt);
 
-        fstream arqBin(pathBin);
+//         fstream arqBin(pathBin);
 
-        if(arqBin.is_open()){
-            arqBin.write(reinterpret_cast<const char *>(comp.c_str()), comp.length());
-        }
+//         if(arqBin.is_open()){
+//             arqBin.write(reinterpret_cast<const char *>(comp.c_str()), comp.length());
+//         }
 
-        else
-            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
-    }
-}
+//         else
+//             cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
+//     }
+// }
 
-void decomprime(int metodo)
-{
-    string txt = "";
-    int a = 100000
+// void decomprime(int metodo)
+// {
+//     string txt = "";
+//     int a = 100000;
 
-    if(metodo == 0)
-    {
-        ifstream arqBin(pathBin);
+//     if(metodo == 0)
+//     {
+//         ifstream arqBin(pathBin);
 
-        char *buffer = new char[a];
+//         char *buffer = new char[a];
 
-        if(arqBin.is_open()){
-            while(!eof(arqBin)){
-                arqBin.read(buffer, a);
-                txt += buffer;
-            }
-            delete [] buffer;
-        }
+//         if(arqBin.is_open()){
+//             while(!eof(arqBin)){
+//                 arqBin.read(buffer, a);
+//                 txt += buffer;
+//             }
+//             delete [] buffer;
+//         }
 
-        else 
-            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
+//         else 
+//             cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
 
 
-        HuffmanCoding* teste = new HuffmanCoding;
-        teste->contabiliza_Frequencia_string(txt);
-        teste->preenche_lista_prioridade();
+//         HuffmanCoding* teste = new HuffmanCoding;
+//         teste->contabiliza_Frequencia_string(txt);
+//         teste->preenche_lista_prioridade();
         
-        NoHuff* no = teste->create_arvore_huffman();
-        teste->preenche_Dicionario();
+//         NoHuff* no = teste->create_arvore_huffman();
+//         teste->preenche_Dicionario();
 
-        string descomp = teste->descomprime(txt);
+//         string descomp = teste->descomprime(txt);
 
-        fstream arqTxt(pathTxt);
+//         fstream arqTxt(pathTxt);
 
-        if(arqTxt.is_open()){
-            arqTxt << descomp;
-        }
+//         if(arqTxt.is_open()){
+//             arqTxt << descomp;
+//         }
 
-        else
-            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
-    }
-}
+//         else
+//             cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
+//     }
+// }
 
 int main(){
     
