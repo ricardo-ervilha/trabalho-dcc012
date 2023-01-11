@@ -222,11 +222,13 @@ void comprime(int metodo){
         // teste->impressao_dicionario();
 
         string comp = teste->comprime(txt);
+        string dicionario = teste->retornaDicionarioArq();
 
         fstream arqBin(pathBin);
 
         if(arqBin.is_open()){
             arqBin.write(reinterpret_cast<const char *>(comp.c_str()), comp.length());
+            arqBin.write(reinterpret_cast<const char *>(dicionario.c_str()), dicionario.length());
         }
 
         else
@@ -234,11 +236,13 @@ void comprime(int metodo){
     }
 }
 
-void decomprime(int metodo)
+void descomprime(int metodo)
 {
     string txt = "";
+    string dic = "";
     string pathBin = path + "reviewsComp.bin";
     string pathTxt = path + "reviewsDesc.txt";
+    bool aux = true;
 
     int a = 100000;
 
@@ -246,20 +250,31 @@ void decomprime(int metodo)
     {
         ifstream arqBin(pathBin);
 
-        char *buffer = new char[a];
+        string line;
 
         if(arqBin.is_open()){
-            while(!arqBin.eof()){
-                arqBin.read(buffer, a);
-                txt += buffer;
+            while(getline(arqBin, line))
+            {
+                if(aux){
+                    txt = line;
+                    aux = false;
+                }
+                else
+                    dic = line;
             }
-            delete [] buffer;
         }
 
         else 
             cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
 
         HuffmanCoding* teste = new HuffmanCoding;
+
+        teste->adicionaNovaLista(dic);
+        teste->preenche_lista_prioridade();
+        teste->imprime_lista_prioridade();
+
+        NoHuff* no = teste->create_arvore_huffman();
+        teste->preenche_Dicionario();
 
         string descomp = teste->descomprime(txt);
 
@@ -285,7 +300,7 @@ int main(int argc, char **argv)
     // cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
     // getline(cin, path);
 
-    comprime(0);
+    descomprime(0);
 
     File *ratings = new File(path);
 

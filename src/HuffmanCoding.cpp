@@ -62,6 +62,35 @@ void HuffmanCoding::contabiliza_Frequencia_string(string s){
     }
 }
 
+void HuffmanCoding::adicionaNovaLista(string s)
+{
+    int i = 0;
+
+    while(i < s.length())
+    {
+        if(s[i] == '#')
+            {
+                int j = i + 2;
+                string aux = "";
+                while(s[j] != '#')
+                {
+                    aux+=s[j];
+                    
+                    j++;
+                    if(j == s.length())
+                        break;
+                }
+                int auxI = stoi(aux);
+                table_freq[s[i+1]] = auxI;
+
+                aux = "";
+                i = j;
+                
+            }
+    }
+}
+
+
 void HuffmanCoding::contabilizaFrequencia(int n){
 
     File* arq = new File(path);
@@ -205,6 +234,28 @@ void HuffmanCoding::impressao_dicionario(){
             cout << (char) i << "    " << dicionario[i] << endl;
     }
 }
+
+string HuffmanCoding::retornaDicionarioArq(){ //retorna um texto que auxiliara na descompressao do arquivo binario
+
+    string dic = "\n";
+    string h = "#";
+    string auxI = "";
+    string auxC = "";
+
+    for(int i = 0; i < TAM;i++){
+        if(table_freq[i] > 0){
+            auxI += (char)i;
+            auxC += (char)table_freq[i] + '0';
+            dic += h + auxI + auxC;
+            auxI = "";
+            auxC = "";
+        } 
+    }
+
+    return dic;
+}
+
+
 
 string HuffmanCoding::comprime(string str){
 

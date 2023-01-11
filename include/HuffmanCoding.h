@@ -43,6 +43,8 @@ public:
     string comprime(string str);
     string descomprime(string str);
     string auxDescomprime(NoHuff *p, string str, string descomp, int i);
+    string retornaDicionarioArq();
+    void adicionaNovaLista(string s);
 };
 
 #endif
