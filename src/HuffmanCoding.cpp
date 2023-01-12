@@ -70,22 +70,41 @@ void HuffmanCoding::adicionaNovaLista(string s)
     {
         if(s[i] == '#')
             {
-                int j = i + 2;
-                string aux = "";
-                while(s[j] != '#')
+                if(s[i+2] == ' ') //caso especial de "  " que seria uma representação do \n
                 {
-                    aux+=s[j];
-                    
-                    j++;
-                    if(j == s.length())
-                        break;
-                }
-                int auxI = stoi(aux);
-                table_freq[s[i+1]] = auxI;
+                    int j = i + 3;
+                    string aux = "";
 
-                aux = "";
-                i = j;
-                
+                    while(s[j] != '#')
+                    {
+                        aux+=s[j];
+                        j++;
+                        if(j == s.length())
+                            break;
+                    }
+                    int auxI = stoi(aux);
+                    table_freq['\n'] = auxI;
+                    aux = "";
+                    i = j;
+                }
+
+                else{
+                    int j = i + 2;
+                    string aux = "";
+                    while(s[j] != '#')
+                    {
+                        aux+=s[j];
+                        j++;
+                        if(j == s.length())
+                            break;
+                    }
+                    int auxI = stoi(aux);
+
+                    table_freq[s[i+1]] = auxI;
+
+                    aux = "";
+                    i = j;
+                }
             }
     }
 }
@@ -244,8 +263,11 @@ string HuffmanCoding::retornaDicionarioArq(){ //retorna um texto que auxiliara n
 
     for(int i = 0; i < TAM;i++){
         if(table_freq[i] > 0){
-            auxI += (char)i;
-            auxC += (char)table_freq[i] + '0';
+            if((char)i == '\n')
+                auxI += "  ";
+            else
+                auxI += (char)i;
+            auxC += to_string(table_freq[i]);
             dic += h + auxI + auxC;
             auxI = "";
             auxC = "";

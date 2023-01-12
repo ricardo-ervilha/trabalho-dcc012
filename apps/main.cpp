@@ -260,18 +260,19 @@ void descomprime(int metodo)
                     aux = false;
                 }
                 else
-                    dic = line;
+                    dic += line;
             }
+        cout << dic << endl;
         }
 
         else 
-            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
+            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
 
         HuffmanCoding* teste = new HuffmanCoding;
 
         teste->adicionaNovaLista(dic);
         teste->preenche_lista_prioridade();
-        teste->imprime_lista_prioridade();
+        // teste->imprime_lista_prioridade();
 
         NoHuff* no = teste->create_arvore_huffman();
         teste->preenche_Dicionario();
@@ -285,7 +286,7 @@ void descomprime(int metodo)
         }
 
         else
-            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
+            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
     }
 }
 
