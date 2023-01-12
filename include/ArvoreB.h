@@ -9,11 +9,13 @@ class ArvoreB
 
 private:
     NoB *raiz;
+    int ordem;
     ProductReview *auxBusca(string K, NoB *no);
     NoB *encontrarFolha(string keySearch);
+    void auxPrint(NoB *);
 
 public:
-    ArvoreB();
+    ArvoreB(int ordem);
     ~ArvoreB();
     ProductReview *busca(string userId, string productId);
     void insere(ProductReview *pr);
