@@ -1,6 +1,8 @@
 #include "ArvoreVP.h"
 #include "File.h"
 
+extern string path;
+
 bool rotSimEsq = false;
 bool rotSimDir = false;
 bool rotDupEsq = false;
@@ -9,6 +11,15 @@ bool rotDupDir = false;
 ArvoreVP::ArvoreVP(File* arq)
 {
     this->arq = arq;
+    n = 0;
+    raiz = NULL;
+    comparacaoIn = 0;
+    comparacaoB = 0;
+}
+
+ArvoreVP::ArvoreVP()
+{
+    this->arq = new File(path);
     n = 0;
     raiz = NULL;
     comparacaoIn = 0;

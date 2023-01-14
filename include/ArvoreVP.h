@@ -24,6 +24,7 @@ private:
 
 public:
     ArvoreVP(File* arq);
+    ArvoreVP();
     ~ArvoreVP();
     bool vazia(); //Verifica se a árvore está vazia
     void insere(ProductReview *pr);

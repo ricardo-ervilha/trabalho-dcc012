@@ -1,6 +1,6 @@
 #include "ArvoreB.h"
 
-extern string localArquivo;
+extern string path;
 
 ArvoreB::ArvoreB()
 {
@@ -169,7 +169,7 @@ ProductReview *ArvoreB::busca(string userId, string productId)
     {
         return NULL;
     }
-    File *arq = new File(localArquivo);
+    File *arq = new File(path);
     ProductReview pr = arq->converteReview(k.indexLoc);
     ProductReview *prAux = new ProductReview(pr.getUserId(), pr.getProductId(), pr.getTimeStamp(), pr.getRating(), pr.getLocal());
     return prAux;
