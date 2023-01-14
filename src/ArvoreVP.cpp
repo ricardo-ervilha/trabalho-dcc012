@@ -11,10 +11,22 @@ ArvoreVP::ArvoreVP(File* arq)
     this->arq = arq;
     n = 0;
     raiz = NULL;
+    comparacaoIn = 0;
+    comparacaoB = 0;
 }
 ArvoreVP::~ArvoreVP()
 {
     libera(raiz);
+}
+
+int ArvoreVP::getComparacaoIn()
+{
+    return comparacaoIn;
+}
+
+int ArvoreVP::getComparacaoB()
+{
+    return comparacaoB;
 }
 
 NoVP* ArvoreVP::libera(NoVP* p){
@@ -37,6 +49,8 @@ void ArvoreVP::insere(ProductReview *pr)
 {
     n++;
     string info = concat(pr->getUserId(),pr->getProductId());
+    comparacaoIn++;
+
     if(raiz == NULL){
         raiz = new NoVP();
         raiz->setInfo(info);
@@ -45,7 +59,8 @@ void ArvoreVP::insere(ProductReview *pr)
         raiz->setDir(NULL);
         raiz->setColor(false);
         raiz->setPai(NULL);
-    }else{
+    }
+    else{
         raiz = auxInsere(raiz, info, pr->getLocal());
     }
 }
@@ -54,6 +69,8 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info, int local)
 {
     bool correcao = false;
 
+    comparacaoIn++;
+
     if(p == NULL){
         p = new NoVP();
         p->setInfo(info);
@@ -61,6 +78,7 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info, int local)
         p->setEsq(NULL);
         p->setDir(NULL);
     }
+
     else if(info < p->getInfo())
         {
             p->setEsq(auxInsere(p->getEsq(), info, local));
@@ -69,6 +87,7 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info, int local)
                 if(p->getColor() == true)
                     correcao = true;
             }
+            comparacaoIn+=2;
         }
     else
         {
@@ -78,6 +97,7 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info, int local)
                 if(p->getColor() == true)
                     correcao = true;
             }
+            comparacaoIn+=3;
         }
 
     if(rotSimEsq){
@@ -128,8 +148,10 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info, int local)
     }
 
     if(correcao){
+        comparacaoIn++;
         if(p->getPai()->getDir() == p) //pai esta na direita
         {
+            comparacaoIn++;
             if(p->getPai()->getEsq() != NULL && p->getPai()->getEsq()->getColor() == true){
                 //pai e tio (da esquerda) do no sao vermelhos
                 p = recolor(p);
@@ -138,20 +160,21 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info, int local)
 
                 if(p->getPai() == raiz)
                     p->getPai()->setColor(false);
+                comparacaoIn++;
 
             }
-
             else
             {
                 //pai vermelho e tio (da esquerda) nulo (NIL) ou preto
+                comparacaoIn++;
                 if(p->getDir() != NULL && p->getDir()->getColor() == true)
                 {
                     //filho existe e esta na direita do pai
                     rotSimEsq = true;
                 }
-
                 else if(p->getEsq() != NULL && p->getEsq()->getColor() == true)
                 {
+                    comparacaoIn++;
                     //filho existe e esta na direita do pai
                     rotDupEsq = true;
                 }
@@ -162,6 +185,7 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info, int local)
 
         else //pai esta na esquerda
         {
+            comparacaoIn++;
             if(p->getPai()->getDir() != NULL && p->getPai()->getDir()->getColor() == true){
                 //pai e tio (da direita) do no sao vermelhos
                 p = recolor(p);
@@ -170,20 +194,22 @@ NoVP *ArvoreVP::auxInsere(NoVP* p, string info, int local)
 
                 if(p->getPai() == raiz)
                     p->getPai()->setColor(false);
+                comparacaoIn++;
 
             }
 
             else if(p->getPai()->getDir() == NULL || p->getPai()->getDir()->getColor() == false)
             {
+                comparacaoIn++;
                 //pai vermelho e tio (da direita) nulo (NIL) ou preto
                 if(p->getEsq() != NULL && p->getEsq()->getColor() == true)
                 {
                     //filho existe e esta na esquerda do pai
                     rotSimDir = true;
                 }
-
                 else if(p->getDir() != NULL && p->getDir()->getColor() == true)
                 {
+                    comparacaoIn++;
                     //filho existe e esta na direita do pai
                     rotDupDir = true;
                 }
@@ -226,6 +252,8 @@ NoVP* ArvoreVP::rotSimplesEsq(NoVP* r){
 
     r->setPai(q);
     
+    comparacaoIn+=2;
+
     return q;
 }
 
@@ -244,27 +272,36 @@ NoVP* ArvoreVP::rotSimplesDir(NoVP* r){
 
     r->setPai(q);
     
+    comparacaoIn+=2;
     return q;
 }
 
 ProductReview* ArvoreVP::busca(string userId, string productId)
 {
+    comparacaoB = 0;
     return auxBusca(raiz, concat(userId, productId));
 }
 
 ProductReview* ArvoreVP::auxBusca(NoVP *p, string info){
+    comparacaoB++;
     if(p == NULL)
         return NULL;
     else if(info == p->getInfo()){
+        comparacaoB++;
         ProductReview pr = arq->converteReview(p->getInd());
         ProductReview* prAux = new ProductReview(pr.getUserId(), pr.getProductId(), pr.getTimeStamp(), pr.getRating(), pr.getLocal());
         return prAux;
         
     }
-    else if(info < p->getInfo())
+    else if(info < p->getInfo()){
+        comparacaoB+=2;
         return auxBusca(p->getEsq(), info);
+        }
     else
+    {
+        comparacaoB+=2;
         return auxBusca(p->getDir(), info);
+    }
 }
 
 void ArvoreVP::print()

@@ -110,65 +110,98 @@ void imprime_arvore_huffman(NoHuff *p){
 //     }
 // }
 
-int main(){
+// int main(){
     
-    //Parte relacionada ao código de Huffman
-    HuffmanCoding* teste = new HuffmanCoding();
+//     //Parte relacionada ao código de Huffman
+//     HuffmanCoding* teste = new HuffmanCoding();
 
-    //Parte 1 - Contabilizar a frequência dos caracteres.
-    //teste->contabilizaFrequencia(2);
-    cout << "Teste 1\n";
-    teste->contabiliza_Frequencia_string("eeisieeiiieaaiiie");
-    cout << "Teste 2\n";
-    //Parte 2 - Preencher uma lista de prioridade(min val) com as frequências e caracteres associados
-    teste->preenche_lista_prioridade();
-    teste->imprime_lista_prioridade();
+//     //Parte 1 - Contabilizar a frequência dos caracteres.
+//     //teste->contabilizaFrequencia(2);
+//     cout << "Teste 1\n";
+//     teste->contabiliza_Frequencia_string("eeisieeiiieaaiiie");
+//     cout << "Teste 2\n";
+//     //Parte 2 - Preencher uma lista de prioridade(min val) com as frequências e caracteres associados
+//     teste->preenche_lista_prioridade();
+//     teste->imprime_lista_prioridade();
 
-    //Parte 3 - Construir a árvore de Huffman
-    NoHuff* no = teste->create_arvore_huffman();
-    cout << "**---------Árvore de Huffman---------**" << endl;
-    imprime_arvore_huffman(no);
+//     //Parte 3 - Construir a árvore de Huffman
+//     NoHuff* no = teste->create_arvore_huffman();
+//     cout << "**---------Árvore de Huffman---------**" << endl;
+//     imprime_arvore_huffman(no);
 
-    //Parte 4 - Construção do Dicionário
+//     //Parte 4 - Construção do Dicionário
     
-    teste->calcula_altura_arvore();
+//     teste->calcula_altura_arvore();
     
-    teste->preenche_Dicionario();
-    cout << "*---------Dicionário de Compressão---------**" << endl;
+//     teste->preenche_Dicionario();
+//     cout << "*---------Dicionário de Compressão---------**" << endl;
     
-    teste->impressao_dicionario();
+//     teste->impressao_dicionario();
 
-    cout << teste->comprime("eeisieeiiieaaiiie") << endl;
-    cout << teste->descomprime("11110100011110001110110100011") << endl;
-}
+//     cout << teste->comprime("eeisieeiiieaaiiie") << endl;
+//     cout << teste->descomprime("11110100011110001110110100011") << endl;
+// }
 
 
 
 
 
 //Parte Relacionada a Árvore Vermelho e Preto
-// int main(){
+int main(){
 
-//     File* arq = new File("/home/pedro/EDII/trabalho-dcc012/");
+    File* arq = new File("/home/pedro/EDII/trabalho-dcc012/");
+    int n;
 
-//     ArvoreVP *tree = new ArvoreVP(arq);
+    cout << "Digite a quantidade de registros a serem importados: ";
+    cin >> n;
 
-//     ProductReview *list = arq->import(4);
+    std::chrono::time_point<std::chrono::system_clock> start, end;
+    start = std::chrono::system_clock::now();
+ 
+    ProductReview *list;
+    ArvoreVP *tree;
 
-//     tree->insere(&list[0]);
-//     tree->insere(&list[1]);
-//     tree->insere(&list[2]);
+    for(int i = 0; i < 3; i++){
+        list = arq->import(n); 
+        tree = new ArvoreVP(arq);
+        for(int j = 0; j < n; j++)
+        {
+            tree->insere(&list[j]);
+        }
+        cout << tree->getComparacaoIn() << endl;
+        delete []list;    
+    }
 
-//     cout << "UserId: " << (&list[1])->getUserId() << endl;
-//     cout << "ProductId: " << (&list[1])->getProductId() << endl;
+    end = std::chrono::system_clock::now();
 
-//     tree->print();
+    std::chrono::duration<double> elapsed_seconds = end - start;
 
-//     ProductReview* pr = tree->busca((&list[1])->getUserId(),(&list[1])->getProductId());
+    cout << "Tempo de insercao na arvore: " << elapsed_seconds.count() << endl;
 
-//     if(pr != NULL){
-//     cout << "UserId pr: " << pr->getUserId() << endl;
-//     cout << "ProductId pr: " << pr->getProductId() << endl;
-//     }
+    int comp = 0, B;
 
-// }
+    cout << "Digite o numero de registros para serem buscados na arvore escolhida: ";
+    cin >> B;
+
+    start = std::chrono::system_clock::now();
+
+    ProductReview* list2 = arq->import(100);
+
+    for(int i = 0; i < B; i++){
+        ProductReview* pr = tree->busca((&list[i])->getUserId(), (&list[i])->getProductId());
+        comp = tree->getComparacaoB();
+        cout << comp << endl;
+
+    }
+
+    delete []list;
+
+    end = std::chrono::system_clock::now();
+
+    std::chrono::duration<double> elapsed_seconds2 = end - start;
+    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+    cout << "Tempo de busca de " << B << " ProductReviews na arvore escolhida: " << elapsed_seconds2.count() << endl;
+
+    return 0;
+}

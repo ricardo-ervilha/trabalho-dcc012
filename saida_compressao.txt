@@ -1,12 +1,12 @@
 *************************Dados do Huffman*************************
 Iteração	Tamanho Inicial	Tamanho Final	Taxa de compressao
-0			1322504			789352			0.403138
-1			1323112			789191			0.403534
-2			1322816			789044			0.403512
-Media das taxas de compressao: 0.403395
+0			1322464			788743			0.403581
+1			1322616			788521			0.403817
+2			1322704			788796			0.403649
+Media das taxas de compressao: 0.403682
 *************************Dados do LZ77*************************
 Iteração	Tamanho Inicial	Tamanho Final	Taxa de compressao
-2			1322816			789044			0.403512
+2			1322704			788796			0.403649
 3			0			0			-nan
 4			0			0			-nan
 5			0			0			-nan
