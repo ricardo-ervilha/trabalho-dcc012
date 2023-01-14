@@ -3,8 +3,8 @@
 #include <string>
 #include <cstring>
 
-#define ND 57// Tamanho do Dicionário
-#define NB 19 // Tamanho do Buffer
+#define ND 30// Tamanho do Dicionário
+#define NB 10 // Tamanho do Buffer
 /*
     1: Defina os tamanhos Nd e Nb do dicionário e do buffer
     2: Inicialize o buffer com os primeiros Nb caracteres da sequência
@@ -96,7 +96,7 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
         finalPosB++;
     }
     finalPosB--;
-
+    
     // Variaves para criacao do codigo comprimido
     int p = 0; // Posicoes antes do cursor
     int l = 0; // quantidade de caracteres na sequencia
@@ -169,6 +169,13 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
                 codigo += ('0' + p);
                 codigo += ('0' + l);
                 codigo += c;
+                cursorB++;
+                finalPosB++;
+                finalPosD++;
+                while ((finalPosD - inicialPosD) > ND)
+                {
+                    inicialPosD++;
+                }
                 //codigo+=' ';
                 
                 
