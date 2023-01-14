@@ -45,3 +45,20 @@ string ProductReview::getRating(){
 int ProductReview::getLocal(){
     return localizacao;
 }
+
+void ProductReview::setUserId(string userId){
+    this->userId = userId;
+}
+
+
+void ProductReview::setProductId(string productId){
+    this->productId = productId;
+}
+
+void ProductReview::setTimeStamp(string timeStamp){
+    this->timeStamp = timeStamp;
+}
+
+void ProductReview::setRating(string rating){
+    this->rating = rating;
+}

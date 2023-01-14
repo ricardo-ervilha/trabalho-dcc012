@@ -5,7 +5,6 @@ using namespace std;
 
 class ProductReview
 {
-
 private:
     string userId;
     string productId;
@@ -22,6 +21,10 @@ public:
     string getUserId();
     string getTimeStamp();
     string getRating();
+    void setProductId(string productId);
+    void setUserId(string userId);
+    void setTimeStamp(string timeStamp);
+    void setRating(string rating);
     int getLocal();
 };
 

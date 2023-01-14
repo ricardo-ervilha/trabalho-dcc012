@@ -20,6 +20,10 @@
 using namespace std;
 using namespace std::chrono;
 
+/*
+Main que está sendo usada para testar as implementações referentes a primeira parte do trabalho.
+*/
+
 // Variáveis globais
 string path;
 int compMov[2] = {0, 0};            // vetor para acesso global do número de comparações e movimentações.
@@ -187,108 +191,6 @@ void gerarSaida()
     inputDat.close();
 }
 
-void comprime(int metodo){
-    
-    string txt = "";
-    string pathTxt = path + "reviewsOrig.txt";
-    string pathBin = path + "reviewsComp.bin";
-    int a = 100000;
-
-    if(metodo == 0)
-    {
-        ifstream arqTxt(pathTxt);
-
-        char *buffer = new char[a];
-
-        if(arqTxt.is_open()){
-            while(!arqTxt.eof()){
-                arqTxt.read(buffer, a);
-                txt += buffer;
-            }
-            delete [] buffer;
-        }
-
-        else 
-            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
-
-
-        HuffmanCoding* teste = new HuffmanCoding;
-        teste->contabiliza_Frequencia_string(txt);
-        teste->preenche_lista_prioridade();
-        // teste->imprime_lista_prioridade();
-        
-        NoHuff* no = teste->create_arvore_huffman();
-        teste->preenche_Dicionario();
-        // teste->impressao_dicionario();
-
-        string comp = teste->comprime(txt);
-        string dicionario = teste->retornaDicionarioArq();
-
-        fstream arqBin(pathBin);
-
-        if(arqBin.is_open()){
-            arqBin.write(reinterpret_cast<const char *>(comp.c_str()), comp.length());
-            arqBin.write(reinterpret_cast<const char *>(dicionario.c_str()), dicionario.length());
-        }
-
-        else
-            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
-    }
-}
-
-void descomprime(int metodo)
-{
-    string txt = "";
-    string dic = "";
-    string pathBin = path + "reviewsComp.bin";
-    string pathTxt = path + "reviewsDesc.txt";
-    bool aux = true;
-
-    int a = 100000;
-
-    if(metodo == 0)
-    {
-        ifstream arqBin(pathBin);
-
-        string line;
-
-        if(arqBin.is_open()){
-            while(getline(arqBin, line))
-            {
-                if(aux){
-                    txt = line;
-                    aux = false;
-                }
-                else
-                    dic += line;
-            }
-        cout << dic << endl;
-        }
-
-        else 
-            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
-
-        HuffmanCoding* teste = new HuffmanCoding;
-
-        teste->adicionaNovaLista(dic);
-        teste->preenche_lista_prioridade();
-        // teste->imprime_lista_prioridade();
-
-        NoHuff* no = teste->create_arvore_huffman();
-        teste->preenche_Dicionario();
-
-        string descomp = teste->descomprime(txt);
-
-        fstream arqTxt(pathTxt);
-
-        if(arqTxt.is_open()){
-            arqTxt << descomp;
-        }
-
-        else
-            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
-    }
-}
 
 int main(int argc, char **argv)
 {
@@ -300,8 +202,6 @@ int main(int argc, char **argv)
     
     // cout << "Digite a pasta onde o arquivo binario deve estar: " << endl;
     // getline(cin, path);
-
-    descomprime(0);
 
     File *ratings = new File(path);
 
