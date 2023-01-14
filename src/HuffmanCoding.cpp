@@ -212,7 +212,7 @@ void HuffmanCoding::preenche_Dicionario(){
 
     gera_Dicionario();
     string c = "";
-    aux_preenche_Dicionario(lista->inicio, c, altura+1);
+    return aux_preenche_Dicionario(lista->inicio, c, altura+1);
 }
 
 void HuffmanCoding::aux_preenche_Dicionario(NoHuff *p, string caminho, int colunas){
@@ -278,15 +278,6 @@ string HuffmanCoding::retornaDicionarioArq(){ //retorna um texto que auxiliara n
 }
 
 
-
-string HuffmanCoding::comprime(string str){
-
-    string comp = "";
-    for(int i = 0; i < str.length(); i++)
-        comp += dicionario[str[i]];
-    return comp;
-}
-
 string HuffmanCoding::descomprime(string str){
     string descomp = "";
     
@@ -311,4 +302,12 @@ string HuffmanCoding::auxDescomprime(NoHuff *p, string str, string descomp, int 
         return auxDescomprime(p->getEsq(), str, descomp, i+1);
     else
         return auxDescomprime(p->getDir(), str, descomp, i+1);
+}
+
+char** HuffmanCoding::getDicionario(){
+    return this->dicionario;
+}
+
+NoHuff* HuffmanCoding::getInicioLista(){
+    return lista->inicio;
 }
