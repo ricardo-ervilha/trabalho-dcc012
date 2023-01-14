@@ -3,6 +3,7 @@
 
 #include "NoB.h"
 #include "ProductReview.h"
+#include "File.h"
 
 class ArvoreB
 {
@@ -13,19 +14,17 @@ private:
     ProductReview *auxBusca(string K, NoB *no);
     NoB *encontrarFolha(string keySearch);
     void auxPrint(NoB *);
-
-public:
-    ArvoreB(int ordem);
-    ~ArvoreB();
-    ProductReview *busca(string userId, string productId);
-    void insere(ProductReview *pr);
-    void print();
-    bool vazia() { return raiz == NULL; } // Verifica se a árvore está vazia
-
     NoB * search(NoB *x, Info *k);
     void splitChild(NoB *x, int i);
     void insert(ArvoreB *T, Info k);
     void insertNonFull(NoB *x, Info k);
+
+public:
+    ArvoreB();
+    ~ArvoreB();
+    ProductReview *busca(string userId, string productId);
+    void insere(ProductReview *pr);
+    void print();
 };
 
 #endif

@@ -1,11 +1,18 @@
 #include "ArvoreB.h"
 
-ArvoreB::ArvoreB(int ordem)
+extern string localArquivo;
+
+ArvoreB::ArvoreB()
 {
     cout << "Criando árvore B...." << endl;
+    /*
+        Ordem par para que tenha sempre um número impar de chaves no nó
+        Ao subir a chave para o nó pai, sobe sempre o do meio
+    */
+    this->ordem = 20; // sempre usar ordem par ==> grau minimo t = 2 -> máximo filhos = 4
     this->raiz = new NoB(ordem);
-    this->ordem = ordem;
 }
+
 ArvoreB::~ArvoreB()
 {
 }
@@ -58,10 +65,10 @@ ArvoreB::~ArvoreB()
 //     return folha; // retorna a folha onde deve ser inserida a chave
 // }
 
-// // ProductReview *ArvoreB::busca(string userId, string productId)
-// // {
-// //     return auxBusca(userId + productId, raiz);
-// // }
+// ProductReview *ArvoreB::busca(string userId, string productId)
+// {
+//     return auxBusca(userId + productId, raiz);
+// }
 
 // ProductReview *ArvoreB::auxBusca(string k, NoB *no)
 // {
@@ -152,28 +159,25 @@ ArvoreB::~ArvoreB()
 //     }
 // }
 
-// ProductReview *ArvoreB::busca(string userId, string productId)
-// {
-//     Info k;
-//     k.id = userId + productId;
-//     k.indexLoc = -1;
+ProductReview *ArvoreB::busca(string userId, string productId)
+{
+    Info k;
+    k.id = userId + productId;
+    k.indexLoc = -1;
 
-//     if (search(raiz, &k) == NULL)
-//     {
-//         cout << " Chave não encontrada..." << endl;
-
-//         return NULL;
-//     }
-
-//     // ELSE PROCURAR ESSE PRODUCT REVIEW (k.indexLoc) NO ARQUIVO E RETORNAR
-//     cout << " Chave encontrada..." << endl;
-//     return NULL;
-// }
+    if (search(raiz, &k) == NULL)
+    {
+        return NULL;
+    }
+    File *arq = new File(localArquivo);
+    ProductReview pr = arq->converteReview(k.indexLoc);
+    ProductReview *prAux = new ProductReview(pr.getUserId(), pr.getProductId(), pr.getTimeStamp(), pr.getRating(), pr.getLocal());
+    return prAux;
+}
 
 /*
     A entrada é um ponteiro para o nó raiz e a chave k a ser procurada
     Se for encontrado o registro, guarda a localização no arquivo, no atributo indexLoc de k
-
 */
 NoB *ArvoreB::search(NoB *x, Info *k)
 {
@@ -183,18 +187,12 @@ NoB *ArvoreB::search(NoB *x, Info *k)
         for (i = 0; i < x->n && x->chaves[i].id < (*k).id; i++)
             ;
 
-        cout << "Procurando: " << (*k).id << endl;
-        cout << "Checando: " << x->chaves[i].id << endl;
-        cout << "i: " << i << endl;
-        cout << "n: " << x->n << endl;
-
         /*
             if i==n e não for folha tenho que pegar os filhos na posição i
         */
         if (i < x->n && (*k).id == x->chaves[i].id)
         {
-            cout << " ENTROU..." << endl;
-            (*k).indexLoc = i;
+            (*k).indexLoc = x->chaves[i].indexLoc;
             return x;
         }
         else if (x->ehFolha)
@@ -214,13 +212,27 @@ NoB *ArvoreB::search(NoB *x, Info *k)
 }
 
 /*
+    Função obrigatória, exigida pelo traalho
+*/
+void ArvoreB::insere(ProductReview *pr)
+{
+    if (pr == NULL)
+    {
+        cout << "Erro ao tentar inserir um registro NULL na árvore...." << endl;
+        cout << "Talvez você não tenha importado os registros na opção 2...." << endl;
+        return;
+    }
+    Info info = {pr->getUserId() + pr->getProductId(), pr->getLocal()};
+
+    this->insert(this, info);
+}
+
+/*
     inserindo uma chave em uma unica passagem descendente pela arvore
     usa cisão na descida para garantir que sempre tera um no com espaço vazio no caminho de inserção
 */
 void ArvoreB::insert(ArvoreB *T, Info k)
 {
-
-    cout << "insert: " << k.id << endl;
     // inserção do primeiro registo na arvore
     if (T->raiz->n == 0)
     {
@@ -234,8 +246,6 @@ void ArvoreB::insert(ArvoreB *T, Info k)
     // se a raiz esta cheia, a raiz é repartida e um novo nó s, que tem 2 filhos, se torna raiz
     if (r->cheio())
     {
-        cout << "RAIZ ESTÁ CHEIA..." << endl;
-
         NoB *s = new NoB(this->ordem);
 
         T->raiz = s; // a raiz da arvore agora é s
@@ -245,19 +255,15 @@ void ArvoreB::insert(ArvoreB *T, Info k)
         s->filhos[0] = r; // a antiga raiz agora é filho de s
 
         /*
+            Antes de inserir a chave, faço o split, de forma que sobe para o pai o nó intermediário
             passo o 0 para pegar o filho na posição 0 de s
             na função split pego o filho de s na posição 0, que é a raiz antiga (cheia) que acabei de add como filho de s
         */
         splitChild(s, 0);
-        cout << "TERMINOU SPLIT" << endl;
-        cout << "CHAVE ESQUERDA: " << (s->chaves[0].id) << endl;
-        cout << "CHAVE DIREITA: " << s->chaves[1].id << endl;
-        
         insertNonFull(s, k);
     }
     else
     {
-        cout << "NÃO ESTA CHEIO...Inserindo " << k.id << endl;
         insertNonFull(r, k);
     }
 }
@@ -284,7 +290,6 @@ void ArvoreB::splitChild(NoB *x, int i)
     // copia as qtd maiores chaves de y para z
     for (int j = 0; j < qtd - 1; j++)
     {
-        cout << "COPIANDO " << y->chaves[j + qtd].id << " PARA Z" << endl;
         z->chaves[j] = y->chaves[j + qtd];
     }
 
@@ -332,8 +337,7 @@ void ArvoreB::splitChild(NoB *x, int i)
 */
 void ArvoreB::insertNonFull(NoB *x, Info k)
 {
-    int i = x->n - 1;
-    cout << "Número de registros atual: " << x->n << endl;
+    int i = x->n - 1; // percorrer da ultima posição ocupada até o inicio do nó
     if (x->ehFolha)
     {
         while (i >= 0 && k.id < x->chaves[i].id)
@@ -342,7 +346,6 @@ void ArvoreB::insertNonFull(NoB *x, Info k)
             i--;
         }
 
-        cout << "INSERINDO NA POS(i+1): " << i + 1 << endl;
         x->chaves[i + 1] = k;
         x->n = x->n + 1;
         // DISK-WRITE(X)
@@ -369,14 +372,14 @@ void ArvoreB::insertNonFull(NoB *x, Info k)
 
 void ArvoreB::print()
 {
-    cout <<"CHAVES NA ARVORE: "<<endl;
+    cout << "CHAVES NA ARVORE: " << endl;
     auxPrint(raiz);
-    cout <<endl;
+    cout << endl;
 }
 
 void ArvoreB::auxPrint(NoB *no)
 {
-    //cout << "Número de chaves no nó: " << no->n << endl;
+    // cout << "Número de chaves no nó: " << no->n << endl;
     if (no->n > 0)
     {
         if (!no->ehFolha)

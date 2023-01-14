@@ -13,6 +13,11 @@ NoB::~NoB()
 {
 }
 
+bool NoB::cheio()
+{
+    return this->n == this->ordem - 1;
+}
+
 void NoB::printKeys()
 {
     cout << "NÓ:";
