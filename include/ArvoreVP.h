@@ -19,6 +19,8 @@ private:
     NoVP* auxInsere(NoVP* p, string info, int local);
     ProductReview* auxBusca(NoVP *p, string info);
     void auxPrint(NoVP *p);
+    int comparacaoIn;
+    int comparacaoB;
 
 public:
     ArvoreVP(File* arq);
@@ -27,6 +29,8 @@ public:
     void insere(ProductReview *pr);
     ProductReview* busca(string userId, string productId);
     void print();
+    int getComparacaoIn(); //retorna a quantidade de comparções realizadas na inserção
+    int getComparacaoB(); //retorna a quantidade de comparções realizadas na busca
 };
 
 #endif

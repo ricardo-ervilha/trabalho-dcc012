@@ -417,50 +417,6 @@ string descomprime(string str, int metodo){
     }
 }
 
-void comprimeHuff(){
-    string txt = "";
-    string pathTxt = path + "reviewsOrig.txt";
-    string pathBin = path + "reviewsComp.bin";
-    int a = 100000;
-
-    ifstream arqTxt(pathTxt);
-
-    char *buffer = new char[a];
-
-    if (arqTxt.is_open())
-    {
-        while (!arqTxt.eof())
-        {
-            arqTxt.read(buffer, a);
-            txt += buffer;
-        }
-        delete[] buffer;
-    }
-    else
-        cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
-
-    HuffmanCoding *huff = new HuffmanCoding;
-    huff->contabiliza_Frequencia_string(txt);
-    huff->preenche_lista_prioridade();
-
-    NoHuff *no = huff->create_arvore_huffman();
-    huff->preenche_Dicionario();
-
-    string comp = comprime(txt, 0);
-    string dicionario = huff->retornaDicionarioArq();
-
-    fstream arqBin(pathBin);
-
-    if (arqBin.is_open())
-    {
-        arqBin.write(reinterpret_cast<const char *>(comp.c_str()), comp.length());
-        arqBin.write(reinterpret_cast<const char *>(dicionario.c_str()), dicionario.length());
-    }
-
-    else
-        cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
-}
-
 // Comprime um arquivo.
 void comprime(int metodo)
 {
@@ -468,7 +424,50 @@ void comprime(int metodo)
     if (metodo == 0)
     {
         // Huffman
-        comprimeHuff();
+        string txt = "";
+        string pathTxt = path + "reviewsOrig.txt";
+        string pathBin = path + "reviewsComp.bin";
+        int a = 100000;
+
+        ifstream arqTxt(pathTxt);
+
+        char *buffer = new char[a];
+
+        if (arqTxt.is_open())
+        {
+
+            while (!arqTxt.eof())
+            {
+                arqTxt.read(buffer, a);
+                txt += buffer;
+            }
+            delete[] buffer;
+        }
+        else
+            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
+
+        arqTxt.close();
+        HuffmanCoding *huff = new HuffmanCoding;
+        huff->contabiliza_Frequencia_string(txt);
+        huff->preenche_lista_prioridade();
+
+        NoHuff *no = huff->create_arvore_huffman();
+        huff->preenche_Dicionario();
+
+        string comp = comprime(txt, 0);
+        string dicionario = huff->retornaDicionarioArq();
+
+        fstream arqBin(pathBin);
+
+        if (arqBin.is_open())
+        {
+            arqBin.write(reinterpret_cast<const char *>(comp.c_str()), comp.length());
+            arqBin.write(reinterpret_cast<const char *>(dicionario.c_str()), dicionario.length());
+        }
+
+        else
+            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
+        arqBin.close();
     }
     else if (metodo == 1)
     {
@@ -512,6 +511,7 @@ void descomprime(int metodo)
         else 
             cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
 
+        arqBin.close();
         HuffmanCoding* huff = new HuffmanCoding;
 
         huff->adicionaNovaLista(dic);
@@ -530,6 +530,8 @@ void descomprime(int metodo)
         }
         else
             cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
+        
+        arqTxt.close();
     }else if (metodo == 1)
     {
         // LZ77
@@ -617,6 +619,8 @@ void gerarSaidaCompressao(){
         saida << i << "\t\t\t" << tam_Inicio[i] << "\t\t\t" << tam_Final[i] << "\t\t\t" << taxas_compressao[i] << endl;
     }
     saida << "Media das taxas de compressao: " << media/(3.0) <<endl;
+
+    saida.close();
 }
 
 
@@ -664,4 +668,5 @@ int main(int argc, char **argv)
     {
         cout << "Problema ao informar o caminho no prompt.\n";
     }
+    return 0;
 }
