@@ -16,13 +16,14 @@ class LZ77Coding{
         ProductReview *list;
         int registros;
         void LZ77Compress(ProductReview *list);
-        void Descomprime(string codigo);
+        
  
     public:   
         LZ77Coding();
         LZ77Coding(ProductReview *, int);
         ~LZ77Coding();
-        void comprime();
+        void Descomprime(string codigo);
+        void Comprime(string concatenada);
         void imprime();
 };
 
