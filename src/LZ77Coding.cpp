@@ -138,19 +138,7 @@ void LZ77Coding::Comprime(string concatenada)
                     while ((finalPosD - inicialPosD) > ND)
                     {
                         inicialPosD++;
-                    }
-                    /*while ((concatenada[cursorD] == concatenada[cursorB]) && (cursorD < finalPosD))
-                    {
-
-                        // Ajusta as posições inicias, finais, dos cursores e quantidade de caracacteres em sequencia
-                        cursorB++;
-                        cursorD++;
-                        finalPosB++;
-                        finalPosD++;
-                        l++;
-                        // Caso o dicionario fique maior que o tamanho definido sua posicao inical muda
-                        
-                    } */              
+                    }          
                     
                 }
                 else
