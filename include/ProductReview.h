@@ -1,6 +1,6 @@
 #ifndef PRODUCTREVIEW_H
 #define PRODUCTREVIEW_H
-
+#include <string>
 using namespace std;
 
 class ProductReview

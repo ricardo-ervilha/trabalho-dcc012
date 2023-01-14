@@ -175,7 +175,7 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
                         }
                     }
                     if(cursorB > concatenada.length()-1)
-                        c = 0;
+                        c = '\0';
                     else
                     c = concatenada[cursorB];
                     codigo += ('0' + p);
