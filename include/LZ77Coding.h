@@ -16,6 +16,7 @@ class LZ77Coding{
         ProductReview *list;
         int registros;
         void LZ77Compress(ProductReview *list);
+        void Descomprime(string codigo);
  
     public:   
         LZ77Coding();

@@ -3,8 +3,8 @@
 #include <string>
 #include <cstring>
 
-#define ND 6 // Tamanho do Dicionário
-#define NB 4 // Tamanho do Buffer
+#define ND 57// Tamanho do Dicionário
+#define NB 19 // Tamanho do Buffer
 /*
     1: Defina os tamanhos Nd e Nb do dicionário e do buffer
     2: Inicialize o buffer com os primeiros Nb caracteres da sequência
@@ -42,6 +42,7 @@ LZ77Coding::LZ77Coding(ProductReview *list, int n)
 {
     this->registros = n;
     this->list = list;
+    //Descomprime("00b00a00n23b44o00f63");
     LZ77Compress(list);
 }
 
@@ -51,7 +52,33 @@ LZ77Coding::~LZ77Coding()
 }
 
 
+void LZ77Coding::Descomprime(string codigo)
+{
+    string palavra = "";
+    int p,l,tam;
+    for(int i = 0; i <= codigo.length()-2; i+=3)
+    {
+        if(codigo[i]=='0' && codigo[i+1]=='0')
+        {
+            palavra+= codigo[i+2];
+        }
+        else
+        {
+            p = codigo[i] - 48;
+            l = codigo[i+1] - 48;
+            tam =  palavra.length();
+            
+            for(int j = (tam - p); j < (tam - p) + l; j++)
+            {
+                palavra += palavra[j];
+            }
+            
+            palavra += codigo[i+2];
+        }
+    }
+    cout<<"\nDecodificado\n"<<palavra<<endl;
 
+}
 void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compressao
 {
 
@@ -60,12 +87,10 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
     int cursorD = 0, inicialPosD = 0, finalPosD = -1; // cursor ,posição inicial e final do dicionário em relação a string concatenada
     int cursorB = 0, finalPosB = 0;                   // cursor e posição final do Buffer em relação a string concatenada
 
-    /*for(int i = 0; i < registros; i++)//Concatena a lista em uma única string
+    for(int i = 0; i < registros; i++)//Concatena a lista em uma única string
     {
         concatenada += list[i].getUserId() +',' + list[i].getProductId() +',' + list[i].getRating() +',' + list[i].getTimeStamp()+'\n';
-    }*/
-    // cout<<concatenada;
-    concatenada = "bananabanabofana";
+    }
     for (int i = 0; i < NB; i++) // Ajusta a posição final do buffer
     {
         finalPosB++;
@@ -76,11 +101,14 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
     int p = 0; // Posicoes antes do cursor
     int l = 0; // quantidade de caracteres na sequencia
     char c;    // caractere apos a sequencia
+
+    cout<<concatenada<<endl;
+    
     for (int i = 0; (i < concatenada.length()) && (cursorB <= concatenada.length()); i++)
     {
 
         cursorD = inicialPosD;
-        cout << endl << endl << "Dicionario: ";
+        /*cout << endl << endl << "Dicionario: ";
         for (int h = inicialPosD; h <= finalPosD; h++)
         {
             cout << concatenada[h];
@@ -94,7 +122,7 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
         cout<<endl<<"Cursor Buffer em: "<< concatenada[cursorB] << endl;
         cout<<"Codigo:" << codigo << endl;
         cout<<"Tamanho dicionario: "<<finalPosD - inicialPosD<<endl;
-        cout<<"Tamanho buffer: "<<finalPosB - cursorB<<endl;
+        cout<<"Tamanho buffer: "<<finalPosB - cursorB<<endl;*/
 
 
 
@@ -106,7 +134,7 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
             codigo += '0';
             codigo += '0';
             codigo += concatenada[cursorB];
-            codigo += " ";
+            //codigo+=' ';
             // Ajusta as posicoes do dicionario e buffer
             cursorB++;
             finalPosB++;
@@ -141,20 +169,16 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
                 codigo += ('0' + p);
                 codigo += ('0' + l);
                 codigo += c;
-                codigo += ' ';
-                
+                //codigo+=' ';
                 
                 
             }
             else
             {
-                // Procura no Dicionario uma ocorrencia do padrao
                 while ((concatenada[cursorD] != concatenada[cursorB]) && (cursorD < finalPosD))
                 {
                     cursorD++;
                 }
-                //cout<<"Cursor parou em: "<<concatenada[cursorD]<<endl;
-                //cout<<endl;
                 if (concatenada[cursorD] == concatenada[cursorB])
                 {
                     p = cursorB - cursorD;
@@ -174,14 +198,15 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
                             inicialPosD++;
                         }
                     }
+                    //Caso seja o final da string
                     if(cursorB > concatenada.length()-1)
                         c = '\0';
                     else
-                    c = concatenada[cursorB];
+                        c = concatenada[cursorB];
+                    
                     codigo += ('0' + p);
                     codigo += ('0' + l);
                     codigo += c;
-                    codigo += ' ';
                     cursorB++;
                     finalPosB++;
                     finalPosD++;
@@ -189,13 +214,13 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
                     {
                         inicialPosD++;
                     }
+                    //codigo+=' ';
                 }
                 else
                 {
                     codigo += '0';
                     codigo += '0';
                     codigo += concatenada[cursorB];
-                    codigo += ' ';
                     cursorB++;
                     finalPosB++;
                     finalPosD++;
@@ -203,29 +228,17 @@ void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compress
                     {
                         inicialPosD++;
                     }
-                }
-                
+                    //codigo+=' ';
+                }   
             }
-            
-            
-            
-            
-        }
-        /*cout << endl
-             << "Letra cursor D: " << concatenada[cursorD] << endl
-             << "Letra cursor B: " << concatenada[cursorB] << endl;
-        cout << "Posicao inicial Dic: " << inicialPosD << endl;
-        cout << "Posicao cursor Dic: " << cursorD << endl;
-        cout << "Posicao final Dic: " << finalPosD << endl;
-        cout << "Posicao final Buffer: " << finalPosB << endl;
-        cout << "Posicao cursor Buffer: " << cursorB << endl;
-        cout << "P:" << p << endl;
-        cout << "L:" << l << endl;
-        cout << codigo << endl;
-        cout << endl
-             << codigo;*/
-        
-        
+        } 
     }
-    cout<<codigo;
+    
+    cout<<"\nCodigo \n"<<codigo<<endl;
+    cout<<"Tamanho da String foi de: "<<concatenada.length()<<" -> "<<codigo.length()<<endl;
+    Descomprime(codigo);
+    //cout<<"Tamanho concatenada "<<concatenada.length()<<endl;
+    //cout<<"Tamanho codigo "<<codigo.length()<<endl;
+    
+    
 }
