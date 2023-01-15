@@ -13,6 +13,7 @@
 #include "Hash.h"
 #include "HuffmanCoding.h"
 #include "LZ77Coding.h"
+#include <fstream>
 
 using namespace std;
 using namespace std::chrono;
@@ -757,6 +758,114 @@ void compressTest(int method)
 //     return 0;
 // }
 
+void estatisticas()
+{
+    int tam = 10, ordemInicial = 20, ordemFinal = 200;
+    int incremento = ceil((ordemFinal - ordemInicial) / (float)tam);
+    cout << "VALOR INCREMENTO: " << incremento << endl;
+
+    int ordem[tam + 1];
+    int comparacoesBusca[tam + 1];
+    int comparacoesInsercao[tam + 1];
+
+    ordem[0] = ordemInicial;
+
+    for (int i = 1; i < tam + 1; i++)
+    {
+        ordem[i] = ordem[i - 1] + incremento;
+    }
+
+    int n = 10;
+    int b = 100;
+
+    /*
+        Para cada ordem, executa 3 testes de busca e insercao
+    */
+    for (int o = 0; o < tam; o++)
+    {
+        cout << "-------------- ORDEM " << ordem[o] << " -------------------------" << endl;
+
+        double mediaComparacoesInsercao = 0.0, mediaComparacoesBusca = 0.0;
+
+        for (int k = 0; k < 3; k++)
+        {
+            mediaComparacoesInsercao = 0.0;
+            mediaComparacoesBusca = 0.0;
+
+            ArvoreB *arv_b = new ArvoreB(ordem[o]);
+            ProductReview *vetN;
+            ProductReview *vetB;
+
+            cout << "Importando " << n << " registros para inserir na arvore" << endl;
+            vetN = import(n);
+
+            cout << "Inserindo " << n << " registros na arvore" << endl;
+            for (int i = 0; i < n; i++)
+            {
+                arv_b->insere(&vetN[i]);
+            }
+
+            mediaComparacoesInsercao += arv_b->getCompInsercao();
+            cout << "Número de comparações na inserção: " << arv_b->getCompInsercao() << endl;
+
+            cout << "Importando " << b << " registros para buscar na arvore" << endl;
+            vetB = import(b);
+
+            cout << "Buscando " << b << " registros na arvore" << endl;
+            int countReviewsEncontrados = 0;
+            for (int i = 0; i < b; i++)
+            {
+                ProductReview *p = arv_b->busca(vetB[i].getUserId(), vetB[i].getProductId());
+                if (p != NULL)
+                {
+                    countReviewsEncontrados++;
+                }
+
+                delete p;
+            }
+
+            mediaComparacoesBusca += arv_b->getCompBusca();
+            cout << "Número de comparações na busca de " << b << " registros:  " << arv_b->getCompBusca() << endl;
+            cout << "Reviews encontrados: " << countReviewsEncontrados << endl;
+
+            cout << endl
+                 << endl;
+
+            delete[] vetN;
+            delete[] vetB;
+            delete arv_b;
+        }
+
+        mediaComparacoesInsercao /= 3.0;
+        mediaComparacoesBusca /= 3.0;
+        cout << "MÉDIA COMPARACOES INSERCAO: " << mediaComparacoesInsercao << endl;
+        cout << "MÉDIA COMPARACOES BUSCA: " << mediaComparacoesBusca << endl;
+
+        comparacoesBusca[o] = mediaComparacoesBusca;
+        comparacoesInsercao[o] = mediaComparacoesInsercao;
+
+        cout << "\n\n"
+             << endl;
+
+        ofstream saidaCompIns, saidaCompBus;
+        saidaCompIns.open("comparacoesInsercao.dat");
+        saidaCompBus.open("comparacoesBusca.dat");
+
+        saidaCompIns << 0 << " " << 0 << endl;
+        saidaCompBus << 0 << " " << 0 << endl;
+        for (int i = 0; i < tam; i++)
+        {
+            saidaCompIns << ordem[i] << " " << comparacoesBusca[i] << endl;
+            saidaCompBus << ordem[i] << " " << comparacoesInsercao[i] << endl;
+        }
+
+        saidaCompIns.close();
+        saidaCompBus.close();
+    }
+
+    system("python plot.py");
+}
+
 int main(int argc, char *argv[])
 {
     if (argc > 1)
@@ -768,6 +877,10 @@ int main(int argc, char *argv[])
 
         int n = 1000000;
         int b = 100;
+
+        estatisticas();
+
+        return 1;
 
         // ArvoreB *arv_b = new ArvoreB();
         // for (int i = 10; i <= 30; i++)
@@ -819,7 +932,8 @@ int main(int argc, char *argv[])
             cout << "Número de comparações na busca de " << b << " registros:  " << arv_b->getCompBusca() << endl;
             cout << "Reviews encontrados: " << countReviewsEncontrados << endl;
 
-            cout << endl<< endl;
+            cout << endl
+                 << endl;
 
             delete[] vetN;
             delete[] vetB;
