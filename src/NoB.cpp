@@ -4,13 +4,17 @@ NoB::NoB(int ordem)
 {
     this->n = 0;
     this->ordem = ordem;
-    this->chaves = new Info[ordem -1];
-    this->filhos = new NoB*[ordem];
-    //DISK-WRITE(esse no)
+    this->chaves = new Info[ordem - 1];
+    this->filhos = new NoB *[ordem];
+    // DISK-WRITE(esse no)
 }
 
 NoB::~NoB()
 {
+    //cout << " chamou destrutor do nó com valor " << this->chaves[0].id << " na primeira posição" << endl;
+    delete[] this->chaves;
+    delete[] this->filhos;
+    //cout <<"no deletado..."<<endl;
 }
 
 bool NoB::cheio()
@@ -126,5 +130,3 @@ void NoB::printKey(int i)
 // //         this->n = this->n + 1;
 // //     }
 // // }
-
-

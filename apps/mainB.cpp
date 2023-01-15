@@ -769,6 +769,17 @@ int main(int argc, char *argv[])
         int n = 1000000;
         int b = 100;
 
+        // ArvoreB *arv_b = new ArvoreB();
+        // for (int i = 10; i <= 30; i++)
+        // {
+        //     arv_b->insere(new ProductReview(to_string(i), "", "", "", 2));
+        // }
+
+        // arv_b->print();
+
+        // delete arv_b;
+        // return 0;
+
         for (int k = 0; k < 3; k++)
         {
             ArvoreB *arv_b = new ArvoreB();

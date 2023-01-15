@@ -9,12 +9,38 @@ ArvoreB::ArvoreB()
         Ordem par para que tenha sempre um número impar de chaves no nó
         Ao subir a chave para o nó pai, sobe sempre o do meio
     */
-    this->ordem = 200; // sempre usar ordem par ==> grau minimo t = 2 -> máximo filhos = 4
+    this->ordem = 4; // sempre usar ordem par ==> grau minimo t = 2 -> máximo filhos = 4
     this->raiz = new NoB(this->ordem);
 }
 
 ArvoreB::~ArvoreB()
 {
+    desalocar(raiz);
+
+    delete raiz;
+}
+
+void ArvoreB::desalocar(NoB *no)
+{
+    if (!no->ehFolha)
+    {
+        for (int i = 0; i < no->n + 1; i++)
+        {
+            desalocar(no->filhos[i]);
+        }
+
+        if (no != raiz)
+        {
+            delete no;
+        }
+    }
+    else
+    {
+        if (no != raiz)
+        {
+            delete no;
+        }
+    }
 }
 
 // /*
@@ -172,6 +198,8 @@ ProductReview *ArvoreB::busca(string userId, string productId)
     File *arq = new File(path);
     ProductReview pr = arq->converteReview(k.indexLoc);
     ProductReview *prAux = new ProductReview(pr.getUserId(), pr.getProductId(), pr.getTimeStamp(), pr.getRating(), pr.getLocal());
+
+    delete arq;
     return prAux;
 }
 

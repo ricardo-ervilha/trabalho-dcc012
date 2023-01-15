@@ -18,6 +18,7 @@ private:
     void splitChild(NoB *x, int i);
     void insert(ArvoreB *T, Info k);
     void insertNonFull(NoB *x, Info k);
+    void desalocar(NoB *no);
     int compInsercao = 0;//contabilizar as comparacoes de chave na inserçao
     int tempoInsercao = 0;
     int compBusca = 0;//contabilizar as comparacoes de chave na busca
