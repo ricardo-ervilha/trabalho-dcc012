@@ -364,8 +364,10 @@ string comprime(string str, int metodo){
     }
     else if (metodo == 1)
     {
-        // Compressão do LZ77
-        return "string";
+        string comp = "";
+        LZ77Coding *lz77 = new LZ77Coding();
+        comp = lz77->Comprime(str);
+        return comp;
     }
     else
     {
@@ -407,8 +409,10 @@ string descomprime(string str, int metodo){
     }
     else if (metodo == 1)
     {
-        // Descompressão do LZ77
-        return "string";
+        string descomp = "";
+        LZ77Coding *lz77 = new LZ77Coding();
+        descomp = lz77->Descomprime(str);
+        return descomp;
     }
     else
     {
