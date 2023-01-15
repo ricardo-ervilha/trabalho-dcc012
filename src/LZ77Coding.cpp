@@ -3,7 +3,7 @@
 #include <string>
 #include <cstring>
 
-#define ND 80// Tamanho do Dicionário
+#define ND 80  // Tamanho do Dicionário
 #define NB 20 // Tamanho do Buffer
 LZ77Coding::LZ77Coding()
 {
@@ -17,9 +17,9 @@ LZ77Coding::~LZ77Coding()
 
 string LZ77Coding::Comprime(string concatenada)
 {
-    string codigo = "";                               // String para armazenar o codigo pos-compressao
-    int cursorD = 0, inicialPosD = 0,auxCursorD = 0, finalPosD = -1; // cursor ,posição inicial e final do dicionário em relação a string concatenada
-    int cursorB = 0,auxCursorB = 0 , finalPosB = 0;                   // cursor e posição final do Buffer em relação a string concatenada
+    string codigo = "";                                               // String para armazenar o codigo pos-compressao
+    int cursorD = 0, inicialPosD = 0,auxCursorD = 0, finalPosD = -1; // Cursor ,posição inicial e final do dicionário em relação a string concatenada
+    int cursorB = 0,auxCursorB = 0 , finalPosB = 0;                 // Cursor e posição final do Buffer em relação a string concatenada
 
     for (int i = 0; i < NB; i++) // Ajusta a posição final do buffer
     {
@@ -29,10 +29,9 @@ string LZ77Coding::Comprime(string concatenada)
     
     // Variaves para criacao do codigo comprimido
     int p = 0, auxP = 0; // Posicoes antes do cursor
-    int l = 0, auxL = 0; // quantidade de caracteres na sequencia
-    char c;    // caractere apos a sequencia
+    int l = 0, auxL = 0; // Quantidade de caracteres na sequencia
+    char c;    // Caractere apos a sequencia
 
-    //cout<<concatenada<<endl;
     
     for (int i = 0; (i < concatenada.length()) && (cursorB <= concatenada.length()); i++)
     {
@@ -119,7 +118,7 @@ string LZ77Coding::Comprime(string concatenada)
                         }
                     }
                     cursorB += l;
-                    if(cursorB >= concatenada.length())//CAso o cursor do buffer esteja no final da string
+                    if(cursorB >= concatenada.length())//Caso o cursor do buffer esteja no final da string
                         c = '\0';
                     else
                         c = concatenada[cursorB];

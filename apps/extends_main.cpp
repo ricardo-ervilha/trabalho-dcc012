@@ -13,7 +13,7 @@
 #include "LZWCoding.h"
 #include "ArvoreVP.h"
 #include "ArvoreB.h"
-// #include "LZWCoding.h"
+
 
 #define maxU  21
 #define maxT  10
@@ -367,6 +367,7 @@ string comprime(string str, int metodo){
     }
     else if (metodo == 1)
     {
+        //Compressao LZ77
         string comp = "";
         LZ77Coding *lz77 = new LZ77Coding();
         comp = lz77->Comprime(str);
@@ -374,6 +375,7 @@ string comprime(string str, int metodo){
     }
     else
     {
+        //Compressao LZW
         string comp = "";
         LZWCoding *lzw = new LZWCoding();
         comp = lzw->Comprime(str);
@@ -414,6 +416,7 @@ string descomprime(string str, int metodo){
     }
     else if (metodo == 1)
     {
+        //Descompressao LZ77
         string descomp = "";
         LZ77Coding *lz77 = new LZ77Coding();
         descomp = lz77->Descomprime(str);
@@ -421,6 +424,7 @@ string descomprime(string str, int metodo){
     }
     else
     {
+        //Descompressao LZW
         string descomp = "";
         LZWCoding *lzw = new LZWCoding();
         descomp = lzw->Descomprime(str);
@@ -431,34 +435,35 @@ string descomprime(string str, int metodo){
 // Comprime um arquivo.
 void comprime(int metodo)
 {
+    string txt = "";
+    string pathTxt = path + "reviewsOrig.txt";
+    string pathBin = path + "reviewsComp.bin";
+    int a = 100000;
+
+    ifstream arqTxt(pathTxt);
+
+    char *buffer = new char[a];
+
+    if (arqTxt.is_open())
+    {
+
+        while (!arqTxt.eof())
+        {
+            arqTxt.read(buffer, a);
+            txt += buffer;
+        }
+        delete[] buffer;
+    }
+    else
+        cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
+
+    arqTxt.close();
 
     if (metodo == 0)
     {
-        // Huffman
-        string txt = "";
-        string pathTxt = path + "reviewsOrig.txt";
-        string pathBin = path + "reviewsComp.bin";
-        int a = 100000;
-
-        ifstream arqTxt(pathTxt);
-
-        char *buffer = new char[a];
-
-        if (arqTxt.is_open())
-        {
-
-            while (!arqTxt.eof())
-            {
-                arqTxt.read(buffer, a);
-                txt += buffer;
-            }
-            delete[] buffer;
-        }
-        else
-            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
-
-        arqTxt.close();
-        HuffmanCoding *huff = new HuffmanCoding;
+        //Compreessao Huffman
+        
+        HuffmanCoding *huff = new HuffmanCoding();
         huff->contabiliza_Frequencia_string(txt);
         huff->preenche_lista_prioridade();
 
@@ -482,11 +487,27 @@ void comprime(int metodo)
     }
     else if (metodo == 1)
     {
-        // LZ77
+        //Compressao LZ77
+        string comp = comprime(txt, 1);
+        fstream arqBin(pathBin);
+
+        if (arqBin.is_open())
+            arqBin.write(reinterpret_cast<const char *>(comp.c_str()), comp.length());
+        else
+            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
+        arqBin.close();
     }
     else
     {
-        // LZW
+        //Compressao LZW
+        string comp = comprime(txt, 2);
+        fstream arqBin(pathBin);
+
+        if (arqBin.is_open())
+            arqBin.write(reinterpret_cast<const char *>(comp.c_str()), comp.length());
+        else
+            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
+        arqBin.close();
     }
 }
 
@@ -499,31 +520,32 @@ void descomprime(int metodo)
     string pathTxt = path + "reviewsDesc.txt";
     bool aux = true;
 
-    int a = 100000;
+    ifstream arqBin(pathBin);
 
+    string line;
+
+    if(arqBin.is_open())
+    {
+        while(getline(arqBin, line))
+        {
+            if(aux){
+                txt = line;
+                aux = false;
+            }
+            else
+                dic += line;
+        }
+    cout << dic << endl;
+    }
+    else 
+        cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
+
+    arqBin.close();
     if(metodo == 0)
     {
-        ifstream arqBin(pathBin);
-
-        string line;
-
-        if(arqBin.is_open()){
-            while(getline(arqBin, line))
-            {
-                if(aux){
-                    txt = line;
-                    aux = false;
-                }
-                else
-                    dic += line;
-            }
-        cout << dic << endl;
-        }
-        else 
-            cerr << "Erro ao tentar abrir o arquivo .bin" << endl;
-
-        arqBin.close();
-        HuffmanCoding* huff = new HuffmanCoding;
+        //Descompressao Huffman
+        
+        HuffmanCoding *huff = new HuffmanCoding();
 
         huff->adicionaNovaLista(dic);
         huff->preenche_lista_prioridade();
@@ -545,11 +567,39 @@ void descomprime(int metodo)
         arqTxt.close();
     }else if (metodo == 1)
     {
-        // LZ77
+        //Descompressao LZ77
+
+        LZ77Coding *lz77 = new LZ77Coding();
+
+        string descomp = lz77->Descomprime(txt);
+
+        fstream arqTxt(pathTxt);
+
+        if(arqTxt.is_open()){
+            arqTxt << descomp;
+        }
+        else
+            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
+        
+        arqTxt.close();
+
     }
     else
     {
-        // LZW
+        //Descompressao LZW
+        LZWCoding *lzw = new LZWCoding();
+
+        string descomp = lzw->Descomprime(txt);
+
+        fstream arqTxt(pathTxt);
+
+        if(arqTxt.is_open()){
+            arqTxt << descomp;
+        }
+        else
+            cerr << "Erro ao tentar abrir o arquivo .txt" << endl;
+        
+        arqTxt.close();
     }
 }
 

@@ -12,10 +12,10 @@ LZWCoding::~LZWCoding()
 {
     
 }
-int LZWCoding::InicializaDicionario(string dicionario[])
+int LZWCoding::InicializaDicionario(string dicionario[])//Gera um dicionario focado no tipo de string presente no arquivo ratings_Eletronics 
 {
     int cont  = 0;
-    for(int i = 48; i <= 57; i++)//Adicionasas numeros de 0 a 9 ao dicionario
+    for(int i = 48; i <= 57; i++)//Adiciona os numeros de 0 a 9 ao dicionario
     {
         dicionario[cont] += i;
         cont++;
@@ -83,7 +83,7 @@ string LZWCoding::Descomprime(string codigo)
     string descomp = "";
     string dicionario[10000];
     int tamD;//Tamanho do dicionario
-    tamD = InicializaDicionario(dicionario);
+    tamD = InicializaDicionario(dicionario);//Retorna o tamanho do dicionario para futuras insercoes
     descomp += dicionario[codigo[0]];
     for(int i = 1; i < codigo.length(); i++)
     {
