@@ -877,13 +877,13 @@ void estatisticasN()
 
     valoresN[i++] = 10000;
     valoresN[i++] = 25000;
-    // valoresN[i++] = 50000;
-    // valoresN[i++] = 75000;
-    // valoresN[i++] = 100000;
-    // valoresN[i++] = 250000;
-    // valoresN[i++] = 500000;
-    // valoresN[i++] = 750000;
-    // valoresN[i++] = 1000000;
+    valoresN[i++] = 50000;
+    valoresN[i++] = 75000;
+    valoresN[i++] = 100000;
+    valoresN[i++] = 250000;
+    valoresN[i++] = 500000;
+    valoresN[i++] = 750000;
+    valoresN[i++] = 1000000;
 
     tam = i;
 
