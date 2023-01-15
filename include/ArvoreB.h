@@ -26,7 +26,7 @@ private:
 
 
 public:
-    ArvoreB();
+    ArvoreB(int ordem);
     ~ArvoreB();
     ProductReview *busca(string userId, string productId);
     void insere(ProductReview *pr);
