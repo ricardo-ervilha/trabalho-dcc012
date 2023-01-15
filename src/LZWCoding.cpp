@@ -81,7 +81,7 @@ string LZWCoding::Comprime(string concatenada)//Compressor
         }
         //cout<<"Dicionario: "<<dicionario[tamanhoD]<<endl;
         //cout<<"Posicao: "<<posicao<<endl;
-        codigo += posicao;
+        codigo +=posicao;
         /*int aux = posicao;
         cout<<"Codigo: "<<aux<<endl<<endl;*/
     }
@@ -97,15 +97,28 @@ string LZWCoding::Comprime(string concatenada)//Compressor
         cout<< "string "<<h<<": "<<dicionario[h] <<endl;
     }
     */
-    cout<<concatenada.length()<<" -> ";
-    cout<<codigo.length();
+    //cout<<concatenada.length()<<" -> ";
+    //cout<<codigo.length();
+    //cout<<"Tamanho: "<<tamanhoD;
+    Descomprime(codigo);
     return codigo;
 }
 
 string LZWCoding::Descomprime(string codigo)
 {
     string descomp = "";
-    
+    string dicionario[10000];
+    int tamD;//Tamanho do dicionario
+    tamD = InicializaDicionario(dicionario);
+    descomp += dicionario[codigo[0]];
+    for(int i = 1; i < codigo.length(); i++)
+    {
+        descomp += dicionario[codigo[i]];
+        dicionario[tamD] = dicionario[codigo[i-1]] + dicionario[codigo[i]][0];//Adiciona ao dicionario o primeiro caractere do codigo atual 
+                                                                              //e a string do codigo anterior
+        tamD++;              
+    }
+    cout<<"String descomprimida: "<<descomp<<endl;
     return descomp;
 }
 
@@ -113,7 +126,7 @@ void LZWCoding::LZWCompress(ProductReview *list) // Algoritmo LZW de compressao
 {
 
     string concatenada = "";
-    string dicionario[1000]="";
+    string dicionario[10000]="";
     
     for(int i = 0; i < registros; i++)//Concatena a lista em uma única string
     {
@@ -121,7 +134,7 @@ void LZWCoding::LZWCompress(ProductReview *list) // Algoritmo LZW de compressao
     }
     cout<<"Concatenada: "<<endl<<concatenada<<endl;
     //InicializaDicionario(dicionario);
-    Comprime(concatenada);
+    Comprime("BANANABANABOFANA");
     
     
     
