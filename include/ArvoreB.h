@@ -26,7 +26,7 @@ private:
 
 
 public:
-    ArvoreB::ArvoreB();
+    ArvoreB();
     ArvoreB(int ordem);
     ~ArvoreB();
     ProductReview *busca(string userId, string productId);

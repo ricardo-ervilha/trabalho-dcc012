@@ -23,6 +23,7 @@ plt.plot(xa, ya)
 plt.title("Comprações Inserção")
 plt.xlabel('Ordem')
 plt.ylabel('Comparações ')
+plt.grid(True)
 
 plt.subplot(1, 2, 2) # index 2
 plt.plot(xe, ye)

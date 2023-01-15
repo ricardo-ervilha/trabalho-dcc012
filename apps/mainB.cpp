@@ -775,12 +775,13 @@ void estatisticas()
         ordem[i] = ordem[i - 1] + incremento;
     }
 
-    int n = 10;
+    int n = 1000000;
     int b = 100;
 
     /*
         Para cada ordem, executa 3 testes de busca e insercao
     */
+
     for (int o = 0; o < tam; o++)
     {
         cout << "-------------- ORDEM " << ordem[o] << " -------------------------" << endl;
@@ -846,22 +847,22 @@ void estatisticas()
 
         cout << "\n\n"
              << endl;
-
-        ofstream saidaCompIns, saidaCompBus;
-        saidaCompIns.open("comparacoesInsercao.dat");
-        saidaCompBus.open("comparacoesBusca.dat");
-
-        saidaCompIns << 0 << " " << 0 << endl;
-        saidaCompBus << 0 << " " << 0 << endl;
-        for (int i = 0; i < tam; i++)
-        {
-            saidaCompIns << ordem[i] << " " << comparacoesBusca[i] << endl;
-            saidaCompBus << ordem[i] << " " << comparacoesInsercao[i] << endl;
-        }
-
-        saidaCompIns.close();
-        saidaCompBus.close();
     }
+
+    ofstream saidaCompIns, saidaCompBus;
+    saidaCompIns.open("comparacoesInsercao.dat");
+    saidaCompBus.open("comparacoesBusca.dat");
+
+    saidaCompIns << 0 << " " << 0 << endl;
+    saidaCompBus << 0 << " " << 0 << endl;
+    for (int i = 0; i < tam; i++)
+    {
+        saidaCompIns << ordem[i] << " " << comparacoesInsercao[i] << endl;
+        saidaCompBus << ordem[i] << " " << comparacoesBusca[i] << endl;
+    }
+
+    saidaCompIns.close();
+    saidaCompBus.close();
 
     system("python plot.py");
 }
