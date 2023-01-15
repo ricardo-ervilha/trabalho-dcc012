@@ -1,0 +1,33 @@
+						Estatisticas da Arvore Vermelho-Preto
+Comparacoes de Insercao	Tempo de insercao(s)		Comparacoes de busca		Tempo de busca
+553764					0.0636857						3689					0.0044215
+562776					0.0296695						3656					0.0012663
+554031					0.0259808						3680					0.0035363
+---------------------------------------------Medias---------------------------------------------
+Comparacoes de insercao: 556857
+Tempo de insercao: 0.0397787
+Comparcoes de busca: 3675
+Tempo de insercao: 0.0397787
+
+						Estatisticas da Arvore B
+						Dados para ordem(m) = 20
+Comparacoes de Insercao	Tempo de insercao(s)		Comparacoes de busca		Tempo de busca
+225211					0.016832						3786					0.0017874
+224388					0.0127291						1627					0.0006757
+227439					0.0121378						3291					0.0011939
+---------------------------------------------Medias---------------------------------------------
+Comparacoes de insercao: 225679
+Tempo de insercao: 0.0138996
+Comparcoes de busca: 2901.33
+Tempo de insercao: 0.0138996
+
+						Dados para ordem(m) = 200
+Comparacoes de Insercao	Tempo de insercao(s)		Comparacoes de busca		Tempo de busca
+902189					0.0410861						11210					0.001043
+902189					0.0426639						4676					0.0007413
+902172					0.0562123						5424					0.0010159
+---------------------------------------------Medias---------------------------------------------
+Comparacoes de insercao: 902183
+Tempo de insercao: 0.0466541
+Comparcoes de busca: 7103.33
+Tempo de insercao: 0.0466541

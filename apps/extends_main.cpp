@@ -584,7 +584,11 @@ void gerarSaidaCompressao(){
                 
                 tam_Final[3*i + j] = computaTamanhoString(code, false);
             } else if(i == 1){
-                //LZ77
+                tam_Inicio[3*i + j] = computaTamanhoString(texto, false);
+                
+                string code = comprime(texto, 1);  
+                
+                tam_Final[3*i + j] = computaTamanhoString(code, false);
             } else{
                 //LZW
             }
@@ -609,7 +613,7 @@ void gerarSaidaCompressao(){
     media = 0;
     saida << "*************************Dados do LZ77*************************" << endl;
     saida << "Iteração\tTamanho Inicial\tTamanho Final\tTaxa de compressao" << endl;
-    for(int i = 2; i < 6; i++){
+    for(int i = 3; i < 6; i++){
         taxas_compressao[i] = (float)(tam_Inicio[i] - tam_Final[i])/tam_Inicio[i];
         media += taxas_compressao[i];
         saida << i << "\t\t\t" << tam_Inicio[i] << "\t\t\t" << tam_Final[i] << "\t\t\t" << taxas_compressao[i] << endl;
@@ -619,7 +623,7 @@ void gerarSaidaCompressao(){
     media = 0;
     saida << "*************************Dados do LZW*************************" << endl;
     saida << "Iteração\tTamanho Inicial\tTamanho Final\tTaxa de compressao" << endl;
-    for(int i = 5; i < 9; i++){
+    for(int i = 6; i < 9; i++){
         taxas_compressao[i] = (float)(tam_Inicio[i] - tam_Final[i])/tam_Inicio[i];
         media += taxas_compressao[i];
         saida << i << "\t\t\t" << tam_Inicio[i] << "\t\t\t" << tam_Final[i] << "\t\t\t" << taxas_compressao[i] << endl;
@@ -692,7 +696,7 @@ void gerarSaidaEstruturasBalanceadas()
     }
 
     saida << "---------------------------------------------Medias---------------------------------------------" << endl;
-    saida << "Comparcoes de insercao: " << (comp_Insert[0] + comp_Insert[1] + comp_Insert[2]) / 3.0 << endl;
+    saida << "Comparacoes de insercao: " << (comp_Insert[0] + comp_Insert[1] + comp_Insert[2]) / 3.0 << endl;
     saida << "Tempo de insercao: " << (time_Insert[0] + time_Insert[1] + time_Insert[2]) / 3.0 << endl;
     saida << "Comparcoes de busca: " << (comp_Search[0] + comp_Search[1] + comp_Search[2]) / 3.0 << endl;
     saida << "Tempo de insercao: " << (time_Insert[0] + time_Insert[1] + time_Insert[2]) / 3.0 << endl;
@@ -765,7 +769,7 @@ void gerarSaidaEstruturasBalanceadas()
         }
 
         saida << "---------------------------------------------Medias---------------------------------------------" << endl;
-        saida << "Comparcoes de insercao: " << (comp_Insert[0] + comp_Insert[1] + comp_Insert[2]) / 3.0 << endl;
+        saida << "Comparacoes de insercao: " << (comp_Insert[0] + comp_Insert[1] + comp_Insert[2]) / 3.0 << endl;
         saida << "Tempo de insercao: " << (time_Insert[0] + time_Insert[1] + time_Insert[2]) / 3.0 << endl;
         saida << "Comparcoes de busca: " << (comp_Search[0] + comp_Search[1] + comp_Search[2]) / 3.0 << endl;
         saida << "Tempo de insercao: " << (time_Insert[0] + time_Insert[1] + time_Insert[2]) / 3.0 << endl;

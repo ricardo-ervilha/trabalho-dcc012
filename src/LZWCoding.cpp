@@ -126,7 +126,7 @@ void LZWCoding::LZWCompress(ProductReview *list) // Algoritmo LZW de compressao
 {
 
     string concatenada = "";
-    string dicionario[10000]="";
+    string dicionario ="";
     
     for(int i = 0; i < registros; i++)//Concatena a lista em uma única string
     {
