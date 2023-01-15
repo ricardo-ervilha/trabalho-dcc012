@@ -10,6 +10,7 @@ bool rotDupDir = false;
 
 ArvoreVP::ArvoreVP(File* arq)
 {
+    cout << "Criando árvore VP..." << endl;
     this->arq = arq;
     n = 0;
     raiz = NULL;
@@ -19,6 +20,7 @@ ArvoreVP::ArvoreVP(File* arq)
 
 ArvoreVP::ArvoreVP()
 {
+    cout << "Criando árvore VP..." << endl;
     this->arq = new File(path);
     n = 0;
     raiz = NULL;
@@ -289,7 +291,6 @@ NoVP* ArvoreVP::rotSimplesDir(NoVP* r){
 
 ProductReview* ArvoreVP::busca(string userId, string productId)
 {
-    comparacaoB = 0;
     return auxBusca(raiz, concat(userId, productId));
 }
 

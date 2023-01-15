@@ -22,6 +22,8 @@ libed:
 	g++ -c .$(PS)src$(PS)QuickSort.cpp -I .$(PS)include -o .$(PS)obj$(PS)QuickSort.o
 	g++ -c .$(PS)src$(PS)HashProduct.cpp -I .$(PS)include -o .$(PS)obj$(PS)HashProduct.o
 	g++ -c .$(PS)src$(PS)ArvoreVP.cpp -I .$(PS)include -o .$(PS)obj$(PS)ArvoreVP.o
+	g++ -c .$(PS)src$(PS)NoB.cpp -I .$(PS)include -o .$(PS)obj$(PS)NoB.o
+	g++ -c .$(PS)src$(PS)ArvoreB.cpp -I .$(PS)include -o .$(PS)obj$(PS)ArvoreB.o
 	g++ -c .$(PS)src$(PS)HuffmanCoding.cpp -I .$(PS)include -o .$(PS)obj$(PS)HuffmanCoding.o
 	g++ -c .$(PS)src$(PS)LZ77Coding.cpp -I .$(PS)include -o .$(PS)obj$(PS)LZ77Coding.o
 	g++ -c .$(PS)src$(PS)LZWCoding.cpp -I .$(PS)include -o .$(PS)obj$(PS)LZWCoding.o
@@ -40,7 +42,7 @@ depB:
 	g++ -c .$(PS)src$(PS)HashProduct.cpp -I .$(PS)include -o .$(PS)obj$(PS)HashProduct.o
 
 extends:
-	g++ .$(PS)apps$(PS)extends_main.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)MergeSort.o	.$(PS)obj$(PS)QuickSort.o .$(PS)obj$(PS)BucketSort.o .$(PS)obj$(PS)ListaEncadProductReview.o .$(PS)obj$(PS)HashProduct.o .$(PS)obj$(PS)HuffmanCoding.o .$(PS)obj$(PS)LZ77Coding.o .$(PS)obj$(PS)LZWCoding.o -I .$(PS)include -o .$(PS)bin$(PS)extends_main		
+	g++ .$(PS)apps$(PS)extends_main.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)MergeSort.o	.$(PS)obj$(PS)QuickSort.o .$(PS)obj$(PS)BucketSort.o .$(PS)obj$(PS)ListaEncadProductReview.o .$(PS)obj$(PS)HashProduct.o .$(PS)obj$(PS)HuffmanCoding.o .$(PS)obj$(PS)LZ77Coding.o .$(PS)obj$(PS)ArvoreVP.o .$(PS)obj$(PS)NoB.o .$(PS)obj$(PS)ArvoreB.o .$(PS)obj$(PS)LZWCoding.o -I .$(PS)include -o .$(PS)bin$(PS)extends_main		
 
 myapps:
 	g++ .$(PS)apps$(PS)main.cpp .$(PS)obj$(PS)List.o .$(PS)obj$(PS)File.o .$(PS)obj$(PS)ProductReview.o .$(PS)obj$(PS)Hash.o .$(PS)obj$(PS)MergeSort.o	.$(PS)obj$(PS)QuickSort.o .$(PS)obj$(PS)BucketSort.o .$(PS)obj$(PS)ListaEncadProductReview.o .$(PS)obj$(PS)HashProduct.o .$(PS)obj$(PS)HuffmanCoding.o .$(PS)obj$(PS)LZ77Coding.o .$(PS)obj$(PS)LZWCoding.o -I .$(PS)include -o .$(PS)bin$(PS)main		

@@ -10,6 +10,8 @@
 #include <fstream>
 #include "HuffmanCoding.h"
 #include "LZ77Coding.h"
+#include "ArvoreVP.h"
+#include "ArvoreB.h"
 // #include "LZWCoding.h"
 
 #define maxU  21
@@ -627,6 +629,148 @@ void gerarSaidaCompressao(){
     saida.close();
 }
 
+void gerarSaidaEstruturasBalanceadas()
+{
+    int n = 10000;
+    int b = 100;
+    int index;
+
+    int *comp_Insert = new int[3];
+    int *comp_Search = new int[3];
+    double *time_Insert = new double[3];
+    double *time_Search = new double[3];
+
+    ProductReview *list;
+    ArvoreVP *tree;
+    ArvoreB *arv;
+
+    ofstream saida; // variável para gerar a saída com as estatísticas
+    saida.open("saida_estruturasBalanceadas.txt");
+
+    
+    cout << "Estatisticas da Arvore Vermelho-Preto" << endl;
+    saida << "\t\t\t\t\t\tEstatisticas da Arvore Vermelho-Preto" << endl;
+    saida << "Comparacoes de Insercao\t"
+          << "Tempo de insercao(s)\t\t"
+          << "Comparacoes de busca\t\t"
+          << "Tempo de busca" << endl;
+
+    for (int i = 0; i < 3; i++)
+    {
+        list = import(n);
+        tree = new ArvoreVP();
+
+        std::chrono::time_point<std::chrono::system_clock> start, end;
+        std::chrono::duration<double> elapsed_seconds;
+
+        start = std::chrono::system_clock::now();
+        for (int j = 0; j < n; j++)
+        {
+            tree->insere(&list[j]);
+        }
+        end = std::chrono::system_clock::now();
+        elapsed_seconds = end - start;
+        time_Insert[i] = elapsed_seconds.count();
+
+        comp_Insert[i] = tree->getComparacaoIn();
+
+        start = std::chrono::system_clock::now();
+        for (int j = 0; j < b; j++)
+        {
+            index = random_numbers() % n;
+            tree->busca(list[index].getUserId(), list[index].getProductId());
+        }
+        end = std::chrono::system_clock::now();
+        elapsed_seconds = end - start;
+        time_Search[i] = elapsed_seconds.count();
+
+        comp_Search[i] = tree->getComparacaoB();
+
+        saida << comp_Insert[i] << "\t\t\t\t\t" << time_Insert[i] << "\t\t\t\t\t\t" << comp_Search[i] << "\t\t\t\t\t" << time_Search[i] << endl;
+
+        delete[] list;
+    }
+
+    saida << "---------------------------------------------Medias---------------------------------------------" << endl;
+    saida << "Comparcoes de insercao: " << (comp_Insert[0] + comp_Insert[1] + comp_Insert[2]) / 3.0 << endl;
+    saida << "Tempo de insercao: " << (time_Insert[0] + time_Insert[1] + time_Insert[2]) / 3.0 << endl;
+    saida << "Comparcoes de busca: " << (comp_Search[0] + comp_Search[1] + comp_Search[2]) / 3.0 << endl;
+    saida << "Tempo de insercao: " << (time_Insert[0] + time_Insert[1] + time_Insert[2]) / 3.0 << endl;
+
+
+
+
+    cout << "\nEstatisticas da Arvore B" << endl;
+    saida << "\n\t\t\t\t\t\tEstatisticas da Arvore B" << endl;
+    for (int k = 0; k < 2; k++)
+    {
+        if (k == 0)
+        {
+            cout << "Dados para ordem(m) = 20" << endl;
+            saida << "\t\t\t\t\t\tDados para ordem(m) = 20" << endl;
+            saida << "Comparacoes de Insercao\t"
+                  << "Tempo de insercao(s)\t\t"
+                  << "Comparacoes de busca\t\t"
+                  << "Tempo de busca" << endl;
+        }
+        else
+        {
+            cout << "\nDados para ordem(m) = 200" << endl;
+            saida << "\n\t\t\t\t\t\tDados para ordem(m) = 200" << endl;
+            saida << "Comparacoes de Insercao\t"
+                  << "Tempo de insercao(s)\t\t"
+                  << "Comparacoes de busca\t\t"
+                  << "Tempo de busca" << endl;
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            list = import(n);
+
+            if(k == 0){
+                arv = new ArvoreB(20);
+            }else{
+                arv = new ArvoreB(200);
+            }
+
+            std::chrono::time_point<std::chrono::system_clock> start, end;
+            std::chrono::duration<double> elapsed_seconds;
+
+            start = std::chrono::system_clock::now();
+            for (int j = 0; j < n; j++)
+            {
+                arv->insere(&list[j]);
+            }
+            end = std::chrono::system_clock::now();
+            elapsed_seconds = end - start;
+            time_Insert[i] = elapsed_seconds.count();
+
+            comp_Insert[i] = arv->getCompInsercao();
+
+            start = std::chrono::system_clock::now();
+            for (int j = 0; j < b; j++)
+            {
+                index = random_numbers() % n;
+                arv->busca(list[index].getUserId(), list[index].getProductId());
+            }
+            end = std::chrono::system_clock::now();
+            elapsed_seconds = end - start;
+            time_Search[i] = elapsed_seconds.count();
+
+            comp_Search[i] = arv->getCompBusca();
+
+            saida << comp_Insert[i] << "\t\t\t\t\t" << time_Insert[i] << "\t\t\t\t\t\t" << comp_Search[i] << "\t\t\t\t\t" << time_Search[i] << endl;
+
+            delete[] list;
+        }
+
+        saida << "---------------------------------------------Medias---------------------------------------------" << endl;
+        saida << "Comparcoes de insercao: " << (comp_Insert[0] + comp_Insert[1] + comp_Insert[2]) / 3.0 << endl;
+        saida << "Tempo de insercao: " << (time_Insert[0] + time_Insert[1] + time_Insert[2]) / 3.0 << endl;
+        saida << "Comparcoes de busca: " << (comp_Search[0] + comp_Search[1] + comp_Search[2]) / 3.0 << endl;
+        saida << "Tempo de insercao: " << (time_Insert[0] + time_Insert[1] + time_Insert[2]) / 3.0 << endl;
+    }
+}
 
 int main(int argc, char **argv)
 {
@@ -636,9 +780,6 @@ int main(int argc, char **argv)
     if (argc > 1)
     {
         path = argv[1];
-
-        comprime(0);
-        descomprime(0);
 
         createBinary(path);
         while (opcao != 4)
@@ -652,7 +793,7 @@ int main(int argc, char **argv)
             switch (opcao)
             {
                 case 1:
-                // gerarSaidaEstruturasBalanceadas();
+                    gerarSaidaEstruturasBalanceadas();
                     break;
                 case 2:
                     gerarSaidaCompressao();

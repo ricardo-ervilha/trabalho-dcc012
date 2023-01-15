@@ -2,14 +2,16 @@
 
 extern string path;
 
-ArvoreB::ArvoreB()
+ArvoreB::ArvoreB(int ordem)
 {
     cout << "Criando árvore B...." << endl;
     /*
         Ordem par para que tenha sempre um número impar de chaves no nó
         Ao subir a chave para o nó pai, sobe sempre o do meio
     */
-    this->ordem = 4; // sempre usar ordem par ==> grau minimo t = 2 -> máximo filhos = 4
+    compInsercao = 0;
+    compBusca = 0;
+    this->ordem = ordem; // sempre usar ordem par ==> grau minimo t = 2 -> máximo filhos = 4
     this->raiz = new NoB(this->ordem);
 }
 
