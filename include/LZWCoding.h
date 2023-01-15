@@ -11,13 +11,11 @@ using namespace std;
 
 class LZWCoding{
     private:
-        ProductReview *list;
-        int registros;
-        void LZWCompress(ProductReview *list);
+
         int InicializaDicionario(string dicionario[]);
-    public:   
+    public:  
+     
         LZWCoding();
-        LZWCoding(ProductReview *, int);
         ~LZWCoding();
         string Comprime(string concatenada);
         string Descomprime(string codigo);

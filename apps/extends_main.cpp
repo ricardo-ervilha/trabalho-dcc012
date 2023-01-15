@@ -10,6 +10,7 @@
 #include <fstream>
 #include "HuffmanCoding.h"
 #include "LZ77Coding.h"
+#include "LZWCoding.h"
 #include "ArvoreVP.h"
 #include "ArvoreB.h"
 // #include "LZWCoding.h"
@@ -373,8 +374,10 @@ string comprime(string str, int metodo){
     }
     else
     {
-        // Compressão do LZW
-        return "string";
+        string comp = "";
+        LZWCoding *lzw = new LZWCoding();
+        comp = lzw->Comprime(str);
+        return comp;
     }
 }
 
@@ -418,8 +421,10 @@ string descomprime(string str, int metodo){
     }
     else
     {
-        // Descompressão do LZW
-        return "string";
+        string descomp = "";
+        LZWCoding *lzw = new LZWCoding();
+        descomp = lzw->Descomprime(str);
+        return descomp;
     }
 }
 
