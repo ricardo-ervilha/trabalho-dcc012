@@ -867,6 +867,120 @@ void estatisticas()
     system("python plot.py");
 }
 
+void estatisticasN()
+{
+    int tam, i = 0;
+
+    int valoresN[tam + 1];
+    int comparacoesBusca[tam + 1];
+    int comparacoesInsercao[tam + 1];
+
+    valoresN[i++] = 10000;
+    valoresN[i++] = 25000;
+    // valoresN[i++] = 50000;
+    // valoresN[i++] = 75000;
+    // valoresN[i++] = 100000;
+    // valoresN[i++] = 250000;
+    // valoresN[i++] = 500000;
+    // valoresN[i++] = 750000;
+    // valoresN[i++] = 1000000;
+
+    tam = i;
+
+    int n;
+    int b = 100;
+
+    /*
+        Para cada ordem, executa 3 testes de busca e insercao
+    */
+
+    for (int j = 0; j < tam; j++)
+    {
+        n = valoresN[j];
+
+        cout << "-------------- N = " << n << " -------------------------" << endl;
+
+        double mediaComparacoesInsercao = 0.0, mediaComparacoesBusca = 0.0;
+
+        for (int k = 0; k < 3; k++)
+        {
+            mediaComparacoesInsercao = 0.0;
+            mediaComparacoesBusca = 0.0;
+
+            ArvoreB *arv_b = new ArvoreB(20);
+            ProductReview *vetN;
+            ProductReview *vetB;
+
+            cout << "Importando " << n << " registros para inserir na arvore" << endl;
+            vetN = import(n);
+
+            cout << "Inserindo " << n << " registros na arvore" << endl;
+            for (int i = 0; i < n; i++)
+            {
+                arv_b->insere(&vetN[i]);
+            }
+
+            mediaComparacoesInsercao += arv_b->getCompInsercao();
+            cout << "Número de comparações na inserção: " << arv_b->getCompInsercao() << endl;
+
+            cout << "Importando " << b << " registros para buscar na arvore" << endl;
+            vetB = import(b);
+
+            cout << "Buscando " << b << " registros na arvore" << endl;
+            int countReviewsEncontrados = 0;
+            for (int i = 0; i < b; i++)
+            {
+                ProductReview *p = arv_b->busca(vetB[i].getUserId(), vetB[i].getProductId());
+                if (p != NULL)
+                {
+                    countReviewsEncontrados++;
+                }
+
+                delete p;
+            }
+
+            mediaComparacoesBusca += arv_b->getCompBusca();
+            cout << "Número de comparações na busca de " << b << " registros:  " << arv_b->getCompBusca() << endl;
+            // cout << "Reviews encontrados: " << countReviewsEncontrados << endl;
+
+            cout << endl
+                 << endl;
+
+            delete[] vetN;
+            delete[] vetB;
+            delete arv_b;
+        }
+
+        mediaComparacoesInsercao /= 3.0;
+        mediaComparacoesBusca /= 3.0;
+        cout << "MÉDIA COMPARACOES INSERCAO: " << mediaComparacoesInsercao << endl;
+        cout << "MÉDIA COMPARACOES BUSCA: " << mediaComparacoesBusca << endl;
+
+        comparacoesBusca[j] = mediaComparacoesBusca;
+        comparacoesInsercao[j] = mediaComparacoesInsercao;
+
+        cout << "\n\n"
+             << endl;
+    }
+
+    ofstream saidaCompIns, saidaCompBus;
+    saidaCompIns.open("comparacoesInsercao.dat");
+    saidaCompBus.open("comparacoesBusca.dat");
+
+    saidaCompIns << 0 << " " << 0 << endl;
+    saidaCompBus << 0 << " " << 0 << endl;
+    for (int i = 0; i < tam; i++)
+    {
+        saidaCompIns << valoresN[i] << " " << comparacoesInsercao[i] << endl;
+        saidaCompBus << valoresN[i] << " " << comparacoesBusca[i] << endl;
+    }
+
+    saidaCompIns.close();
+    saidaCompBus.close();
+
+    system("python plot2.py");
+}
+
 int main(int argc, char *argv[])
 {
     if (argc > 1)
@@ -879,7 +993,7 @@ int main(int argc, char *argv[])
         int n = 1000000;
         int b = 100;
 
-        estatisticas();
+        estatisticasN();
 
         return 1;
 
