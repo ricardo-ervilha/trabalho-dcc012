@@ -5,19 +5,17 @@
 
 #define ND 80// Tamanho do Dicionário
 #define NB 20 // Tamanho do Buffer
-LZ77Coding::LZ77Coding(ProductReview *list, int n)
+LZ77Coding::LZ77Coding()
 {
-    this->registros = n;
-    this->list = list;
-    LZ77Compress(list);
-}
+
+}    
 
 LZ77Coding::~LZ77Coding()
 {
-    delete list;
+    
 }
 
-void LZ77Coding::Comprime(string concatenada)
+string LZ77Coding::Comprime(string concatenada)
 {
     string codigo = "";                               // String para armazenar o codigo pos-compressao
     int cursorD = 0, inicialPosD = 0,auxCursorD = 0, finalPosD = -1; // cursor ,posição inicial e final do dicionário em relação a string concatenada
@@ -158,18 +156,18 @@ void LZ77Coding::Comprime(string concatenada)
             }
         } 
     }
-    cout<<"\nCodigo \n"<<codigo<<endl;
-    Descomprime(codigo);
+    
+    return codigo;
 }
-void LZ77Coding::Descomprime(string codigo)
+string LZ77Coding::Descomprime(string codigo)
 {
     string palavra = "";
     int p,l,tam;
     for(int i = 0; i <= codigo.length()-2; i+=3)
     {
-        if(codigo[i]==0 && codigo[i+1]==0)
+        if(codigo[i] == 0 && codigo[i+1] == 0)
         {
-            palavra+= codigo[i+2];
+            palavra += codigo[i+2];
         }
         else
         {
@@ -185,23 +183,6 @@ void LZ77Coding::Descomprime(string codigo)
             palavra += codigo[i+2];
         }
     }
-    cout<<"\nDecodificado\n"<<palavra<<endl;
-    cout<<"Tamanho palavra:"<<palavra.length()<<endl;
-    cout<<"A string passou de "<<palavra.length()<<" caracteres para -> "<<codigo.length()<<" caracteres"<<endl;
+    return palavra;
 
-}
-void LZ77Coding::LZ77Compress(ProductReview *list) // Algoritmo LZ77 de compressao
-{
-
-    string concatenada = "";
-    
-    for(int i = 0; i < registros; i++)//Concatena a lista em uma única string
-    {
-        concatenada += list[i].getUserId() +',' + list[i].getProductId() +',' + list[i].getRating() +',' + list[i].getTimeStamp()+'\n';
-    }
-    cout<<"Concatenada: "<<endl<<concatenada<<endl;
-    Comprime(concatenada);
-    
-    
-    
 }
