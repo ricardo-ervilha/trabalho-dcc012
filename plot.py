@@ -18,18 +18,27 @@ comparacoesBusca = loadtxt("comparacoesBusca.dat", comments="#", delimiter=" ", 
 xe = comparacoesBusca[0]
 ye = comparacoesBusca[1]
 
-plt.subplot(1, 2, 1) # row 1, col 2 index 1
-plt.plot(xa, ya)
+fig1, ax1 = plt.subplots(figsize=(8,8))
+plt.plot(xa, ya, marker='o')
 plt.title("Comprações Inserção")
 plt.xlabel('Ordem')
 plt.ylabel('Comparações ')
 plt.grid(True)
 
-plt.subplot(1, 2, 2) # index 2
-plt.plot(xe, ye)
+for x1, y1 in zip(xa, ya):
+    str_xy1 = '({},{})'.format(x1, y1)
+    ax1.annotate(str_xy1, xy=(x1, y1))
+
+
+fig2, ax2 = plt.subplots(figsize=(8,8))
+plt.plot(xe, ye,marker='o')
 plt.title("Comprações Busca")
 plt.xlabel('Ordem')
 plt.ylabel('Comparações')
+
+for x2, y2 in zip(xe, ye):
+    str_xy2 = '({},{})'.format(x2, y2)
+    ax2.annotate(str_xy2, xy=(x2, y2))
 
 plt.grid(True)
 plt.show()
