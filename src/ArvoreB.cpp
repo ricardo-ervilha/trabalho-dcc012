@@ -9,8 +9,8 @@ ArvoreB::ArvoreB()
         Ordem par para que tenha sempre um número impar de chaves no nó
         Ao subir a chave para o nó pai, sobe sempre o do meio
     */
-    this->ordem = 20; // sempre usar ordem par ==> grau minimo t = 2 -> máximo filhos = 4
-    this->raiz = new NoB(ordem);
+    this->ordem = 200; // sempre usar ordem par ==> grau minimo t = 2 -> máximo filhos = 4
+    this->raiz = new NoB(this->ordem);
 }
 
 ArvoreB::~ArvoreB()
@@ -183,13 +183,16 @@ NoB *ArvoreB::search(NoB *x, Info *k)
 {
     if (x != NULL)
     {
-        int i;
+        int i = 0;
         for (i = 0; i < x->n && x->chaves[i].id < (*k).id; i++)
             ;
+
+        this->compBusca += (i + 1);
 
         /*
             if i==n e não for folha tenho que pegar os filhos na posição i
         */
+        this->compBusca++;
         if (i < x->n && (*k).id == x->chaves[i].id)
         {
             (*k).indexLoc = x->chaves[i].indexLoc;
@@ -287,13 +290,13 @@ void ArvoreB::splitChild(NoB *x, int i)
     int qtd = ceil(y->n / 2.0);
     z->n = qtd - 1;
 
-    // copia as qtd maiores chaves de y para z
+    // copia as "qtd" maiores chaves de y para z
     for (int j = 0; j < qtd - 1; j++)
     {
         z->chaves[j] = y->chaves[j + qtd];
     }
 
-    // copia os filhos correspondentes de y para z
+    // copia os filhos correspondentes, de y para z
     if (!y->ehFolha)
     {
         for (int j = 0; j < qtd; j++)
@@ -340,8 +343,10 @@ void ArvoreB::insertNonFull(NoB *x, Info k)
     int i = x->n - 1; // percorrer da ultima posição ocupada até o inicio do nó
     if (x->ehFolha)
     {
+        this->compInsercao++;
         while (i >= 0 && k.id < x->chaves[i].id)
         {
+            this->compInsercao++;
             x->chaves[i + 1] = x->chaves[i];
             i--;
         }
@@ -352,8 +357,10 @@ void ArvoreB::insertNonFull(NoB *x, Info k)
     }
     else
     {
+        this->compInsercao++;
         while (i >= 0 && k.id < x->chaves[i].id)
         {
+            this->compInsercao++;
             i--;
         }
         i++;
@@ -395,4 +402,24 @@ void ArvoreB::auxPrint(NoB *no)
             no->printKeys();
         }
     }
+}
+
+int ArvoreB::getCompInsercao()
+{
+    return this->compInsercao;
+}
+
+int ArvoreB::getCompBusca()
+{
+    return this->compBusca;
+}
+
+void ArvoreB::setCompInsercao(int val)
+{
+    this->compInsercao = val;
+}
+
+void ArvoreB::setCompBusca(int val)
+{
+    this->compBusca = val;
 }
