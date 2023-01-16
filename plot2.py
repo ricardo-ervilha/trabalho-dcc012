@@ -8,13 +8,13 @@ from numpy import loadtxt
 matplotlib.use("TkAgg")  # abrir gráfico pelo terminal --> # sudo apt install python3-tk
 
 comparacoesInsercao = loadtxt(
-    "comparacoesInsercao.dat", comments="#", delimiter=" ", unpack=True
+    "comparacoesInsercao.dat", comments="#", delimiter=",", unpack=True
 )
 
 xa = comparacoesInsercao[0]
 ya = comparacoesInsercao[1]
 
-comparacoesBusca = loadtxt("comparacoesBusca.dat", comments="#", delimiter=" ", unpack=True)
+comparacoesBusca = loadtxt("comparacoesBusca.dat", comments="#", delimiter=",", unpack=True)
 xe = comparacoesBusca[0]
 ye = comparacoesBusca[1]
 

@@ -17,6 +17,8 @@ ArvoreB::ArvoreB(int ordem)
 
     this->ordem = ordem; // sempre usar ordem par ==> grau minimo t = 2 -> máximo filhos = 4
     this->raiz = new NoB(this->ordem);
+    this->compBusca = 0;
+    this->compInsercao = 0;
 }
 
 ArvoreB::ArvoreB()

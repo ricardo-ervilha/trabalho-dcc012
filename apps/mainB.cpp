@@ -14,6 +14,8 @@
 #include "HuffmanCoding.h"
 #include "LZ77Coding.h"
 #include <fstream>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 using namespace std::chrono;
@@ -869,21 +871,23 @@ void estatisticas()
 
 void estatisticasN()
 {
+    using namespace std::this_thread; // sleep_for, sleep_until
+    using namespace std::chrono;      // nanoseconds, system_clock, seconds
     int tam, i = 0;
 
     int valoresN[tam + 1];
     int comparacoesBusca[tam + 1];
     int comparacoesInsercao[tam + 1];
 
-    valoresN[i++] = 10000;
-    valoresN[i++] = 25000;
-    valoresN[i++] = 50000;
-    valoresN[i++] = 75000;
-    valoresN[i++] = 100000;
-    valoresN[i++] = 250000;
+    //valoresN[i++] = 10000;
+    //valoresN[i++] = 25000;
+    //valoresN[i++] = 50000;
+    //valoresN[i++] = 75000;
+     //valoresN[i++] = 100000;
+    //valoresN[i++] = 250000;
     valoresN[i++] = 500000;
-    valoresN[i++] = 750000;
-    valoresN[i++] = 1000000;
+    //valoresN[i++] = 750000;
+    //valoresN[i++] = 1000000;
 
     tam = i;
 
@@ -902,12 +906,11 @@ void estatisticasN()
 
         double mediaComparacoesInsercao = 0.0, mediaComparacoesBusca = 0.0;
 
+        mediaComparacoesInsercao = 0.0;
+        mediaComparacoesBusca = 0.0;
         for (int k = 0; k < 3; k++)
         {
-            mediaComparacoesInsercao = 0.0;
-            mediaComparacoesBusca = 0.0;
-
-            ArvoreB *arv_b = new ArvoreB(20);
+            ArvoreB *arv_b = new ArvoreB(200);
             ProductReview *vetN;
             ProductReview *vetB;
 
@@ -949,10 +952,14 @@ void estatisticasN()
             delete[] vetN;
             delete[] vetB;
             delete arv_b;
+
+            sleep_until(system_clock::now() + seconds(1));
         }
 
-        mediaComparacoesInsercao /= 3.0;
-        mediaComparacoesBusca /= 3.0;
+        cout << "SOMA INSERCAO: " << mediaComparacoesInsercao << endl;
+
+        mediaComparacoesInsercao = mediaComparacoesInsercao / 3.0;
+        mediaComparacoesBusca = mediaComparacoesBusca / 3.0;
         cout << "MÉDIA COMPARACOES INSERCAO: " << mediaComparacoesInsercao << endl;
         cout << "MÉDIA COMPARACOES BUSCA: " << mediaComparacoesBusca << endl;
 
@@ -967,18 +974,21 @@ void estatisticasN()
     saidaCompIns.open("comparacoesInsercao.dat");
     saidaCompBus.open("comparacoesBusca.dat");
 
-    saidaCompIns << 0 << " " << 0 << endl;
-    saidaCompBus << 0 << " " << 0 << endl;
+    saidaCompIns << 0 << "," << 0 << endl;
+    saidaCompBus << 0 << "," << 0 << endl;
     for (int i = 0; i < tam; i++)
     {
-        saidaCompIns << valoresN[i] << " " << comparacoesInsercao[i] << endl;
-        saidaCompBus << valoresN[i] << " " << comparacoesBusca[i] << endl;
+        cout << "COMPARACOES INSERCAO: " << valoresN[i] << "," << comparacoesInsercao[i] << endl;
+        saidaCompIns << valoresN[i] << "," << comparacoesInsercao[i] << endl;
+
+        cout << "COMPARACOES BUSCA: " << valoresN[i] << "," << comparacoesBusca[i] << endl;
+        saidaCompBus << valoresN[i] << "," << comparacoesBusca[i] << endl;
     }
 
     saidaCompIns.close();
     saidaCompBus.close();
 
-    system("python plot2.py");
+    //system("python plot2.py");
 }
 
 int main(int argc, char *argv[])
